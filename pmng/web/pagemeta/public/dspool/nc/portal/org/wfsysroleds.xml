@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 自定义角色ds -->
+<Dataset voMeta="nc.portal.vo.org.PtSelfdefRoleVO">
+    <Fields>
+  		<Field id="pk_wfsysrole" field="pk_wfsysrole" dataType="String" i18nName="org.wfsysrole.wfsysrole001"/><!--  自定义角色主键-->
+   		<Field id="rolecode" field="rolecode" dataType="String" i18nName="org.wfsysrole.wfsysrole002" nullAble="false"/><!-- 角色编码 -->
+   		<Field id="rolename" field="rolename" dataType="String" i18nName="org.wfsysrole.wfsysrole003" nullAble="false"/><!-- 角色名称 -->
+   		<Field id="classname" field="classname" dataType="String" i18nName="org.wfsysrole.wfsysrole004" nullAble="false"/><!--实现类  -->
+	 </Fields> 
+</Dataset> 	

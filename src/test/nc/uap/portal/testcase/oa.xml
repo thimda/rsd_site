@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<msgCategory pluginid="mockmsg" title="消息" i18Nname="oa" id="oa">
+    <child pluginid="mockmsg" title="消息通知" i18Nname="oa" id="oa1">
+        <msgbox idx="0" title="收件箱" id="inbox">
+            <msgcmd title="刷新" id="rev"/>
+        </msgbox>
+        
+         <child pluginid="mockmsg" title="协同消息" i18Nname="oa" id="oa2">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+	     <child pluginid="mockmsg" title="协同任务" i18Nname="oa" id="oa3">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+    </child>
+     <child pluginid="mockmsg" title="工作任务" i18Nname="oa" id="oa4">
+        <msgbox idx="0" title="收件箱" id="inbox">
+            <msgcmd title="刷新" id="rev"/>
+        </msgbox>
+         <child pluginid="mockmsg" title="NC工作任务" i18Nname="oa" id="oa5">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+	     <child pluginid="mockmsg" title="动态表单" i18Nname="oa" id="oa6">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+    </child>
+    <child pluginid="mockmsg" title="预警消息" i18Nname="oa" id="oa7">
+        <msgbox idx="0" title="收件箱" id="inbox">
+            <msgcmd title="刷新" id="rev"/>
+        </msgbox>
+         <child pluginid="mockmsg" title="NC预警" i18Nname="oa" id="oa8">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+    </child>
+    <child pluginid="mockmsg" title="邮件系统" i18Nname="oa" id="oa12">
+        <msgbox idx="0" title="收件箱" id="inbox">
+            <msgcmd title="刷新" id="rev"/>
+        </msgbox>
+         <child pluginid="mockmsg" title="公司邮箱" i18Nname="oa" id="oa21">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+	     <child pluginid="mockmsg" title="126邮箱" i18Nname="oa" id="oa32">
+	        <msgbox idx="0" title="收件箱" id="inbox">
+	            <msgcmd title="刷新" id="rev"/>
+	        </msgbox>
+	    </child>
+    </child>
+</msgCategory>
+ 
+ 
+ 

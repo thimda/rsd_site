@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.mng.page.PageManagerPopUpViewController" dialog="false" id="popup" refId="popup" sourcePackage="pmng/src/public/">
+    <PlugoutDescs>
+    </PlugoutDescs>
+    <PluginDescs>
+    </PluginDescs>
+    <Events>
+        <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DialogListener" methodName="beforeShow_popupView" name="beforeShow" onserver="true">
+            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+            </SubmitRule>
+            <Params>
+                <Param>
+                    <Name>dialogEvent</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[nc.uap.lfw.core.event.DialogEvent]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+    </Events>
+    <Models>
+        <Datasets>
+            <Dataset controlwidgetopeStatus="false" enabled="true" id="settingds" lazyLoad="true" notNullBody="false">
+                <Fields>
+                    <Field dataType="String" field="linkgroup" id="linkgroup" nullAble="true" primaryKey="false" text="绑定链接组">
+                    </Field>
+                    <Field dataType="String" field="icon" id="icon" nullAble="true" primaryKey="false" text="图标">
+                    </Field>
+                    <Field dataType="UFBoolean" field="activeflag" id="activeflag" nullAble="true" primaryKey="false" text="是否启用">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="popup" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="settingds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+        <RefNodes>
+            <SelfRefNode dialog="true" i18nName="" id="refnode_settings_linkgroup" isDialog="true" isRefresh="true" langDir="" path="" refresh="true" text="">
+            </SelfRefNode>
+        </RefNodes>
+    </Models>
+    <Components>
+        <FormComp columnCount="2" dataset="settingds" eleWidth="120" enabled="true" id="settingform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+            <Element attachNext="false" colSpan="1" editable="true" editorType="StringText" enabled="true" field="linkgroup" height="" id="linkgroup" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="绑定链接组" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" editable="true" editorType="CheckBox" enabled="true" field="activeflag" height="" id="activeflag" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="是否启用" visible="true" width="">
+            </Element>
+        </FormComp>
+        <ButtonComp enabled="true" id="button0430" text="保存" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_save" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+        <FormComp columnCount="2" dataset="settingds" eleWidth="120" enabled="true" id="settingds_newFrm" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="Reference" enabled="false" field="linkgroup" height="" id="linkgroup" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="绑定链接组" visible="true" width="">
+            </Element>
+        </FormComp>
+        <ButtonComp enabled="true" id="button0614" text="取消" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_cancel" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+    </Components>
+    <Menus>
+    </Menus>
+</Widget>

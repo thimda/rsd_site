@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="false" height="100%" width="100%">
+    <Models>
+        <Datasets>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_prehumact" lazyLoad="false">
+                <Fields>
+                    <Field dataType="String" id="port_id" isPrimaryKey="false" nullAble="true" text="流程活动编码">
+                    </Field>
+                    <Field dataType="String" id="port_name" isPrimaryKey="false" nullAble="true" text="流程活动名称">
+                    </Field>
+                    <Field dataType="String" id="pk_prodef" isPrimaryKey="false" nullAble="true" text="流程定义标识">
+                    </Field>
+                    <Field dataType="String" id="prodef_id" isPrimaryKey="false" nullAble="true" text="流程定义编码">
+                    </Field>
+                    <Field dataType="String" id="userpks" isPrimaryKey="false" nullAble="true" text="用户名称标识">
+                    </Field>
+                    <Field dataType="String" id="usernames" isPrimaryKey="false" nullAble="true" text="用户集合名称">
+                    </Field>
+                    <Field dataType="String" id="isassign" isPrimaryKey="false" nullAble="true" text="是否需要指派">
+                    </Field>
+                    <Field dataType="String" id="actiontype" isPrimaryKey="false" nullAble="true" text="活动类型">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="PreHumActDsLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_prehumact" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action><![CDATA[
+                                		this.initialize();
+                                		var jsonString = getSessionAttribute('dsdata_ds_prehumact');
+                                		if(jsonString != null){
+                                			var json;
+										    try {
+												eval("json = " + jsonString);
+										    } catch(e) {
+												return;
+										    }
+                                			this.setJsonData(json,this.currentKey,0);
+                                		}
+                                	]]>                                
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+        <ComboDatas>
+            <StaticComboData id="combox_common">
+            </StaticComboData>
+        </ComboDatas>
+    </Models>
+    <Components>
+        <GridComp dataset="ds_prehumact" editable="true" enabled="true" height="100%" id="grid_prehumact" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="port_name" fixedHeader="false" id="port_name" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="流程活动名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="usernames" fixedHeader="false" id="usernames" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="用户集合名称" textAlign="left" visible="true" width="180">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="SelfDef" field="isassign" fixedHeader="false" id="isassign" imageOnly="false" nullAble="true" renderType="EleNameRender" sortable="true" sumCol="false" text="是否需要指派" textAlign="left" visible="true" width="100">
+            </Column>
+            <Listeners>
+            	<GridRowListener id="PreHumActAssignListener">
+                    <Events>
+                        <Event async="true" name="onRowDbClick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_prehumact" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>rowEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	 <![CDATA[
+                            	 	refreshDsAssign(rowEvent.rowIndex);
+                            	 ]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </GridRowListener>
+            </Listeners>
+        </GridComp>
+        <LabelComp enabled="true" height="22" id="label_opinion_common" left="0" position="relative" text="常用语：" top="0" visible="true" width="100">
+        </LabelComp>
+        <LabelComp enabled="true" height="22" id="label_pad_common" left="0" position="relative" text="常用语：" top="0" visible="true" width="100">
+        </LabelComp>
+        <LabelComp enabled="true" height="22" id="label_opinion" left="0" position="relative" text="意见：" top="0" visible="true" width="100">
+        </LabelComp>
+        <LabelComp enabled="true" height="22" id="label_pad" left="0" position="relative" text="便签：" top="0" visible="true" width="100">
+        </LabelComp>
+        <TextAreaComp editorType="TextArea" enabled="true" focus="false" height="100%" id="text_opinion" left="0" position="relative" textAlign="left" textWidth="0" top="0" visible="true" width="600">
+        </TextAreaComp>
+        <TextAreaComp editorType="TextArea" enabled="true" focus="false"  height="100%" id="text_pad" left="0" position="relative" textAlign="left" textWidth="0" top="0" visible="true" width="600">
+        </TextAreaComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" height="22" id="text_opinion_common" left="0" position="relative" refComboData="combox_common" selectOnly="true" textAlign="left" textWidth="0" top="0" visible="true" width="140">
+        </ComBoBoxComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" height="22" id="text_pad_common" left="0" position="relative" refComboData="combox_common" selectOnly="true" textAlign="left" textWidth="0" top="0" visible="true" width="140">
+        </ComBoBoxComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_cancel" left="0" position="relative" text="取消" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="pwfmlistener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_nexthumact" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		window.close();
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_ok" left="0" position="relative" text="确定" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="pwfmlistener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_prehumact" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_flwinfo" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action><![CDATA[
+                            		onSubmit(this);
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

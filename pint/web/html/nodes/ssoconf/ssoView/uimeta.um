@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="ssoView_um" jquery="0">
+    <FlowvLayout autoFill="0" id="flowvlayout5144" widgetId="ssoView">
+        <FlowvPanel id="panelv05144" widgetId="ssoView">
+            <FormComp height="100%" id="ssoform" label_position="" left="0" position="relative" top="0" widgetId="ssoView" width="100%">
+            </FormComp>
+        </FlowvPanel>
+        <FlowvPanel height="30" id="panelv15144" widgetId="ssoView">
+            <FlowhLayout id="flowhlayout1502" widgetId="ssoView">
+                <FlowhPanel id="panelh01502" widgetId="ssoView">
+                    <Button align="right" height="23" id="button9493" left="0" position="relative" top="0" widgetId="ssoView" width="64">
+                    </Button>
+                </FlowhPanel>
+                <FlowhPanel id="panelh11502" widgetId="ssoView">
+                    <Button height="23" id="button3616" left="0" position="relative" top="0" widgetId="ssoView" width="64">
+                    </Button>
+                </FlowhPanel>
+            </FlowhLayout>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

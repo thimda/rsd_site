@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.msg.ctrl.MainController" dialog="false" id="main" refId="main" sourcePackage="pint/src/public/">
+    <PlugoutDescs>
+    </PlugoutDescs>
+    <PluginDescs>
+    </PluginDescs>
+    <Models>
+        <Datasets>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="msgds" lazyLoad="true" notNullBody="false" pageSize="10">
+                <Fields>
+                    <Field dataType="String" id="id" nullAble="true" primaryKey="false" text="编号">
+                    </Field>
+                    <Field dataType="String" id="usercode" nullAble="true" primaryKey="false" text="用户编码">
+                    </Field>
+                    <Field dataType="String" id="username" nullAble="true" primaryKey="false" text="用户名称">
+                    </Field>
+                    <Field dataType="String" id="state" nullAble="true" primaryKey="false" text="信息状态">
+                    </Field>
+                    <Field dataType="String" id="priority" nullAble="true" primaryKey="false" text="优先级">
+                    </Field>
+                    <Field dataType="String" id="title" nullAble="true" primaryKey="false" text="名称">
+                    </Field>
+                    <Field dataType="String" id="sendercode" nullAble="true" primaryKey="false" text="发件人编码">
+                    </Field>
+                    <Field dataType="String" id="sendername" nullAble="true" primaryKey="false" text="发件人名称">
+                    </Field>
+                    <Field dataType="String" id="msgcategory" nullAble="true" primaryKey="false" text="分类编码">
+                    </Field>
+                    <Field dataType="String" id="systemcode" nullAble="true" primaryKey="false" text="系统编码">
+                    </Field>
+                    <Field dataType="String" id="sendtime" nullAble="true" primaryKey="false" text="发送时间">
+                    </Field>
+                    <Field dataType="String" id="readtime" nullAble="true" primaryKey="false" text="阅读时间">
+                    </Field>
+                    <Field dataType="String" id="msgtype" nullAble="true" primaryKey="false" text="消息类型">
+                    </Field>
+                    <Field dataType="String" id="typename" nullAble="true" primaryKey="false" text="消息类型显示值">
+                    </Field>
+                </Fields>
+            </Dataset>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="cateds" lazyLoad="false" notNullBody="false">
+                <Fields>
+                    <Field dataType="String" id="id" nullAble="true" primaryKey="false" text="id">
+                    </Field>
+                    <Field dataType="String" id="parentid" nullAble="true" primaryKey="false" text="parentid">
+                    </Field>
+                    <Field dataType="String" id="title" nullAble="true" primaryKey="false" text="title">
+                    </Field>
+                    <Field dataType="String" id="i18nname" nullAble="true" primaryKey="false" text="i18nname">
+                    </Field>
+                    <Field dataType="String" id="pluginid" nullAble="true" primaryKey="false" text="pluginid">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onAfterNavSelect" name="onAfterRowSelect" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>datasetEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DatasetEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="sentds" lazyLoad="true" notNullBody="false" pageSize="10">
+                <Fields>
+                    <Field dataType="String" id="id" nullAble="true" primaryKey="false" text="编号">
+                    </Field>
+                    <Field dataType="String" id="usercode" nullAble="true" primaryKey="false" text="用户编码">
+                    </Field>
+                    <Field dataType="String" id="username" nullAble="true" primaryKey="false" text="用户名称">
+                    </Field>
+                    <Field dataType="String" id="state" nullAble="true" primaryKey="false" text="信息状态">
+                    </Field>
+                    <Field dataType="String" id="priority" nullAble="true" primaryKey="false" text="优先级">
+                    </Field>
+                    <Field dataType="String" id="title" nullAble="true" primaryKey="false" text="名称">
+                    </Field>
+                    <Field dataType="String" id="sendercode" nullAble="true" primaryKey="false" text="发件人编码">
+                    </Field>
+                    <Field dataType="String" id="sendername" nullAble="true" primaryKey="false" text="发件人名称">
+                    </Field>
+                    <Field dataType="String" id="msgcategory" nullAble="true" primaryKey="false" text="分类编码">
+                    </Field>
+                    <Field dataType="String" id="systemcode" nullAble="true" primaryKey="false" text="系统编码">
+                    </Field>
+                    <Field dataType="String" id="sendtime" nullAble="true" primaryKey="false" text="发送时间">
+                    </Field>
+                    <Field dataType="String" id="readtime" nullAble="true" primaryKey="false" text="阅读时间">
+                    </Field>
+                    <Field dataType="String" id="msgtype" nullAble="true" primaryKey="false" text="消息类型">
+                    </Field>
+                    <Field dataType="String" id="typename" nullAble="true" primaryKey="false" text="消息类型显示值">
+                    </Field>
+                </Fields>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="msgds" editable="false" enabled="true" id="msggrid" multiSelect="false" pageSize="20" pagenationTop="false" showColInfo="false" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="id" fixedHeader="false" id="id" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="编号" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="usercode" fixedHeader="false" id="usercode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="用户编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="username" fixedHeader="false" id="username" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="用户名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="state" fixedHeader="false" id="state" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="信息状态" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="priority" fixedHeader="false" id="priority" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="优先级" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="title" fixedHeader="false" id="title" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendercode" fixedHeader="false" id="sendercode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发件人编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendername" fixedHeader="false" id="sendername" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发件人名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="msgcategory" fixedHeader="false" id="msgcategory" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="分类编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="systemcode" fixedHeader="false" id="systemcode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="系统编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendtime" fixedHeader="false" id="sendtime" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发送时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="readtime" fixedHeader="false" id="readtime" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="阅读时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="msgtype" fixedHeader="false" id="msgtype" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="消息类型" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="typename" fixedHeader="false" id="typename" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="消息类型显示值" textAlign="left" visible="true" width="120">
+            </Column>
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.GridRowListener" methodName="grid_onRowDbClick" name="onRowDbClick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>gridRowEvent</Name>
+                            <Value></Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.GridRowEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </GridComp>
+        <TreeViewComp checkBoxModel="0" dragEnable="false" enabled="true" id="catetree" rootOpen="true" text="ROOT" visible="true" withCheckBox="false" withRoot="false">
+            <RecursiveTreeLevel dataset="cateds" id="level1" labelFields="title" masterKeyField="id" recursiveKeyField="id" recursivePKeyField="parentid">
+            </RecursiveTreeLevel>
+        </TreeViewComp>
+        <GridComp dataset="sentds" editable="false" enabled="true" id="sentgrid" multiSelect="false" pageSize="20" pagenationTop="false" showColInfo="false" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="id" fixedHeader="false" id="id" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="编号" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="usercode" fixedHeader="false" id="usercode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="用户编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="username" fixedHeader="false" id="username" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="用户名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="state" fixedHeader="false" id="state" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="信息状态" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="priority" fixedHeader="false" id="priority" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="优先级" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="title" fixedHeader="false" id="title" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendercode" fixedHeader="false" id="sendercode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发件人编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendername" fixedHeader="false" id="sendername" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发件人名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="msgcategory" fixedHeader="false" id="msgcategory" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="分类编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="systemcode" fixedHeader="false" id="systemcode" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="系统编码" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="sendtime" fixedHeader="false" id="sendtime" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="发送时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="readtime" fixedHeader="false" id="readtime" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="阅读时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="msgtype" fixedHeader="false" id="msgtype" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="消息类型" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="typename" fixedHeader="false" id="typename" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="消息类型显示值" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+    </Components>
+    <Menus>
+        <MenuBarComp id="menu_msg">
+            <MenuItem id="menu_item_cmd01" modifiers="2" text="命令1">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="menu_item_cmd02" modifiers="2" text="命令2">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="menu_item_cmd03" modifiers="2" text="命令3">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="menu_item_cmd04" modifiers="2" text="命令4">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="menu_item_cmd05" modifiers="2" text="命令5">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="menu_item_cmd06" modifiers="2" text="命令6">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="cmdEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+        </MenuBarComp>
+    </Menus>
+</Widget>

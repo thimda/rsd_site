@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			//________________________用户活动___________________________________
+			private function org_clickHandler(event:MouseEvent):void
+			{
+				var org:Org = Org(PopUpManager.createPopUp(this,Org,true)); 
+				
+				org.x = Math.ceil((screen.width-org.width)/2); 
+				org.y = Math.ceil((screen.height-org.height)/2); 
+				
+				org.callbackFunction = orgCallback;
+				org.mainApp = this;
+				
+				PopUpManager.centerPopUp(org);
+			}		  
+			private function orgCallback(orgs:Array):void{
+				excute_org_text.text = "";
+				var orginfo:String = "";
+				var orgPks:String = "";
+				for(var i:int=0;i<orgs.length;i++){
+					var org:XML = orgs[i];
+					if(i==orgs.length-1){
+						orginfo +=org.@name;
+						orgPks +=org.@pk_org;
+					}
+					else {
+						orginfo += org.@name+",";
+						orgPks += org.@pk_org+"+";
+					}
+				}
+				excute_org_text.text = orginfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteOrg=orgPks;
+				useractivities.excuterTrategy.excuteOrgName = orginfo;
+			}		  
+			private function person_clickHandler(event:MouseEvent):void
+			{
+				var person:Person = Person(PopUpManager.createPopUp(this,Person,true)); 
+				
+				person.x = Math.ceil((screen.width-person.width)/2); 
+				person.y = Math.ceil((screen.height-person.height)/2); 
+				
+				person.callbackFunction = personCallback;
+				person.mainApp = this;
+				
+				PopUpManager.centerPopUp(person);
+			}		  
+			private function personCallback(users:Array):void{
+				excute_user_text.text = "";
+				var userinfo:String = "";
+				var userPks:String = "";
+				for(var i:int=0;i<users.length;i++){
+					var user:XML = users[i];
+					if(i==users.length-1){
+						userinfo +=user.@name;
+						userPks +=user.@pk_user;
+					}
+					else {
+						userinfo += user.@name+","; 
+						userPks +=user.@pk_user+"+";
+					}
+				}
+				excute_user_text.text = userinfo;
+				//把选择的执行人保存至当前节点信息中
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteUser=userPks;
+				useractivities.excuterTrategy.excuteUserName = userinfo;
+			}
+			
+			private function role_clickHandler(event:MouseEvent):void
+			{
+				var role:Role = Role(PopUpManager.createPopUp(this,Role,true)); 
+				
+				role.x = Math.ceil((screen.width-role.width)/2); 
+				role.y = Math.ceil((screen.height-role.height)/2); 
+				
+				role.callbackFunction = roleCallback;
+				role.mainApp = this;
+				
+				PopUpManager.centerPopUp(role);
+			}
+			
+			private function roleCallback(roles:Array):void{
+				excute_role_text.text = "";
+				var roleinfo:String = "";
+				var rolePks:String = "";
+				for(var i:int=0;i<roles.length;i++){
+					var role:XML = roles[i];
+					if(i==roles.length-1){
+						roleinfo +=role.@name;
+						rolePks +=role.@pk_role;
+					}
+					else {
+						roleinfo += role.@name+",";
+						rolePks +=role.@pk_role+"+";
+					}
+				}
+				excute_role_text.text = roleinfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteRole = rolePks;
+				useractivities.excuterTrategy.excuteRoleName = roleinfo;
+			}
+			protected function relate_form_clickHandler(event:MouseEvent):void
+			{
+				var form:RelateForm = RelateForm(PopUpManager.createPopUp(this,RelateForm,true)); 
+				
+				form.x = Math.ceil((screen.width-form.width)/2); 
+				form.y = Math.ceil((screen.height-form.height)/2); 
+				
+				form.callbackFunction = formCallback;
+				form.mainApp = this;
+				
+				PopUpManager.centerPopUp(form);
+			}
+			//关联表单回调函数
+			private function formCallback(forms:Array):void{
+				relate_form_text.text = "";
+				var forminfo:String = "";
+				var formPks:String = "";
+				for(var i:int=0;i<forms.length;i++){
+					var form:XML = forms[i];
+					if(i==forms.length-1){
+						forminfo +=form.@name;
+						formPks +=form.@pk_formdefinition;
+					}
+					else {
+						forminfo += form.@name+",";
+						formPks +=form.@pk_formdefinition+"+";
+					}
+				}
+				relate_form_text.text = forminfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.pk_formdefinition = formPks;
+				useractivities.formName = forminfo;
+			}
+			protected function useractivities_excuter_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(useractivities_excuter.selectedValue);
+				setUseractivitiesExcuterPropertyState(value);			  
+				useractivities.excuterTrategy.excuter = value;
+			}
+			//设置用户活动执行策略属性状态
+			protected function setUseractivitiesExcuterPropertyState(value:String):void{
+				var previousUserNodes:Array = myDrawBoard.getPreviousUserActivities();			  
+				var otherUserNodes:Array = myDrawBoard.getAllUserActivities();
+				if(value=="0"){				  
+					excute_org.enabled = true;
+					excute_role.enabled = true;
+					excute_user.enabled = true;
+					virtualRole_comb.enabled = false;
+					sameAsOthers.enabled = false;
+					asignByOthers.enabled = false;
+				}
+				else if(value=="1"){	
+					virtualRole_comb.enabled = true;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					sameAsOthers.enabled = false;
+					asignByOthers.enabled = false;
+				}
+				else if(value=="2"){	
+					sameAsOthers.enabled = true;
+					asignByOthers.enabled = false;
+					virtualRole_comb.enabled = false;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					
+					sameAsOthers_provider.splice(1,sameAsOthers_provider.length-1);
+					for(var i:int=0;i<previousUserNodes.length;i++){
+						var previousNode:UseractivitiesNode = previousUserNodes[i];
+						sameAsOthers_provider.push(previousNode.ID);					  
+					}
+				}
+				else if(value=="3"){
+					asignByOthers.enabled = true;
+					sameAsOthers.enabled = false;
+					virtualRole_comb.enabled = false;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					
+					asignByOthers_provider.splice(1,asignByOthers_provider.length-1);
+					for(var j:int=0;j<otherUserNodes.length;j++){
+						var otherNode:UseractivitiesNode = otherUserNodes[j];
+						asignByOthers_provider.push(otherNode.ID);					  
+					}
+				}
+			}
+			protected function virtualRole_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(virtualRole_comb.selectedLabel);
+				useractivities.excuterTrategy.virtualRole = value;
+			}		  
+			protected function sameAsOthers_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(sameAsOthers.selectedLabel);
+				useractivities.excuterTrategy.sameAsOthers = value;
+			}
+			protected function asignByOthers_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(asignByOthers.selectedLabel);
+				useractivities.excuterTrategy.asignByOthers = value;
+			}
+			//用户活动分配策略
+			protected function taskAssign_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:Object = taskAssign.selection.value;
+				useractivities.assignTrategy.taskAssignStrategy = String(value);
+			}		  
+			//用户活动完成策略
+			protected function taskFinish_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(taskFinish.selectedValue);
+				setUserActivitiesFinishStrategyState(value);
+				useractivities.completeTrategy.taskFinishedStrategy = value;
+			}
+			protected function setUserActivitiesFinishStrategyState(value:String):void{
+				if(value=="2"){
+					taskFinishCount.enabled = true;
+					taskFinishPercent.enabled = true;
+				}else{
+					taskFinishCount.enabled = false;
+					taskFinishPercent.enabled = false;
+				}
+			}
+			//用户活动描述
+			protected function useractivities_description_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.description = useractivities_description.text;
+			}
+			//用户活动完成数量指定
+			protected function taskFinishCount_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.completeTrategy.taskFinishCount = taskFinishCount.text;
+			}
+			//用户活动完成百分比指定	  
+			protected function taskFinishPercent_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.completeTrategy.taskFinishePercent = taskFinishPercent.text;
+			}
+			//回退策略
+			protected function backStrategy_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(backStrategy.selectedValue);
+				setBackStrategyState(value);
+				useractivities.backTrategy.backable = value;
+			}
+			protected function setBackStrategyState(value:String):void{
+				if(value=="0"){
+					backScope.enabled = false;
+					backActivitiesBtn.enabled = false;
+				}
+				else if(value=="1"){
+					backScope.enabled = true;
+					if(backScope.selectedIndex==2)
+						backActivitiesBtn.enabled = true;
+					else backActivitiesBtn.enabled = false;
+				}			  
+			}
+			//回退范围指定
+			protected function backScope_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(backScope.selectedIndex);
+				setBackScopeState(value);
+				useractivities.backTrategy.backScope = value;
+			}
+			protected function setBackScopeState(value:String):void{
+				if(value=="2"){
+					backActivitiesBtn.enabled = true;
+				}
+				else backActivitiesBtn.enabled = false;
+			}
+			//回退范围设置
+			protected function backActivitiesBtn_clickHandler(event:MouseEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(backScope.selectedIndex);
+				useractivities.backTrategy.backScope = value;
+			}  
+			//超时处理
+			protected function passTime_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(passTime_comb.selectedIndex);
+				useractivities.overTimeStrategy.handlerType = value;
+			}
+			//超时提醒方式		  
+			protected function remindMethod_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(remindMethod_comb.selectedIndex);			 
+				useractivities.overTimeStrategy.remindType= value;
+			}
+			//______________________________//用户活动___________________
+			
+
+		]]>
+	</mx:Script>
+	<mx:TabNavigator id="tab_useractivities_prop" label="用户活动" width="100%" height="100%">
+		<mx:Canvas id="tab_useractivities_prop_1" label="第一页" width="100%" height="100%" borderStyle="none">
+			<mx:Canvas y="0" height="123"  borderStyle="solid" width="100%" x="0">
+				<mx:Label x="10" y="6" text="编号："/>
+				<mx:TextInput y="4" right="10" left="71" id="tx_useractivities_ID" change="onIDChange(event)" editable="false"/>
+				<mx:Label x="10" y="33" text="名称："/>
+				<mx:TextInput y="31" right="10" left="71" id="tx_useractivities_Name" change="onNameChange(event)"/>
+				<mx:Label x="10" y="61" text="描述："/>
+				<mx:TextArea id="useractivities_description" y="66" right="10" left="71" change="useractivities_description_changeHandler(event)"/>
+			</mx:Canvas>	
+			<mx:Canvas y="216" height="291"  borderStyle="solid" width="100%" x="0" id="excuteCanvas">
+				<mx:RadioButtonGroup id="useractivities_excuter" change="useractivities_excuter_changeHandler(event)"/>
+				<mx:RadioButton x="2" y="3" label="指定参与者" groupName="useractivities_excuter" value="0"/>
+				<mx:RadioButton x="2" y="109" label="虚拟角色" groupName="useractivities_excuter" value="1"/>
+				<mx:RadioButton x="2" y="173" label="同其它活动节点" groupName="useractivities_excuter" value="2"/>
+				<mx:RadioButton x="2" y="229" label="由其它节点指派" groupName="useractivities_excuter" value="3"/>
+				<mx:TextInput id="excute_org_text" y="28" left="20" width="{(excuteCanvas.width-40)*0.6}" editable="false"/>
+				<mx:TextInput id="excute_role_text" y="55" width="{(excuteCanvas.width-40)*0.6}" left="20" editable="false"/>
+				<mx:TextInput id="excute_user_text" y="83" width="{(excuteCanvas.width-40)*0.6}"  left="20" editable="false"/>
+				<mx:PopUpButton id="excute_org" y="27" label="组织机构" height="20" right="10" width="{(excuteCanvas.width-40)*0.4}" click="org_clickHandler(event)" enabled="false"/>
+				<mx:PopUpButton id="excute_role" y="57" label="角色" width="{(excuteCanvas.width-40)*0.4}" labelPlacement="left" height="20" right="10" click="role_clickHandler(event)" enabled="false"/>
+				<mx:PopUpButton id="excute_user" y="83"  label="人" height="20" right="10" width="{(excuteCanvas.width-40)*0.4}" click="person_clickHandler(event)" enabled="false"/>
+				
+				<mx:ComboBox id="virtualRole_comb" x="24" y="141" dataProvider="{virtualRole}" enabled="false" change="virtualRole_comb_changeHandler(event)"></mx:ComboBox>
+				<mx:ComboBox id="sameAsOthers" x="24" y="199" dataProvider="{sameAsOthers_provider}" enabled="false" change="sameAsOthers_changeHandler(event)"></mx:ComboBox>
+				
+				<mx:ComboBox id="asignByOthers" x="24" y="255" dataProvider="{asignByOthers_provider}" enabled="false" change="asignByOthers_changeHandler(event)"></mx:ComboBox>
+			</mx:Canvas>				
+			<mx:Canvas x="0" y="122" width="100%" height="96" id="formCanvas">
+				<mx:PopUpButton id="relate_form" y="53" label="选择表单" width="{(formCanvas.width-40)*0.4}" labelPlacement="left" height="20" right="10" click="relate_form_clickHandler(event)"/>
+				<mx:TextInput id="relate_form_text" y="51" width="{(formCanvas.width-40)*0.6}" left="10" editable="false"/>
+				<mx:Label x="10" y="17" text="关联表单:"/>
+			</mx:Canvas>
+		</mx:Canvas>
+		<mx:Canvas id="tab_useractivities_prop_2" label="第二页" width="100%" height="100%" borderStyle="none">					
+			<mx:Canvas  id="backCanvas" x="0" y="238" width="100%" height="191" borderStyle="solid">
+				<mx:Label x="10" y="0" text="回退权限："/>
+				<mx:RadioButtonGroup id="backStrategy" change="backStrategy_changeHandler(event)"/>
+				<mx:RadioButton x="37" y="19" label="禁止回退" groupName="backStrategy" value="0"/>
+				<mx:RadioButton x="37" y="42" label="允许回退" groupName="backStrategy" value="1"/>		
+				<mx:ComboBox id="backScope" x="83" y="68" width="100" dataProvider="{backScope_provider}" enabled="false" change="backScope_changeHandler(event)"></mx:ComboBox>
+				<mx:Label x="10" y="71" text="回退范围："/>
+				<mx:Label x="10" y="99" text="回退活动："/>
+				<mx:TextArea id="backActivities_text" y="123" height="50" right="70" left="40" editable="false"/>
+				<mx:Button id="backActivitiesBtn" y="143" label="设置" right="10" enabled="false" click="backActivitiesBtn_clickHandler(event)"/>
+			</mx:Canvas>
+			<mx:Canvas  height="239"  borderStyle="solid" width="100%" x="0" y="0">
+				<mx:Label x="0" y="0" text="任务分配策略"/>
+				<mx:RadioButtonGroup id="taskAssign" change="taskAssign_changeHandler(event)"/>
+				<mx:RadioButton x="24" y="14" label="分配所有人" groupName="taskAssign" value="0"/>
+				<mx:RadioButton x="24" y="34" label="分配多个人" groupName="taskAssign" value="1"/>
+				<mx:RadioButton x="24" y="55" label="分配一个人" groupName="taskAssign" value="2"/>
+				<mx:Label x="0" y="79" text="任务完成策略"/>
+				<mx:RadioButtonGroup id="taskFinish" change="taskFinish_changeHandler(event)"/>					
+				<mx:RadioButton x="24" y="100" label="必须所有完成" groupName="taskFinish" value="0"/>
+				<mx:RadioButton x="24" y="123" label="任意一个完成" groupName="taskFinish" value="1"/>
+				<mx:RadioButton x="24" y="149" label="完成多个" groupName="taskFinish" value="2"/>
+				<mx:Label x="51" y="172" text="要求完成数:"/>
+				<mx:TextInput id="taskFinishCount" y="170"  left="130" right="10" change="taskFinishCount_changeHandler(event)" enabled="false"/>
+				<mx:Label x="51" y="200" text="要求完百分比:"/>
+				<mx:TextInput id="taskFinishPercent" y="198"  left="130" right="10" change="taskFinishPercent_changeHandler(event)" enabled="false"/>
+			</mx:Canvas>
+		</mx:Canvas>
+		<mx:Canvas id="tab_useractivities_prop_3" label="第三页" width="100%" height="100%">
+			<mx:Canvas x="0" y="1" width="100%" height="264" borderStyle="solid">
+				<mx:Label x="12" y="10" text="时间估算" enabled="true"/>
+				<mx:Label x="10" y="172" text="超时处理"/>
+				<mx:Label x="34" y="199" text="提醒方式"/>
+				<mx:Label x="34" y="229" text="超时处理"/>
+				<mx:ComboBox id="passTime_comb" x="95" y="226" width="100" dataProvider="{passTimeHandler}" change="passTime_comb_changeHandler(event)"></mx:ComboBox>
+				<mx:ComboBox id="remindMethod_comb" x="95" y="196" width="100" dataProvider="{remindMethod}" change="remindMethod_comb_changeHandler(event)"></mx:ComboBox>
+				<mx:Label x="27" y="57" text="时间单位："/>
+				<mx:ComboBox y="54" width="100" x="100" dataProvider="{timeUnit}"></mx:ComboBox>
+				<mx:Label x="27" y="87" text="持续时间："/>
+				<mx:TextInput y="117" height="20" right="10" left="100"/>
+				<mx:Label x="27" y="117" text="等待时间："/>
+				<mx:TextInput y="147" height="20" right="10" left="100"/>
+				<mx:Label x="26" y="147" text="工作时间："/>
+				<mx:TextInput y="85" height="20" right="10" left="100"/>
+				<mx:CheckBox x="27" y="29" label="是否控制流程时间"/>
+			</mx:Canvas>
+			
+		</mx:Canvas>
+	</mx:TabNavigator>
+</mx:Canvas>

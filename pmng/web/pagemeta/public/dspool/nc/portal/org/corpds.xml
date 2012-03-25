@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!--公司ds-->
+<Dataset voMeta="nc.portal.vo.org.PtCorpVO" lazyLoad="true" >
+    <Fields>
+  		<Field id="pk_corp" field="pk_corp" dataType="String"  text="公司主键" i18nName="org.corp.primarykey"/>
+   		<Field id="corpcode" field="corpcode" dataType="String" text="公司编码" i18nName="org.corp.corpcode" nullAble="false"/>
+   		<Field id="corpname" field="corpname" dataType="String" text="公司名称" i18nName="org.corp.corpname" nullAble="false"/>
+   		<Field id="citycountry" field="citycountry" dataType="String" text="国家城市" i18nName="org.corp.country"/>
+		<Field id="email1" field="email1" dataType="String" text="email" i18nName="org.corp.email1" formater="email"/>
+		<Field id="pk_parent" field="pk_parent" dataType="String" text="上级公司" i18nName=""/>
+		<Field id="fax1" field="fax1" dataType="String" text="传真" i18nName="org.corp.fax1"/>
+		<Field id="linkman1" field="linkman1" dataType="String" text="" i18nName=""/>
+		<Field id="comments" field="comments" dataType="String" text="" i18nName="org.corp.comments"/>
+		<Field id="phone1" field="phone1" dataType="String" text="" i18nName="org.corp.phone1" formater="phone"/>
+		<Field id="address" field="address" dataType="String" text="地址" i18nName="org.corp.address"/>
+		<Field id="website" field="website" dataType="String" text="网址" i18nName="org.corp.website"/>
+		<Field id="zipcode" field="zipcode" dataType="String" text="邮编" i18nName="org.corp.zipcode"/>
+		<Field id="pk_group" field="pk_group" dataType="String" text="所属集团" i18nName="org.corp.group" nullAble="false"/>
+		<Field id="usercreated" field="usercreated" dataType="String" text="创建人" i18nName=""/>
+		<Field id="datecreated" field="datecreated" dataType="UFDate" text="创建日期" i18nName="org.corp.datecreated"/>
+		<Field id="issealed" field="issealed" dataType="UFBoolean" text="是否封存" i18nName="org.corp.issealed" defaultValue = 'N'/>
+		<Field id="original" field="original" dataType="String" text="" i18nName="org.corp.original"/>
+		<Field id="corpobj" field="corpobj" dataType="String" text="" i18nName="org.corp.corpobj"/>
+		<Field id="original_pk" field="original_pk" dataType="String" text="" i18nName="org.corp.originalpk"/>
+    </Fields> 
+</Dataset>
+

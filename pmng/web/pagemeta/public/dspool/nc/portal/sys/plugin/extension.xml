@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset voMeta="nc.uap.portal.plugins.model.PtExtension">
+    <Fields>
+        <Field dataType="String" field="pk_extension" id="pk_extension" text="pk_extension">
+        </Field>
+        <Field dataType="String" field="id" id="id" text="id">
+        </Field>
+        <Field dataType="String" field="classname" id="classname" text="classname">
+        </Field>
+        <Field dataType="String" field="title" id="title" text="title">
+        </Field>
+        <Field dataType="String" field="module" id="module" text="module">
+        </Field>
+        <Field dataType="String" field="point" id="point" text="point">
+        </Field>
+        <Field dataType="String" field="i18nname" id="i18nname" text="i18nname">
+        </Field>
+        <Field dataType="UFBoolean" field="isactive" id="isactive" text="isactive">
+        </Field>
+    </Fields>
+</Dataset>

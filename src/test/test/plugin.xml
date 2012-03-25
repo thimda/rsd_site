@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="ppg"    name="ppg"    version="100"   provider="vkuang" >
+ <extension id="LinkGroupImpl"  title="测试链接组"  classname="nc.uap.portal.plugin.impl.LinkGroupImpl"  point="LinkGroup" />
+ <extension-point point="LinkGroup"  title="链接组"  classname="nc.uap.portal.plugin.itf.ILinkGroup"   />
+</plugin>

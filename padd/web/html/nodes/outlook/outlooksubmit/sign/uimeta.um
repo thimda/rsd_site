@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0">
+    <BorderLayout>
+        <BorderPanel position="center">
+            <FlowvLayout autoFill="0" id="flowva">
+                <FlowvPanel>
+                    <TextField id="opinion" type="6" widgetId="sign">
+                    </TextField>
+                </FlowvPanel>
+                <FlowvPanel height="5">
+                </FlowvPanel>
+                <FlowvPanel height="35">
+                    <FlowhLayout>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <Button id="button_ok" widgetId="sign">
+                            </Button>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <Button id="button_cancel" widgetId="sign">
+                            </Button>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                    </FlowhLayout>
+                </FlowvPanel>
+            </FlowvLayout>
+        </BorderPanel>
+    </BorderLayout>
+</UIMeta>

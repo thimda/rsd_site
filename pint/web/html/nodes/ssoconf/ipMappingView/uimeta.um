@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="ipMappingView_um" jquery="0">
+    <FlowvLayout autoFill="0" id="flowvlayout5722" widgetId="ipMappingView">
+        <FlowvPanel height="42" id="panelv05722" widgetId="ipMappingView">
+            <Menubar height="100%" id="mainMenu" left="0" position="relative" top="0" widgetId="ipMappingView" width="100%">
+            </Menubar>
+        </FlowvPanel>
+        <FlowvPanel id="panelv15722" widgetId="ipMappingView">
+            <GridComp height="100%" id="ipgrid" left="0" position="relative" top="0" widgetId="ipMappingView" width="100%">
+            </GridComp>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 站内短信ds -->
+<Dataset lazyLoad="false" voMeta="nc.vo.pub.portlet.PtMessageVO">
+     <Fields>
+		<Field id="pk_message" field="pk_message" dataType="String" i18nName="站内短信主键" primaryKey="true"/> 
+		<Field id="sender" field="sender" dataType="String" i18nName="发件人" nullAble="false" />
+		<Field id="sender_mc" field="sender_mc" dataType="String" i18nName="发件人"/>
+		<Field id="receiver" field="receiver" dataType="String" i18nName="收件人" nullAble="false"/>
+		<Field id="receiver_mc" field="receiver_mc" dataType="String" i18nName="收件人"/>
+		<Field id="topic" field="topic" dataType="String" i18nName="主题"/>
+		<Field id="messagestatus" field="messagestatus" dataType="Integer" i18nName="标志" nullAble="true" defaultValue = '0'/>
+		<Field id="replystatus" field="replystatus" dataType="Integer" i18nName="回复邮件标志" nullAble="true"/>
+		<Field id="comments" field="comments" dataType="String" i18nName="内容"/>
+		<Field id="pk_group" field="pk_group" dataType="String" i18nName="所属集团"/>
+    </Fields>
+</Dataset>
+

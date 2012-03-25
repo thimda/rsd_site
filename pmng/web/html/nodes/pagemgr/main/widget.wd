@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.mng.page.PageManagerMainViewController" dialog="false" id="main" refId="main" sourcePackage="pmng/src/public/">
+    <PlugoutDescs>
+        <PlugoutDesc id="main_plugout">
+            <PlugoutDescItem clazztype="java.lang.String" name="gridRow" source="pageds" type="Dataset.TYPE_DATASET_SEL_ROW">
+            </PlugoutDescItem>
+            <PlugoutEmitItem id="AfterRowSelectTrigger" source="pageds" type="Dataset.onAfterRowSelect">
+            </PlugoutEmitItem>
+        </PlugoutDesc>
+    </PlugoutDescs>
+    <PluginDescs>
+        <PluginDesc id="simplequery_plugin">
+            <PluginDescItem clazztype="java.lang.String" id="simpleQueryRow">
+            </PluginDescItem>
+        </PluginDesc>
+        <PluginDesc id="org_plugin">
+        	<PluginDescItem clazztype="java.lang.String" id="orgValue">
+        	</PluginDescItem>
+        </PluginDesc>
+    </PluginDescs>
+    <Events>
+        <Event async="true" methodName="pluginsimplequery_plugin" onserver="true">
+            <Params>
+                <Param>
+                    <Name>keys</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+        <Event async="true" methodName="pluginorg_plugin" onserver="true">
+            <Params>
+                <Param>
+                    <Name>paramMap</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+    </Events>
+    <Models>
+        <Datasets>
+            <DatasetRelations>
+            </DatasetRelations>
+            <PubDataset controlwidgetopeStatus="true" enabled="false" id="pageds" lazyLoad="false" notNullBody="false" pageSize="5" refId="nc.portal.sys.portalpageds" voMeta="nc.uap.portal.vo.PtPageVO">
+                <Fields>
+                    <Field dataType="UFBoolean" field="activeflag" id="activeflag" nullAble="true" primaryKey="false" text="activeflag">
+                    </Field>
+                    <Field dataType="String" id="fatherid" nullAble="true" primaryKey="false" text="fatherid">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="pageds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                            <Event async="true" name="onAfterRowSelect" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="pageds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>rowSelectEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_pageds" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onAfterRowSelect_pageds" name="onAfterRowSelect" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>datasetEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DatasetEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </PubDataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="pageds" editable="false" enabled="true" id="pgrid" multiSelect="false" pageSize="5" pagenationTop="false" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_portalpage" fixedHeader="false" id="pk_portalpage" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="主键" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="title" fixedHeader="false" id="title" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="名称" visible="true" width="100">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="module" fixedHeader="false" id="module" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="所在模块" visible="true" width="100">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pagename" fixedHeader="false" id="pagename" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="页面ID" visible="true" width="100">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="fk_pageuser" fixedHeader="false" id="fk_pageuser" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="fk_pageuser" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="level" fixedHeader="false" id="level" imageOnly="false" nullAble="true" renderType="IntegerRender" showCheckBox="true" sortable="false" sumCol="false" text="level" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="parentid" fixedHeader="false" id="parentid" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="parentid" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFBoolean" editable="true" editorType="CheckBox" field="isdefault" fixedHeader="false" id="isdefault" imageOnly="false" nullAble="true" renderType="BooleanRender" showCheckBox="true" sortable="false" sumCol="false" text="是否主页" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_group" fixedHeader="false" id="pk_group" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="pk_group" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="version" fixedHeader="false" id="version" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="当前版本" visible="true" width="80">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="newversion" fixedHeader="false" id="newversion" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="最新版本" visible="true" width="80">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="createdate" fixedHeader="false" id="createdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="false" sumCol="false" text="创建时间" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="UFBoolean" editable="true" editorType="CheckBox" field="activeflag" fixedHeader="false" id="activeflag" imageOnly="false" nullAble="true" renderType="BooleanRender" showCheckBox="true" sortable="false" sumCol="false" text="是否启用" visible="true" width="120">
+            </Column>
+            <RecursiveGridLevel dataset="pageds" id="level1" labelFields="title" recursiveKeyField="pk_portalpage" recursivePKeyField="fatherid">
+            </RecursiveGridLevel>
+        </GridComp>
+    </Components>
+    <Menus>
+        <MenuBarComp id="pagemenu">
+            <MenuItem displayHotKey="CTRL+SHIFT+" id="newpage" modifiers="3" stateManager="nc.uap.lfw.core.bm.dft.Init_Ss_Ms_StateManager" text="新建">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageAddEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="layoutedit" modifiers="3" stateManager="nc.uap.lfw.core.bm.dft.Ss_StateManager" text="编辑">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageEditEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                            <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                <Dataset id="pageds" type="ds_current_line">
+                                </Dataset>
+                                <Grid id="pgrid" type="grid_current_row">
+                                </Grid>
+                            </Widget>
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem displayHotKey="CTRL+SHIFT+" id="sync" modifiers="3" stateManager="nc.uap.lfw.core.bm.dft.Ss_StateManager" text="升级">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageUpdateEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem displayHotKey="CTRL+SHIFT+" id="apply" modifiers="3" stateManager="nc.uap.lfw.core.bm.dft.Ss_StateManager" text="应用">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageApplyEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="pset" modifiers="2" stateManager="nc.uap.lfw.core.bm.dft.Ss_StateManager" text="高级设置">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="adPageSetEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="rsh" modifiers="2" stateManager="nc.uap.lfw.core.bm.dft.Init_Ss_Ms_StateManager" text="刷新">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageRefeshEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="assign" modifiers="2" stateManager="nc.uap.lfw.core.bm.dft.Ss_StateManager" text="分配">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="pageAssignEvent" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+        </MenuBarComp>
+    </Menus>
+</Widget>

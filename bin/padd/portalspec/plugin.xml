@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<extension-point point="tasknewcreated" title="新产生任务信息发送" classname="nc.portal.pwfm.engine.TaskCreatedMessageSender">
+	<extension isactive="true" id="taskcreatedoutlook" title="outlook" classname="nc.portal.mailservice.extension.TaskCreatedOutlookSenderImpl"/>
+	<extension isactive="true" id="taskcreatedphone" title="手机发送" classname="nc.portal.mobile.extension.TaskCreatedPhoneSenderImpl"/>
+</extension-point>
+<!--<extension-point point="taskcompleted" title="任务完成消息发送" classname="nc.portal.pwfm.engine.TaskCompletedMessageSender">
+	<extension isactive="true" id="taskcompletedoutlook" title="outlook" classname="nc.portal.mailservice.extension.TaskCompletedOutlookSenderImpl"/>
+</extension-point>-->
+<extension-point point="taskovertime" title="超时任务消息发送" classname="nc.portal.pwfm.engine.TaskOverTimeMessageSender">
+	<extension isactive="true" id="taskovertimeoutlook" title="outlook" classname="nc.portal.mailservice.extension.TaskOverTimeOutlookSenderImpl"/>
+</extension-point>
+<extension-point point="taskurege" title="催办信息发送" classname="nc.portal.pwfm.engine.TaskUregeMessageSender">
+    <extension isactive="true" id="taskuregeoutlook" title="outlook" classname="nc.portal.mailservice.extension.TaskUergeOutlookSenderImpl"/>
+</extension-point>
+<extension-point point="proccompleted" title="流程完成消息发送" classname=" nc.portal.pwfm.engine.ProcCompletedMessageSender">
+	<extension isactive="true" id="proccompletedoutlook" title="outlook" classname="nc.portal.mailservice.extension.ProcCompletedOutlookSenderImpl"/>
+</extension-point>
+<extension-point point="pcmsmanage" title="CMS管理" classname="nc.portal.cms.extention.IPcmsExtentionService">
+	<extension isactive="true" id="newsmanage" title="新闻" classname="nc.uap.lfw.search.NewsPcmsExtentionServiceImpl"/>
+	<extension isactive="true" id="docmanage" title="发文" classname="nc.uap.lfw.search.CompdocPcmsExtentionServiceImpl"/>
+	<extension isactive="true" id="noticemanage" title="公告" classname="nc.uap.lfw.search.NoticePcmsExtentionServiceImpl"/>
+</extension-point>
+</plugin>

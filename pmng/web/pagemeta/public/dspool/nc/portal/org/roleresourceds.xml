@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 角色关联资源ds -->
+<Dataset lazyLoad="false" voMeta="nc.portal.org.vo.PtRoleResourceVO">
+   <Fields>
+		<Field id="pk_permission" field="pk_permission" dataType="String" i18nName="org.resource.resource001" nullAble="false" primaryKey="true"/> <!-- 角色资源关联主键 -->
+		<Field id="pk_resource" field="pk_resource" dataType="String" i18nName="org.resource.resource002" nullAble="false"/><!-- 资源ID -->
+		<Field id="pk_role" field="pk_role" dataType="String" i18nName="org.resource.resource003" nullAble="false"/><!-- 角色ID-->
+		<Field id="resourcetype" field="resourcetype" dataType="Integer" i18nName="org.resource.resource004" nullAble="false"/><!-- 资源类型 -->
+		<Field id="permissiontype" field="permissiontype" dataType="Integer" i18nName="org.resource.resource005"/><!-- 可操作类型 -->
+	</Fields>
+</Dataset>	

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<display>
+	<category id="mgr" text="管理" i18nName="mgr">
+		<portlet id="GrpMgrPortlet" dynamic="false" title="集团管理Portlet"/>
+		<portlet id="SysMgrPortlet" dynamic="false" title="系统管理portlet"/>
+		<portlet id="MgrContentPortlet" dynamic="false" title="管理内容"/>
+	</category>
+	<category id="other" text="其他" i18nName="other">
+		<portlet id="MyFavPortlet" dynamic="false" title="收藏夹"/>
+	</category>
+</display>

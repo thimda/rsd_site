@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 资源ds -->
+<Dataset lazyLoad="false" voMeta="nc.portal.vo.org.PtResourceVO">
+    <Fields>
+		<Field id="pk_resource" field="pk_resource" dataType="String" text="资源主键" i18nName="resourceds.pk_resource"/> <!--资源ID-->
+		<Field id="pk_org" field="pk_org" dataType="String" text="所属组织" i18nName="resourceds.pk_org" nullAble="false"/> 
+		<Field id="operator" field="operator" dataType="String" text="操作人" i18nName="resourceds.operator"/> 
+		<Field id="resourcetype" field="resourcetype" dataType="Integer" text="资源类型" i18nName="resourceds.resourcetype"/><!--资源类型-->
+		<Field id="resourcename" field="resourcename" dataType="String" text="资源名称" i18nName="resourceds.resourcename" nullAble="false"/><!--资源名称-->
+		<Field id="originalid" field="originalid" dataType="String" text="资源标识" i18nName="resourceds.originalid" nullAble="false"/><!--资源原标识-->
+		<Field id="iscontrol" field="iscontrol" dataType="UFBoolean" text="是否受权限控制" i18nName="resourceds.iscontrol"/><!--是否受权限控制-->
+		<Field id="shareflag" field="shareflag" dataType="UFBoolean" text="是否共享" i18nName="resourceds.shareflag" nullAble="false"/>
+    </Fields>
+</Dataset> 
+    	

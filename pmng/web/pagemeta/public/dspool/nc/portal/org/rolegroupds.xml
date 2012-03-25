@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 角色组ds -->
+<Dataset lazyLoad="true" voMeta="nc.portal.org.vo.PtRoleGroupVO">
+    <Fields>
+		<Field id="pk_rolegroup" field="pk_rolegroup" dataType="String" text="角色组主键" i18nName="org.rolegroup.rolegorup005"/><!--角色组主键-->
+		<Field id="groupcode" field="groupcode" dataType="String" text="角色组编码" i18nName="org.rolegroup.rolegorup006" nullAble="false"/><!--角色组编码-->
+		<Field id="groupname" field="groupname" dataType="String" text="角色组名称" i18nName="org.rolegroup.rolegorup007" nullAble="false"/><!--角色组名称-->
+		<Field id="type" field="type" dataType="Integer" text="角色组类型" i18nName="org.rolegroup.rolegorup008"/><!--角色组类型-->
+		<Field id="pk_org" field="pk_org" dataType="String" text="所属组织主键" i18nName="org.rolegroup.pk_org"/><!--所属组织主键-->
+		<Field id="datecreated" field="datecreated" dataType="UFDate" text="创建日期" i18nName="org.group.datecreated"/><!--创建日期-->
+		<Field id="usercreated" field="usercreated" dataType="String" text="创建人id" i18nName=""/>
+    </Fields> 
+</Dataset> 

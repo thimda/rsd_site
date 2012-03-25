@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 集团ds -->
+<Dataset voMeta="nc.uap.portal.vo.PtAppsTypeVO"  lazyLoad="true">
+    <Fields>
+   		<Field id="pk_appstype" field="pk_appstype" dataType="String"  i18nName="nc.uap.portal.vo.pk_appstype"/>
+   		<Field id="appsid" field="appsid" dataType="String"  i18nName="nc.uap.portal.vo.appsid" />
+   		<Field id="title" field="title" dataType="String"  i18nName="nc.uap.portal.vo.title"/>
+   		<Field id="i18nname" field="i18nname" dataType="String"  i18nName="nc.uap.portal.vo.i18nname"/>
+		<Field id="parentid" field="parentid" dataType="String"  i18nName="nc.uap.portal.vo.parentid"/>
+		<Field id="pk_group" field="pk_group" dataType="String"  i18nName="nc.uap.portal.vo.pk_group"/>
+		<Field id="version" field="version" dataType="Integer" i18nName="nc.uap.portal.vo.version"/>
+	</Fields>
+</Dataset>

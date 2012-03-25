@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 角色ds -->
+<Dataset voMeta="nc.portal.org.vo.PtUserImportVO" lazyLoad="true" >
+    <Fields>
+   		<Field id="pk_userimport" field="pk_userimport" dataType="String" i18nName="用户导入主键"/>
+   		<Field id="pk_group" field="pk_group" dataType="String" i18nName="集团主键" nullAble="false"/>
+   		<Field id="importstyle" field="importstyle" dataType="String" i18nName="导入方式" nullAble="false"/>
+		<Field id="intervaltime" field="intervaltime" dataType="String" i18nName="间隔时间" />
+   		<Field id="datasource" field="datasource" dataType="String" i18nName="数据源"/>
+		<Field id="ldapaddress" field="ldapaddress" dataType="String" i18nName="LDAP地址"/>
+		<Field id="adminuser" field="adminuser" dataType="String" i18nName="管理用户"/>
+		<Field id="adminpassword" field="adminpassword" dataType="String" i18nName="管理密码"/>
+		<Field id="ldapfilter" field="ldapfilter" dataType="String" i18nName="过滤器"/>
+		<Field id="ldappath" field="ldappath" dataType="String" i18nName="搜索路径"/>
+		<Field id="syncalss" field="syncalss" dataType="String" i18nName="同步类"/>
+		<Field id="pwdlevelcode" field="pwdlevelcode" dataType="String" i18nName="密码安全策略"/>
+		<Field id="objuser1" field="objuser1" dataType="String" i18nName=""/>
+		<Field id="objuser2" field="objuser2" dataType="String" i18nName=""/>
+		<Field id="objuser3" field="objuser3" dataType="String" i18nName=""/>
+		<Field id="objuser4" field="objuser4" dataType="String" i18nName=""/>
+		<Field id="objuser5" field="objuser5" dataType="String" i18nName=""/>
+		<Field id="objuser6" field="objuser6" dataType="String" i18nName=""/>
+		<Field id="objuser7" field="objuser7" dataType="String" i18nName=""/>
+		<Field id="objuser8" field="objuser8" dataType="String" i18nName=""/>
+		<Field id="objuser9" field="objuser9" dataType="String" i18nName=""/>
+		<Field id="objuser10" field="objuser10" dataType="String" i18nName=""/>
+	</Fields>
+</Dataset>			
+	

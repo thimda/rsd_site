@@ -1,0 +1,112 @@
+.bluerimsquare2{
+	width:100%;
+}
+.bluerimsquare2 	.dropdown{
+		float:left;
+		width:12px;
+		height:12px;
+		background:url(${RES_PATH}/images/dropdown.png) no-repeat;
+	}
+.bluerimsquare2 	.dropup{
+		float:left;
+		width:12px;
+		height:12px;
+		background:url(${RES_PATH}/images/dropup.png) no-repeat;
+	}
+.bluerimsquare2 	.more{
+		float:right;
+		width:19px;
+		height:19px;
+		background:url(${RES_PATH}/images/more.png) no-repeat;
+	}
+	
+.bluerimsquare2 .textlabel{
+		float:left;
+		height:12px;
+		font-size:14px;
+		color:#007dc4;
+		font-weight:bold;
+	}
+.bluerimsquare2 .textlabel1{
+		float:right;
+		line-height:20px;
+		font-size:12px;
+		color:#666666;
+		font-family:Arial;
+		font-weight:bold;
+	}
+.bluerimsquare2 .divrow{
+	width:100%;
+	float:left;
+	height:29px;
+	background-color:#FFFFFF;
+	line-height:30px;
+	border-bottom:dotted 1px #333333;
+}
+.bluerimsquare2 .line{
+	width:100%;float:left;height:1px;border-bottom:1px dotted #333333; 
+}
+.bluerimsquare2 .divrow_deep{
+	width:100%;
+	float:left;
+	height:29px;
+	background-color:#F0F9FA;	
+	line-height:30px;
+	border-bottom:dotted 1px #333333;
+}
+.bluerimsquare2 .textlabel{
+	float:left;
+	height:12px;
+	font-size:14px;
+	color:#007dc4;
+	font-weight:bold;
+}
+.bluerimsquare2 .indicator{
+	float:left;
+	width:8px;
+	height:8px;
+	background:url(${RES_PATH}/images/to_do_indicator.png) no-repeat;
+	margin-top:11px;
+}
+.bluerimsquare2 .content{
+	float:left;
+	height:15px;
+	font-size:12px;
+	color:#4d4d4d;
+}
+.bluerimsquare2 .content1{
+	float:right;
+	height:15px;
+	font-size:12px;
+	color:#808080;
+}
+
+
+.bluerimsquare2 .pPart{
+	
+}
+.bluerimsquare2 .pPart li{
+	list-style: none outside none; display: inline;float:right;
+}
+
+.bluerimsquare2 .pPart li a{
+	margin: 0 7px;
+	color:#0086b2;
+}
+/*
+* 暴露给外界的色系
+* portlet内容可以以class="xx fuscous_background"
+*/
+.bluerimsquare2 .fuscous_background{
+	background-color:#FCF9EE;
+}
+.bluerimsquare2 .fuscous_color{
+	color:#FCF9EE;
+}
+
+.bluerimsquare2 .tint_background{
+	background-color:#fff;
+}
+.bluerimsquare2 .tint_color{
+	color:#fff;
+}

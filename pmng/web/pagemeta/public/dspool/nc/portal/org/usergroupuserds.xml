@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!--用户组关联 用户ds -->
+<Dataset lazyLoad="true" voMeta="nc.portal.vo.org.PtUsergroupUserVO">
+<Fields>
+	<Field id="pk_usergroupuser" field="pk_usergroupuser" dataType="String"	i18nName="用户组用户关联主键" nullAble="false" primaryKey="true"/>
+	<Field id="pk_user" field="pk_user" dataType="String" i18nName="用户ID"	nullAble="false" />
+	<Field id="pk_usergroup" field="pk_usergroup" dataType="String" i18nName="用户组ID"	nullAble="false" />
+	</Fields>
+</Dataset>	

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset lazyLoad="false" voMeta="nc.vo.pub.portlet.CompdocLabelVO">
+   <Handler className="nc.portlet.cms.handler.CompdocManageLabelDsHandler"/>
+   <FieldRelations>
+		<Relation id="label_permission_Relation" refDataset="nc.portal.cmsmanage.compdocgroupds">
+			<matchFields>
+				<Field readField="groupname" writeField="label_groupname"/>
+				<Field readField="docyear" writeField="label_docyear"/>
+			</matchFields>
+			<whereFields>
+				<Field key="pk_compdocgroup" value="fk_compdocgroup"/>
+			</whereFields>
+			<filterFields> 
+				<Field key="pk_compdocgroup" value="fk_compdocgroup"/>
+			</filterFields>
+		</Relation>
+	</FieldRelations>
+    <Fields>
+		<Field id="pk_compdoclabel" field="pk_compdoclabel" dataType="String" i18nName="compdoclabelds.pk_compdoclabel" nullAble="true"/><!--发文字主键-->
+		<Field id="fk_compdocgroup" field="fk_compdocgroup" dataType="String" i18nName="compdoclabelds.fk_compdocgroup" nullAble="false"/><!--所属发文类别 -->
+		<Field id="labelname" field="labelname" dataType="String" i18nName="compdoclabelds.labelname" nullAble="false"><!--发文字 -->
+			<Properties>
+				<Property name="maxLength" value="40"/>
+			</Properties>
+		</Field>
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="compdoclabelds.createdate" nullAble="true"/><!--创建日期 -->
+		<Field id="label_docyear" field="docyear" dataType="String" i18nName="compdoclabelds.docyear" nullAble="false"/><!-- 年份-->
+		<Field id="label_groupname" field="groupname" dataType="String" i18nName="compdoclabelds.groupname" nullAble="false"/><!--发文类别 -->
+	    <Field id="pk_org" field="pk_org" dataType="String" i18nName="cms.corp" nullAble="false"></Field>
+	    <Field id="pk_workflow" field="pk_workflow" dataType="String" i18nName="cms.notice.workflowname" nullAble="true"></Field>
+	    <Field id="shareflag" field="shareflag" dataType="UFBoolean" i18nName="cms.compdoc.shareflag" nullAble="false" defaultValue="N"/>
+    </Fields>
+</Dataset>

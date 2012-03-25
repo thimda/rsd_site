@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="setPropView_um" jquery="0">
+    <FlowvLayout autoFill="0" id="flowvlayout6157" widgetId="setPropView">
+        <FlowvPanel height="42" id="panelv06157" widgetId="setPropView">
+            <Menubar height="100%" id="mainMenu" left="0" position="relative" top="0" widgetId="setPropView" width="100%">
+            </Menubar>
+        </FlowvPanel>
+        <FlowvPanel id="panelv16157" widgetId="setPropView">
+            <GridComp height="100%" id="refgrid" left="0" position="relative" top="0" widgetId="setPropView" width="100%">
+            </GridComp>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding='gb2312'?>
+<module name="nc.uap.portal.PaddEJB">
+	<public>
+		<!--集群单点控制操作服务-->
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.portal.singleserver.itf.IPtSingleServerCluster</interface>
+			<implementation>nc.portal.singleserver.impl.PtSingleServerCluster</implementation>
+		</component>
+		<!--邮件节点查询服务-->
+		<component remote="false" singleton="true" tx="NONE">
+			<interface>nc.portal.mailservice.itf.IMailNodeQry</interface>
+			<implementation>nc.portal.mailservice.impl.MailNodeQry</implementation>
+		</component>
+		<!--离线缓存下载-->
+		<component remote="false" singleton="true" tx="NONE">
+			<interface>nc.portal.mailservice.itf.ISqliteCache</interface>
+			<implementation>nc.portal.mailservice.impl.SqliteCacheImpl</implementation>
+		</component>
+		<!--文件打包-->
+		<component remote="false" singleton="true" tx="NONE">
+			<interface>  nc.portal.mailservice.itf.ISfxPackService</interface>
+			<implementation>nc.portal.mailservice.impl.SfxPackServiceImpl</implementation>
+		</component>
+		<!-- index 实现-->
+		<component singleton="true" tx="NONE" remote="true">
+			<interface>nc.uap.lfw.search.ILfwIndexService</interface>
+			<implementation>nc.uap.lfw.search.impl.LfwIndexServiceImpl</implementation>
+		</component>
+		<component singleton="true" tx="NONE" remote="false">
+			<interface>nc.uap.lfw.search.solragent.ISolrFilterAgent</interface>
+			<implementation>org.apache.solr.servlet.SolrDispatchFilter</implementation>
+		</component>
+		<component singleton="true" tx="NONE" remote="false">
+			<interface>nc.portal.search.ILfwIndexService</interface>
+			<implementation> nc.portal.search.impl.LfwIndexServiceImpl</implementation>
+		</component>
+		
+	</public>
+	<private>
+		<!--邮件接收服务的集群消息过滤-->
+		<component singleton="true">
+			<implementation>nc.portal.mailservice.cluster.MailReceiverListener</implementation>
+			<property name="filterClass">
+				<value>nc.portal.mailservice.cluster.MailReceiverFilter</value>
+			</property>
+		</component>
+		<!--手机服务的集群消息过滤-->
+		<component singleton="true">
+			<implementation>nc.portal.mobile.cluster.MobileServiceClusterMsgListener</implementation>
+			<property name="filterClass">
+				<value>nc.portal.mobile.cluster.MobileServiceClusterMsgFilter</value>
+			</property>
+		</component>
+	</private>
+</module>

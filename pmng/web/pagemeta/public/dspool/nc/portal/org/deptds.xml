@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 部门ds -->
+<Dataset voMeta="nc.portal.org.vo.PtDeptVO">
+    <Fields>
+  		<Field id="pk_dept" field="pk_dept" dataType="String" text="部门主键" i18nName="org.dept.primarykey"/><!-- 部门主键 -->
+   		<Field id="deptcode" field="deptcode" dataType="String" text="部门编码" i18nName="org.dept.deptcode" nullAble="false"/><!-- 部门编码 -->
+   		<Field id="deptname" field="deptname" dataType="String" text="部门名称 " i18nName="org.dept.deptname" nullAble="false"/><!-- 部门名称 -->
+   		<Field id="pk_org" field="pk_org" dataType="String" text="所属组织" i18nName=""/><!--所属组织-->
+   		<Field id="pk_group" field="pk_group" dataType="String" text="所属集团" i18nName=""/><!--所属集团-->
+		<Field id="pk_parent" field="pk_parent" dataType="String" text="上级部门" i18nName=""/><!--上级部门-->
+		<Field id="deptattr" field="deptattr" dataType="String" text="负责人" i18nName="org.dept.deptattr"/><!--负责人 -->
+		<Field id="phone" field="phone" dataType="String" text="联系电话 " i18nName="org.dept.phone"/><!--联系电话 -->
+		<Field id="deptduty" field="deptduty" dataType="String" text="部门职责" i18nName="org.dept.deptduty"/><!--部门职责 -->
+		<Field id="datecreated" field="datecreated" dataType="UFDate" text="创建日期" i18nName="org.dept.datecreated"/><!--创建日期 -->
+		<Field id="usercreated" field="usercreated" dataType="String" text="创建人" i18nName=""/><!--创建人-->
+		<Field id="issealed" field="issealed" dataType="UFBoolean" text="是否封存" i18nName="org.dept.issealed"  defaultValue = 'N'/><!--是否封存-->
+		<Field id="original" field="original" dataType="String" text="来源" i18nName="org.dept.original"/><!--来源-->
+		<Field id="deptobj" field="deptobj" dataType="String" text="部门扩展字段源" i18nName="org.dept.deptobj"/><!--部门扩展字段源-->
+		<Field id="original_pk" field="original_pk" dataType="String" i18nName="org.dept.orginalpk"/><!--部门扩展字段-->
+		<Field id="deptobj1" field="deptobj1" dataType="String" i18nName="org.dept.deptobj1"/><!-- 部门扩展字段1 -->
+		<Field id="leader" field="leader" dataType="String" text="分管领导" i18nName="分管领导"/><!--分管领导 -->
+		<Field id="ext0" field="ext0" dataType="String"  text="排序字段1" i18nName="排序字段1"/><!--排序字段  -->
+		<Field id="ext1" field="ext1" dataType="String"  text="排序字段2" i18nName="排序字段2"/><!--排序字段  -->
+	  </Fields> 
+</Dataset> 

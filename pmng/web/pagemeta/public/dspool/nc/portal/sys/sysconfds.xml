@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 系统配置ds -->
+<Dataset id="sysconfds" voMeta="nc.portal.org.vo.PtSysConfigVO">
+	    <Fields>
+	    	<Field id="pk_sysConfig" field="pk_sysConfig" dataType="String" text="系统配置主键" i18nName="org.sysConfig.primarykey"/>
+			<Field id="config_key" field="config_key" dataType="String" text="配置项标识" i18nName="configmodel001" nullAble="false"/><!--字段标识 -->
+			<Field id="name" field="name" dataType="String" text="配置项名称" i18nName="configmodel002" nullAble="false"/><!--字段值 -->
+			<Field id="config_value" field="config_value" dataType="String" text="配置值" i18nName="configmodel003" nullAble="false"/><!--配置值 -->			
+			<Field id="description" field="description" dataType="String" text="描述" i18nName="configmodel004" nullAble="false"/><!--字段描述 -->
+	    </Fields>
+</Dataset>

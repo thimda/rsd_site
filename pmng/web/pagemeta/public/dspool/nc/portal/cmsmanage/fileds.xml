@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="gb2312"?>
+ <Dataset lazyLoad="false" voMeta="nc.vo.pub.portlet.FilesVO">
+	    <Fields>
+			<Field id="pk_files" field="pk_files" dataType="String" i18nName="fileds.pk_files" nullAble="false"/><!-- 文档主键 -->
+			<Field id="filename" field="filename" dataType="String" i18nName="fileds.filename" nullAble="false"/><!-- 文件名称 -->
+			<Field id="mimetype" field="mimetype" dataType="String" i18nName="fileds.mimetype" nullAble="false"/><!-- 文件类型 -->
+			<Field id="identifier" field="identifier" dataType="Integer" i18nName="fileds.identifier" nullAble="false"/><!-- 外键标识 -->
+			<Field id="userobject" field="userobject" dataType="String" i18nName="fileds.userobject" nullAble="false"/><!-- 用户自定义数据 -->
+			<Filed id="savedfilename" field="savedfilename" dataType="String" i18nName="fileds.savedfilename" nullAble="false"/><!-- 文件保存真实名称 -->
+			<Field id="identifier" field="identifier" dataType="String" i18nName="fileds.deleteInfo" nullAble="false"/><!-- 删除信息 -->
+			<Field id="deleteInfo" field="" dataType="String" i18nName="fileds.deleteInfo" nullAble="false"/><!-- 删除信息 -->
+			<Field id="uploadInfo" field="" dataType="String" i18nName="fileds.uploadInfo" nullAble="false"/><!-- 上传信息 -->
+	    </Fields> 
+</Dataset>

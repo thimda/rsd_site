@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.vo.pub.portlet.CompdocVO">
+    <Fields>
+		<Field id="pk_compdoc" field="pk_compdoc" dataType="String" i18nName="compdocds.pk_compdoc" nullAble="true"/> <!--发文主键 -->
+		<Field id="fk_compdoclabel" field="fk_compdoclabel" dataType="String" i18nName="compdocds.fk_compdoclabel" nullAble="false"/><!-- 所属发文字-->
+		<Field id="compdoccode" field="compdoccode" dataType="String" i18nName="compdocds.compdoccode" nullAble="false"/><!--发文编号 -->
+		<Field id="title" field="title" dataType="String" i18nName="compdocds.title" nullAble="false"/><!--发文标题 -->
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="compdocds.createdate" nullAble="true"/><!-- 创建日期-->
+		<Field id="lastmodify" field="lastmodify" dataType="UFDateTime" i18nName="compdocds.lastmodify" nullAble="true"/><!--上次修改日期 -->
+		<Field id="createuser" field="createuser" dataType="String" i18nName="compdocds.createuser" nullAble="true"/><!--创建用户 -->
+		<Field id="lastmodifyuser" field="lastmodifyuser" dataType="String" i18nName="compdocds.lastmodifyuser" nullAble="true"/><!--上次修改用户 -->
+		<Field id="signatory" field="signatory" dataType="String" i18nName="compdocds.signatory" nullAble="false"/><!--签发人 -->
+		<Field id="signdate" field="signdate" dataType="UFDateTime" i18nName="compdocds.signdate" nullAble="false"/><!--签发日期 -->
+		<Field id="grantscope" field="grantscope" dataType="String" i18nName="compdocds.grantscope" nullAble="false"/><!--授权范围 -->
+		<Field id="content" field="content" dataType="String" i18nName="compdocds.content" nullAble="false"/><!--发文内容 -->
+		<Field id="compdoc_docyear" field="docyear" dataType="String" i18nName="compdocds.docyear" nullAble="true"/><!-- 年份-->
+		<Field id="compdoc_groupname" field="groupname" dataType="String" i18nName="compdoclabelds.groupname" nullAble="true"/><!--发文类别 -->
+		<Field id="compdoc_labelname" field="labelname" dataType="String" i18nName="compdoclabelds.labelname" nullAble="true"/><!-- 发文字-->
+		<Field id="identifier" field="identifier" dataType="String" i18nName="compdocds.identifier" nullAble="true"/><!--附件标识 -->
+	   	<Field id="pk_org" field="pk_org" dataType="String" i18nName="cms.corp" nullAble="true"/>
+    	<Field id="approvestate" field="approvestate" dataType="Integer" i18nName="cms.compdoc.state" nullAble="true"/>
+    	<Field id="approvedate" field="approvedate" dataType="UFDateTime" i18nName="newsds.assessdate" nullAble="true"/><!--审核日期 -->
+    </Fields>
+</Dataset>
+	

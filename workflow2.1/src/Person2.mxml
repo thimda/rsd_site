@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="900" height="500" showCloseButton="true" 
+				close="closeHandler(event)" title="选择执行者" backgroundColor="#FFFFFF" borderStyle="outset" 
+				borderColor="#000000" creationComplete="loadData(event)" xmlns:ns1="*">
+	<!--http://localhost:8080/workflow/service/personService-->
+	<mx:HTTPService id="grouporgProvider" url="{ServletConst.GROUP_ORG_TREE_SERVLET_URL}" resultFormat="text" 
+					result="groupProvider_resultHandler(event)" showBusyCursor="false" fault="HttpFaultUtil.faultHandler(event)">
+	</mx:HTTPService>
+	
+	<mx:HTTPService id="userProvider" url="{ServletConst.PERSON_SERVLET_URL}" resultFormat="text" 
+					result="userProvider_resultHandler(event)" showBusyCursor="false" fault="HttpFaultUtil.faultHandler(event)">
+		<mx:request xmlns="">
+			
+		</mx:request>
+	</mx:HTTPService>
+	
+	<mx:Script>
+		<![CDATA[
+			import context.WfContext;
+			
+			import exception.HttpFaultUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import servlet.ServletConst;
+
+			[Bindable]
+			protected var selects:Array = new Array();
+			[Bindable]
+			protected var selects2:Array = new Array();
+			
+			protected var selectedUsers:Array = new Array();
+			
+			[Bindable]
+			public var mainApp:Object = null;  
+			[Bindable]
+			public var callbackFunction:Function;  //回调函数  
+			
+			protected function closeHandler(event:CloseEvent):void
+			{
+					PopUpManager.removePopUp(this);   
+					//this.setVisible(false);				
+			}
+			protected function loadData(event:FlexEvent):void
+			{
+				grouporgProvider.url = ServletConst.GROUP_ORG_TREE_SERVLET_URL;
+				if(WfContext.Pk_group!=null&&WfContext.Pk_group!="")
+					grouporgProvider.url+="?pk_group="+WfContext.Pk_group;
+				grouporgProvider.send();
+			}
+			
+			protected function groupProvider_resultHandler(event:ResultEvent):void
+			{
+				
+				var depts:XMLList  = new XMLList(event.result.toString());
+				//Alert.show("users:"+users);
+				group_tree.dataProvider = depts.Dept;
+			}
+
+			protected function userProvider_resultHandler(event:ResultEvent):void
+			{
+			    
+				var users:XMLList  = new XMLList(event.result.toString());
+				//Alert.show("users:"+users);
+				usergrid.dataProvider = users.User;
+			}
+
+
+			protected function submit(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+				callbackFunction.call(mainApp,selectedUsers);
+			}
+			
+			public function selectHanlder(obj:Object):void{
+				if(obj.chxBox.selected){    
+					selects.push(usergrid.selectedItem);
+				}else{    
+					selects.splice(usergrid.selectedItem);
+				}    
+			}
+			
+
+			//点击集团查询集团下的用户
+			protected function grouptree_clickHandler(event:MouseEvent):void
+			{		
+				var node:XML = group_tree.selectedItem as XML;
+				if(node==null)return;
+				var pk_group:String = node.@pk_group;
+				var pk_org:String = node.@pk_org;
+				var pk_dept:String = node.@pk_dept;
+				userProvider.url = ServletConst.PERSON_SERVLET_URL;
+				if(pk_group!=null&&pk_group!="")
+					userProvider.url +="?pk_group="+pk_group;
+				if(pk_org!=null&&pk_org!="")
+					userProvider.url +="?pk_org="+pk_org;
+				if(pk_dept!=null&&pk_dept!="")
+					userProvider.url +="?pk_dept="+pk_dept;
+				userProvider.send();
+			}
+
+
+			//加入人员执行者
+			protected function add_btn_clickHandler(event:MouseEvent):void
+			{
+				for(var i:int=0;i<selects.length;i++){
+					var included:Boolean = false;
+					for(var j:int=0;j<selectedUsers.length;j++){
+						if(selectedUsers[j]==selects[i]){
+							included = true;
+							break;
+						}
+					}	
+					if(included==false)selectedUsers.push(selects[i]);
+				}
+				selected_user_grid.dataProvider = selectedUsers;				
+			}
+
+			//删除人员执行者
+			protected function del_btn_clickHandler(event:MouseEvent):void
+			{
+				for(var i:int=0;i<selects2.length;i++){
+					var k:int = selectedUsers.indexOf(selects2[i]);
+					selectedUsers.splice(k,1);
+				}
+				selected_user_grid.dataProvider = selectedUsers;	
+			}
+			//向上移动
+			protected function up_btn_clickHandler(event:MouseEvent):void
+			{
+				var i : int = selected_user_grid.selectedIndex;
+				if(i<0)return;
+				if (i >= 1&&selected_user_grid.selectedItem)       
+				{                    
+					
+					IList(selected_user_grid.dataProvider).addItemAt(selected_user_grid.selectedItem,i-1);    
+					IList(selected_user_grid.dataProvider).removeItemAt(i+1);       
+					selected_user_grid.selectedIndex = i;       
+				}    
+			}
+			//向下移动
+			protected function down_btn_clickHandler(event:MouseEvent):void
+			{
+				var i : int = selected_user_grid.selectedIndex;   
+				if(i<0)return;
+				if (i < (ArrayCollection(selected_user_grid.dataProvider).length - 1) && selected_user_grid.selectedItem)       
+				{                    
+					IList(selected_user_grid.dataProvider).addItemAt(selected_user_grid.selectedItem,i + 2);                         
+					IList(selected_user_grid.dataProvider).removeItemAt(i);          
+					selected_user_grid.selectedIndex = i;             
+				}                    
+			}
+
+		]]>
+	</mx:Script>		
+	<mx:Binding source="usergrid.selectedItems" destination="selects">		
+	</mx:Binding>
+	<mx:Binding source="selected_user_grid.selectedItems" destination="selects2">		
+	</mx:Binding>
+	
+	<mx:Canvas x="0" y="0" width="100%" height="90%">	
+		<mx:HDividedBox y="0" left="0" width="60%" height="100%">
+		<mx:Tree y="0" id="group_tree" width="40%" height="100%" left="0" labelField="@name"  click="grouptree_clickHandler(event)">
+		</mx:Tree>
+					
+		<mx:DataGrid id="usergrid" width="60%" height="100%" y="0" allowMultipleSelection="true" right="0">      
+			<mx:columns> 
+				<mx:DataGridColumn dataField="@id" headerText="ID" visible="true" textAlign="center"> 
+				</mx:DataGridColumn>  
+				<mx:DataGridColumn dataField="@name" headerText="名称" textAlign="center">   
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@groupname" headerText="所属集团" textAlign="center" visible="false"> 
+				</mx:DataGridColumn>
+				<mx:DataGridColumn dataField="@pk_group" headerText="集团主键" textAlign="center" visible="false">    
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@pk_user" headerText="用户主键" textAlign="center" visible="false"> 
+				</mx:DataGridColumn>
+			</mx:columns> 
+		</mx:DataGrid> 
+	</mx:HDividedBox>
+	
+	<mx:Canvas y="0" right="0" width="40%" height="100%" borderStyle="solid">
+		<mx:Canvas x="-1" y="0" width="15%" height="100%" borderStyle="solid">
+			<mx:Button x="0" y="88" label="&gt;" width="100%" id="add_btn" click="add_btn_clickHandler(event)"/>			
+			<mx:Button x="0" y="143" label="&lt;" width="100%" id="del_btn" click="del_btn_clickHandler(event)"/>
+			<mx:Button x="0" y="302" label="v" width="100%" id="down_btn" click="down_btn_clickHandler(event)"/>
+			<mx:Button x="0" y="246" label="^" width="100%" id="up_btn" click="up_btn_clickHandler(event)"/>
+		</mx:Canvas>
+		<mx:DataGrid id="selected_user_grid" y="0" right="0" width="85%" height="100%" allowMultipleSelection="false">      
+				<mx:columns>      
+					<mx:DataGridColumn dataField="@id" headerText="ID" visible="true" textAlign="center"> 
+					</mx:DataGridColumn>  
+					<mx:DataGridColumn dataField="@name" headerText="名称" textAlign="center">   
+					</mx:DataGridColumn>      
+					<mx:DataGridColumn dataField="@groupname" headerText="所属集团" textAlign="center"> 
+					</mx:DataGridColumn>
+					<mx:DataGridColumn dataField="@orgname" headerText="所属组织" textAlign="center"> 
+					</mx:DataGridColumn>
+					<mx:DataGridColumn dataField="@pk_group" headerText="集团主键" textAlign="center" visible="false">    
+					</mx:DataGridColumn>      
+					<mx:DataGridColumn dataField="@pk_user" headerText="用户主键" textAlign="center" visible="false"> 
+					</mx:DataGridColumn>					
+				</mx:columns> 
+		</mx:DataGrid> 
+	</mx:Canvas>		
+	</mx:Canvas>	
+	
+	<mx:Canvas width="100%" height="30" bottom="0" x="0">
+		<mx:Button label="取消" x="426" y="4" click="PopUpManager.removePopUp(this); " textAlign="center">		
+		</mx:Button>
+		<mx:Button label="确定" y="4" x="335" click="submit(event)">		
+		</mx:Button>
+	</mx:Canvas>
+			
+</mx:TitleWindow>

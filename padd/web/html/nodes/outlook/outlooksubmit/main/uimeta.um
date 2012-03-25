@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0">
+    <BorderLayout>
+        <BorderPanel position="center">
+            <TabLayout currentItem="0" id="tab_data" oneTabHide="false" widgetId="main">
+                <TabItem i18nName="" id="itm_data" text="查看文件">
+                    <IFrame id="iframe_formdata" widgetId="main">
+                    </IFrame>
+                </TabItem>
+                <TabItem i18nName="" id="itm_master" text="正文">
+                    <IFrame id="iframe_word" widgetId="main">
+                    </IFrame>
+                </TabItem>
+                <TabItem i18nName="" id="itm_attach" text="附件">
+                    <FlowvLayout autoFill="0" id="aaaaaa">
+                        <FlowvPanel>
+                            <Border id="border1" showBottom="true" showLeft="true" showRight="true" showTop="true" width="1">
+                                <BorderTrue>
+                                    <FlowvLayout autoFill="0" id="cccccccc">
+                                        <FlowvPanel height="30">
+                                            <FlowhLayout>
+                                                <FlowhPanel>
+                                                </FlowhPanel>
+                                                <FlowhPanel width="200">
+                                                    <Label id="label_eleattach" widgetId="main">
+                                                    </Label>
+                                                </FlowhPanel>
+                                                <FlowhPanel>
+                                                </FlowhPanel>
+                                            </FlowhLayout>
+                                        </FlowvPanel>
+                                        <FlowvPanel height="23">
+                                            <Menubar id="menu_attachfile" widgetId="main">
+                                            </Menubar>
+                                        </FlowvPanel>
+                                        <FlowvPanel>
+                                            <GridComp id="grid_attachfile" widgetId="main">
+                                            </GridComp>
+                                        </FlowvPanel>
+                                    </FlowvLayout>
+                                </BorderTrue>
+                            </Border>
+                        </FlowvPanel>
+                        <FlowvPanel height="10">
+                        </FlowvPanel>
+                        <FlowvPanel>
+                            <Border id="border2" showBottom="true" showLeft="true" showRight="true" showTop="true" width="1">
+                                <BorderTrue>
+                                    <FlowvLayout autoFill="0" id="flowv4">
+                                        <FlowvPanel height="30">
+                                            <FlowhLayout>
+                                                <FlowhPanel>
+                                                </FlowhPanel>
+                                                <FlowhPanel width="200">
+                                                    <Label id="label_attachlist" widgetId="main">
+                                                    </Label>
+                                                </FlowhPanel>
+                                                <FlowhPanel>
+                                                </FlowhPanel>
+                                            </FlowhLayout>
+                                        </FlowvPanel>
+                                        <FlowvPanel height="23">
+                                            <Menubar id="menu_attachlist" widgetId="main">
+                                            </Menubar>
+                                        </FlowvPanel>
+                                        <FlowvPanel>
+                                            <GridComp id="grid_attachlist" widgetId="main">
+                                            </GridComp>
+                                        </FlowvPanel>
+                                    </FlowvLayout>
+                                </BorderTrue>
+                            </Border>
+                        </FlowvPanel>
+                    </FlowvLayout>
+                </TabItem>
+                <TabItem i18nName="" id="itm_image" text="查看进度">
+                    <Image id="image_workflow" widgetId="main">
+                    </Image>
+                </TabItem>
+                <TabItem i18nName="" id="itm_history" text="流程历史">
+                    <GridComp id="grid_history" widgetId="main">
+                    </GridComp>
+                </TabItem>
+                 <TabItem i18nName="" id="itm_deliver" text="传阅情况">
+                    <GridComp id="grid_deliver" widgetId="main">
+                    </GridComp>
+                </TabItem>
+            </TabLayout>
+        </BorderPanel>
+    </BorderLayout>
+</UIMeta>

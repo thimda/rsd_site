@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0" jsExcel="0">
+    <FlowvLayout autoFill="0" id="flowv1">
+        <FlowvPanel height="25">
+            <Menubar id="menu1" widgetId="main">
+            </Menubar>
+        </FlowvPanel>
+        <FlowvPanel>
+            <FlowvLayout autoFill="0" id="flowv2">
+                <FlowvPanel>
+                    <FormComp id="indexCfgForm" widgetId="main">
+                    </FormComp>
+                </FlowvPanel>
+            </FlowvLayout>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

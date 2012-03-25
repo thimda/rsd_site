@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<description>
+	<skin id="default" name= "默认"/>
+	<skin id="float" name= "浮动"/>
+	<skin id="vividround" name= "艳丽圆角边框"/>
+	<skin id="rimround" name= "普通圆角边框"/>
+	<skin id="bluerimsquare" name= "蓝色直角边框"/>
+	<skin id="rimsquare" name= "普通直角边框"/>
+	<skin id="vividsquare" name= "艳丽直角边框"/>
+</description>

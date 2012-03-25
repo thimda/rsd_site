@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="false" height="100%" width="100%">
+	<Models>
+        <Datasets>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_childform" lazyLoad="false">
+                <Fields>
+                    <Field dataType="String" id="message" isPrimaryKey="false" nullAble="true" text="单据信息">
+                    </Field>
+                    <Field dataType="String" id="proinspk" isPrimaryKey="false" nullAble="true" text="proinspk">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <!--
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.portal.pdbl.listener.ChildFormDataLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_childform" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                    -->
+                    <DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_childform" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_attachfile" lazyLoad="false">
+                <Fields>
+                    <Field dataType="String" id="pk_file" isPrimaryKey="false" nullAble="true" text="文件标识">
+                    </Field>
+                    <Field dataType="String" id="billtype" isPrimaryKey="false" nullAble="true" text="数据类型">
+                    </Field>
+                    <Field dataType="String" id="billitem" isPrimaryKey="false" nullAble="true" text="数据项">
+                    </Field>
+                    <Field dataType="String" id="filename" isPrimaryKey="false" nullAble="true" text="文件名称">
+                    </Field>
+                    <Field dataType="String" id="creator" isPrimaryKey="false" nullAble="true" text="上传用户标识">
+                    </Field>
+                    <Field dataType="String" id="uploadtime" isPrimaryKey="false" nullAble="true" text="上传时间">
+                    </Field>
+                    <Field dataType="String" id="filesize" isPrimaryKey="false" nullAble="true" text="文件大小">
+                    </Field>
+                    <Field dataType="String" id="creator_username" isPrimaryKey="false" nullAble="true" sourceField="creator" text="上传用户">
+                    </Field>
+                </Fields>
+                <Listeners>
+                     <!--
+                   <DatasetListener id="defaultDsListener" serverClazz="nc.portal.pdbl.listener.AttachFileLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                -->
+                	<DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+            <PubDataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="refuserds" lazyLoad="true" refId="nc.portal.org.userds" voMeta="nc.portal.org.vo.PtUserVO">
+                <Fields>
+                </Fields>
+                <Listeners>
+                	<!--
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="refuserds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                    -->
+                    <DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="refuserds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </PubDataset>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_history" lazyLoad="false" voMeta="nc.portal.pwfm.vo.TaskVO">
+                <FieldRelations>
+                    <FieldRelation id="executer_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_executer_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_executer">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                    <FieldRelation id="owner_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_owner_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_owner">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                    <FieldRelation id="agenter_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_agenter_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_agenter">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                    <FieldRelation id="creater_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_creater_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_creater">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                </FieldRelations>
+                <Fields>
+                    <Field dataType="String" field="pk_task" id="pk_task" isPrimaryKey="false" nullAble="true" precision="0" text="任务标识">
+                    </Field>
+                    <Field dataType="String" field="pk_parent" id="pk_parent" isPrimaryKey="false" nullAble="true" precision="0" text="父任务标识">
+                    </Field>
+                    <Field dataType="String" field="pk_humactins" id="pk_humactins" isPrimaryKey="false" nullAble="true" precision="0" text="活动实例标识">
+                    </Field>
+                    <Field dataType="String" field="pk_executer" id="pk_executer" isPrimaryKey="false" nullAble="true" precision="0" text="执行人">
+                    </Field>
+                    <Field dataType="String" field="pk_myvisa" id="pk_myvisa" isPrimaryKey="false" nullAble="true" precision="0" text="签章">
+                    </Field>
+                    <Field dataType="String" field="pk_owner" id="pk_owner" isPrimaryKey="false" nullAble="true" precision="0" text="拥有人">
+                    </Field>
+                    <Field dataType="String" field="pk_agenter" id="pk_agenter" isPrimaryKey="false" nullAble="true" precision="0" text="代办人">
+                    </Field>
+                    <Field dataType="String" field="pk_creater" id="pk_creater" isPrimaryKey="false" nullAble="true" precision="0" text="创建人">
+                    </Field>
+                    <Field dataType="UFBoolean" field="isnotexe" id="isnotexe" isPrimaryKey="false" nullAble="true" precision="0" text="是否执行">
+                    </Field>
+                    <Field dataType="UFBoolean" field="isnotpas" id="isnotpas" isPrimaryKey="false" nullAble="true" precision="0" text="是否通过">
+                    </Field>
+                    <Field dataType="UFDate" field="proinsstartdate" id="proinsstartdate" isPrimaryKey="false" nullAble="true" precision="0" text="流程开始日期">
+                    </Field>
+                    <Field dataType="String" field="startdate" id="startdate" isPrimaryKey="false" nullAble="true" precision="0" text="开始日期">
+                    </Field>
+                    <Field dataType="String" field="enddate" id="enddate" isPrimaryKey="false" nullAble="true" precision="0" text="结束日期">
+                    </Field>
+                    <Field dataType="String" field="opinion" id="opinion" isPrimaryKey="false" nullAble="true" precision="0" text="批文">
+                    </Field>
+                    <Field dataType="String" field="state" id="state" isPrimaryKey="false" nullAble="true" precision="0" text="任务状态">
+                    </Field>
+                    <Field dataType="String" field="prodef_id" id="prodef_id" isPrimaryKey="false" nullAble="true" precision="0" text="流程定义ID">
+                    </Field>
+                    <Field dataType="String" field="prodefname" id="prodefname" isPrimaryKey="false" nullAble="true" precision="0" text="流程定义名称">
+                    </Field>
+                    <Field dataType="String" field="port_id" id="port_id" isPrimaryKey="false" nullAble="true" precision="0" text="活动节点ID">
+                    </Field>
+                    <Field dataType="String" field="humactname" id="humactname" isPrimaryKey="false" nullAble="true" precision="0" text="活动名称">
+                    </Field>
+                    <Field dataType="String" field="pk_proins" id="pk_proins" isPrimaryKey="false" nullAble="true" precision="0" text="流程实例标识">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_executer_username" isPrimaryKey="false" nullAble="true" sourceField="pk_executer" text="执行人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_owner_username" isPrimaryKey="false" nullAble="true" sourceField="pk_owner" text="拥有人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_agenter_username" isPrimaryKey="false" nullAble="true" sourceField="pk_agenter" text="代办人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_creater_username" isPrimaryKey="false" nullAble="true" sourceField="pk_creater" text="创建人">
+                    </Field>
+                    <Field dataType="String" field="signdate" id="signdate" isPrimaryKey="false" nullAble="true" precision="0" text="签收时间">
+                    </Field>
+                    <Field dataType="String" field="handlepiece" id="handlepiece" isPrimaryKey="false" nullAble="true" precision="0" text="办件情况">
+                    </Field>
+                </Fields>
+                <Listeners>
+                	<!--
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.portal.pwfm.listener.WorkflowHistoryLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_history" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                    -->
+                    <DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_history" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_deliver" lazyLoad="false" voMeta="nc.portal.pwfm.vo.TaskVO">
+                <FieldRelations>
+                    <FieldRelation id="executer_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_executer_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_executer">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                    <FieldRelation id="creater_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_creater_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_creater">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                    <FieldRelation id="owner_rel" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_owner_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_owner">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                </FieldRelations>
+                <Fields>
+                    <Field dataType="String" field="pk_creater" id="pk_creater" isPrimaryKey="false" nullAble="true" precision="0" text="发送人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_creater_username" isPrimaryKey="false" nullAble="true" sourceField="pk_executer" text="发送人">
+                    </Field>
+                    <Field dataType="String" field="pk_owner" id="pk_owner" isPrimaryKey="false" nullAble="true" precision="0" text="接收人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_owner_username" isPrimaryKey="false" nullAble="true" sourceField="pk_owner" text="接收人">
+                    </Field>
+                    <Field dataType="String" field="startdate" id="startdate" isPrimaryKey="false" nullAble="true" precision="0" text="发送日期">
+                    </Field>
+                    <Field dataType="String" field="pk_executer" id="pk_executer" isPrimaryKey="false" nullAble="true" precision="0" text="签收人">
+                    </Field>
+                    <Field dataType="String" i18nName="org.user.username" id="pk_executer_username" isPrimaryKey="false" nullAble="true" sourceField="pk_executer" text="签收人">
+                    </Field>
+                    <Field dataType="String" field="state" id="state" isPrimaryKey="false" nullAble="true" precision="0" text="签收状态">
+                    </Field>
+                    <Field dataType="String" field="signdate" id="signdate" isPrimaryKey="false" nullAble="true" precision="0" text="签收时间">
+                    </Field>
+                </Fields>
+                <Listeners>
+                	<!--
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.portal.pwfm.listener.WorkflowDeliverLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_deliver" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                    -->
+                    <DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_deliver" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_attachlist" lazyLoad="false" voMeta="nc.portal.pwfm.vo.AttachListVO">
+                <FieldRelations>
+                    <FieldRelation id="pk_submitter_username" refDataset="refuserds">
+                        <MatchFields>
+                            <Field readField="username" writeField="pk_submitter_username">
+                            </Field>
+                        </MatchFields>
+                        <WhereField>
+                            <Field key="pk_user" value="pk_submitter">
+                            </Field>
+                        </WhereField>
+                    </FieldRelation>
+                </FieldRelations>
+                <Fields>
+                    <Field dataType="String" field="pk_attchlist" id="pk_attchlist" isPrimaryKey="false" nullAble="true" text="附件标识">
+                    </Field>
+                    <Field dataType="String" field="pk_billitem" id="pk_billitem" isPrimaryKey="false" nullAble="true" text="表单实例标识">
+                    </Field>
+                    <Field dataType="String" field="filename" id="filename" isPrimaryKey="false" nullAble="true" text="文件名称">
+                    </Field>
+                    <Field dataType="String" field="pk_submitter" id="pk_submitter" isPrimaryKey="false" nullAble="true" text="填写用户标识">
+                    </Field>
+                    <Field dataType="String" field="uploadtime" id="uploadtime" isPrimaryKey="false" nullAble="true" text="填写时间">
+                    </Field>
+                    <Field dataType="String" id="pk_submitter_username" isPrimaryKey="false" nullAble="true" sourceField="pk_submitter" text="填写用户">
+                    </Field>
+                </Fields>
+                <Listeners>
+                	<!--
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.portal.pdbl.listener.AttachListLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                    -->
+                    <DatasetListener id="defaultDsListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="ds_history" editable="true" enabled="true" height="100%" id="grid_history" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="prodefname" fixedHeader="false" i18nName="流程定义名称" id="prodefname" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="流程定义名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="humactname" fixedHeader="false" i18nName="活动名称" id="humactname" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="任务活动名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="startdate" fixedHeader="false" i18nName="开始日期" id="startdate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="任务开始日期" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="signdate" fixedHeader="false" i18nName="签收日期" id="signdate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="任务签收日期" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="enddate" fixedHeader="false" i18nName="结束日期" id="enddate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="任务提交日期" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_creater_username" fixedHeader="false" i18nName="创建人" id="pk_creater_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="创建人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_executer_username" fixedHeader="false" i18nName="执行人" id="pk_executer_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="执行人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_owner_username" fixedHeader="false" i18nName="拥有人" id="pk_owner_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="拥有人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_owner" fixedHeader="false" i18nName="拥有人" id="pk_owner" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="拥有人" textAlign="left" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="state" fixedHeader="false" i18nName="任务状态" id="state" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="任务状态" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="opinion" fixedHeader="false" i18nName="处理意见" id="opinion" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="处理意见" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_executer" fixedHeader="false" i18nName="执行人" id="pk_executer" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="执行人" textAlign="left" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_agenter" fixedHeader="false" i18nName="代办人" id="pk_agenter" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="代办人" textAlign="left" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_creater" fixedHeader="false" i18nName="创建人" id="pk_creater" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="创建人" textAlign="left" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="handlepiece" fixedHeader="false" i18nName="办件情况" id="handlepiece" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="办件情况" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <GridComp dataset="ds_attachfile" editable="false" enabled="true" height="300" id="grid_attachfile" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="false" editorType="StringText" field="creator_username" fixedHeader="false" id="creator_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="上传用户" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="false" editorType="StringText" field="uploadtime" fixedHeader="false" id="uploadtime" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="上传时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="false" editorType="StringText" field="filesize" fixedHeader="false" id="filesize" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="文件大小" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="filename" fixedHeader="false" id="filename" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="文件名称" textAlign="left" visible="true" width="120">
+            </Column>
+            <Listeners>
+                <GridRowListener id="selectRow" serverClazz="nc.portal.cqqg.listener.FuJianBrowseListener">
+                    <Events>
+                        <Event async="true" name="onRowDbClick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_attachfile" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_childform" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_history" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="refuserds" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_attachlist" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_deliver" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>rowEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </GridRowListener>
+            </Listeners>
+        </GridComp>
+        <GridComp dataset="ds_attachlist" editable="true" enabled="true" height="100%" id="grid_attachlist" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="false" editorType="StringText" field="pk_submitter_username" fixedHeader="false" id="pk_submitter_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="填写用户" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="false" editorType="StringText" field="uploadtime" fixedHeader="false" id="uploadtime" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="填写时间" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="filename" fixedHeader="false" id="filename" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="文件名称" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <GridComp dataset="ds_deliver" editable="true" enabled="true" height="100%" id="grid_deliver" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_creater_username" fixedHeader="false" i18nName="org.user.username" id="pk_creater_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="发送人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_owner_username" fixedHeader="false" i18nName="org.user.username" id="pk_owner_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="接收人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="startdate" fixedHeader="false" id="startdate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="发送日期" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_executer_username" fixedHeader="false" i18nName="org.user.username" id="pk_executer_username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="签收人" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="state" fixedHeader="false" id="state" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="签收状态" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="signdate" fixedHeader="false" id="signdate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="true" sumCol="false" text="签收时间" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <LabelComp color="blue" enabled="true" height="22" id="label_attachlist" left="0" position="relative" size="15" text="纸质文档" top="0" visible="true" width="100">
+        </LabelComp>
+        <LabelComp color="blue" enabled="true" height="22" id="label_eleattach" left="0" position="relative" size="15" text="电子文档" top="0" visible="true" width="100">
+        </LabelComp>
+        <ImageComp id="image_workflow" enabled="true" floatLeft="false" floatRight="false" left="0" position="relative" top="0" visible="true">
+        </ImageComp>
+        <IframeComp enabled="true" height="100%" id="iframe_word" left="0" position="relative" scrolling="" top="0" visible="true" width="100%">
+        </IframeComp>
+        <IframeComp enabled="true" height="100%" id="iframe_formdata" left="0" position="relative" scrolling="" top="0" visible="true" width="100%">
+        </IframeComp>
+    </Components>
+    <Containers>
+        <TabComp id="tab_data">
+            <TabItem id="itm_data" text="查看文件">
+            </TabItem>
+            <TabItem id="itm_master" text="正文">
+            </TabItem>
+            <TabItem id="itm_attach" text="附件">
+            </TabItem>
+            <TabItem id="itm_image" text="查看进度">
+            </TabItem>
+            <TabItem id="itm_history" text="流程历史">
+            </TabItem>
+            <TabItem id="itm_deliver" text="签收情况">
+            </TabItem>
+        </TabComp>
+    </Containers>
+    <Menus>
+        <MenuBarComp id="menu_attachlist">
+            <MenuItem id="cancel" modifiers="2" operatorStatusArray="3,4" text="取消">
+                <Listeners>
+                    <MouseListener id="menu_item_cancel_listener" serverClazz="nc.portal.pwfm.attachlistmgr.MainUifCancelMouseListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_current_page">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="edit" modifiers="2" operatorStatusArray="1" text="修改">
+                <Listeners>
+                    <MouseListener id="menu_item_edit_listener" serverClazz="nc.portal.pwfm.attachlistmgr.MainUifEditMouseListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="true" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_current_page">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="add" modifiers="2" operatorStatusArray="0,1,2" text="新建">
+                <Listeners>
+                    <MouseListener id="menu_item_add_listener" serverClazz="nc.portal.pwfm.attachlistmgr.MainUifAddMouseListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="true" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_current_page">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="delete" modifiers="2" operatorStatusArray="1,2" text="删除">
+                <Listeners>
+                    <MouseListener id="menu_item_delete_listener" serverClazz="nc.portal.pwfm.attachlistmgr.MainUifDelMouseListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachlist" type="ds_all_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+        </MenuBarComp>
+        <MenuBarComp id="menu_attachfile">
+            <MenuItem id="download" modifiers="2" text="下载">
+                <Listeners>
+                    <MouseListener id="WorkFlowDataAttachListener" serverClazz="nc.portal.pwfm.listener.WorkFlowDataAttachListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="upload" modifiers="2" text="上传">
+                <Listeners>
+                    <MouseListener id="WorkFlowDataAttachListener" serverClazz="nc.portal.pwfm.listener.WorkFlowDataAttachListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_all_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="delete" modifiers="2" text="删除">
+                <Listeners>
+                    <MouseListener id="WorkFlowDataAttachListener" serverClazz="nc.portal.pwfm.listener.WorkFlowDataAttachListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_all_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="modify" modifiers="2" text="改名">
+                <Listeners>
+                    <MouseListener id="WorkFlowDataAttachListener" serverClazz="nc.portal.pwfm.listener.WorkFlowDataAttachListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+            <MenuItem id="view" modifiers="2" text="浏览">
+                <Listeners>
+                    <MouseListener id="viewListener" serverClazz="nc.portal.pwfm.listener.WorkFlowDataAttachListener">
+                        <Events>
+                            <Event async="true" name="onclick" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_attachfile" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>mouseEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </MouseListener>
+                </Listeners>
+            </MenuItem>
+        </MenuBarComp>
+    </Menus>
+</Widget>

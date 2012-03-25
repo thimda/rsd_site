@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.uap.lfw.login.vo.LfwTokenVO">
+    <Fields>
+   		<Field id="pk_lfwtoken" field="pk_lfwtoken" dataType="String"  text="" i18nName="nc.uap.lfw.login.vo.pk_lfwtoken" primaryKey="true"/>
+   		<Field id="sessionid" field="sessionid" dataType="String"  text="会话ID" i18nName="nc.uap.lfw.login.vo.sessionid"/>
+   		<Field id="userpk" field="userpk" dataType="String"  text="" i18nName="nc.uap.lfw.login.vo.userpk"/>
+   		<Field id="pkcrop" field="pkcrop" dataType="String"  text="所属集团pk" i18nName="nc.uap.lfw.login.vo.pkcrop"/>
+		<Field id="username" field="username" dataType="String"  text="用户名" i18nName="nc.uap.lfw.login.vo.username"/>
+		<Field id="datasource" field="datasource" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.datasource"/>
+		<Field id="themeid" field="themeid" dataType="String"  text="" i18nName="nc.uap.lfw.login.vo.themeid"/>
+		<Field id="usertype" field="usertype" dataType="String" text="用户类型" i18nName="nc.uap.lfw.login.vo.usertype"/>
+		<Field id="logindate" field="logindate" dataType="UFDateTime" text="登录时间" i18nName="nc.uap.lfw.login.vo.logindate"/>
+		<Field id="userid" field="userid" dataType="String" text="用户编码" i18nName="nc.uap.lfw.login.vo.userid"/>		
+		<Field id="loginip" field="loginip" dataType="String"  text="登录ip" i18nName="nc.uap.lfw.login.vo.loginip"/>
+		<Field id="systemid" field="systemid" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.systemid"/>
+		<Field id="passwd" field="passwd" dataType="String"  text="" i18nName="nc.uap.lfw.login.vo.passwd"/>
+		<Field id="tokenid" field="tokenid" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.tokenid"/>
+		<Field id="ext1" field="ext1" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext1"/>
+		<Field id="ext2" field="ext2" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext2"/>
+		<Field id="ext3" field="ext3" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext3"/>
+		<Field id="ext4" field="ext4" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext4"/>
+		<Field id="ext5" field="ext5" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext5"/>
+		<Field id="ext6" field="ext6" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext6"/>
+		<Field id="ext7" field="ext7" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext7"/>
+		<Field id="ext8" field="ext8" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext8"/>
+		<Field id="ext9" field="ext9" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext9"/>
+		<Field id="ext10" field="ext10" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.ext10"/>
+		<Field id="accountcode" field="accountcode" dataType="String" text="" i18nName="nc.uap.lfw.login.vo.accountcode"/>
+	</Fields>
+</Dataset>         

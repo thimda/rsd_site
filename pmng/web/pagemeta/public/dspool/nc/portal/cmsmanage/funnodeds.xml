@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset voMeta="nc.portal.funnode.PtFunnodeVO">
+	<Fields>
+		<Field id="id" field="id" dataType="String" text="id"/>
+		<Field id="funname" field="funname" dataType="String" text="功能节点名称 " nullAble="false"/>
+		<Field id="funurl" field="funurl" dataType="String" text="功能节点URL " nullAble="false"/>
+		<Field id="funtype" field="funtype" dataType="String" text="功能节点类型"/>
+		<Field id="parentid" field="parentid" dataType="String" text="父节点Id"/>
+	</Fields>
+ </Dataset>

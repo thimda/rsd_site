@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset lazyLoad="false" voMeta="nc.vo.pub.portlet.CompdocGroupVO">
+    <Handler className="nc.portlet.cms.handler.CompdocManageGroupDsHandler"/>
+    <Fields>
+		<Field id="pk_compdocgroup" field="pk_compdocgroup" dataType="String" i18nName="compdocgroupds.pk_compdocgroup" nullAble="true"/><!--发文类别主键 -->
+		<Field id="groupname" field="groupname" dataType="String" i18nName="compdoclabelds.groupname" nullAble="false"><!--发文类别 -->
+			<Properties>
+				<Property name="maxLength" value="60"/>
+			</Properties>
+		</Field> 
+		<Field id="docyear" field="docyear" dataType="String" i18nName="compdoclabelds.docyear" nullAble="false"/><!--年份 -->
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="compdoclabelds.createdate" nullAble="true"/><!--创建日期 -->
+		<Field id="compsiteId" field="compsiteId" dataType="String" nullAble="true"></Field><!-- 复合主键(发文类别+年份) -->
+		<Field id="pk_org" field="pk_org" dataType="String" nullAble="false"></Field>
+    </Fields>
+</Dataset>  

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp">  
+  
+	<display-name>NC Portal</display-name>
+  
+	<context-param>
+		<param-name>ctxPath</param-name>
+		<param-value>/portal</param-value>
+	</context-param>
+  
+	<context-param>
+		<param-name>modules</param-name>
+		<param-value>pserver,pmng,pint,padd,uapcp,ufob,bap,oapub</param-value>
+	</context-param>
+ 
+	<listener>
+		<listener-class>nc.uap.portal.servlet.listener.PortalContextLoaderListener</listener-class>
+	</listener>
+  
+	<listener>
+		<listener-class>nc.uap.portal.servlet.listener.PortalRequestListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>nc.uap.portal.servlet.listener.PortalSessionListener</listener-class>
+	</listener>
+	<!--
+	<listener>
+		<listener-class>nc.portal.servlet.listener.PAddContextLoaderListener</listener-class>
+	</listener>
+	-->
+	<!-- Servlet Filter config-->
+<!--listener_begin:padd 
+
+<listener>
+    <listener-class>nc.portal.servlet.listener.PAddContextLoaderListener</listener-class>
+</listener>
+ listener_end:padd-->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>nc.uap.lfw.core.servlet.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignore</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<servlet-name>CoreServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<servlet-name>PortletServlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<servlet-name>NormalServlet</servlet-name>
+	</filter-mapping>
+	
+	<!-- compress Filter -->
+	<filter>
+		<filter-name>CompressingFilter</filter-name>
+		<filter-class>
+			nc.uap.lfw.core.servlet.filter.compression.CompressingFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CompressingFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CompressingFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CompressingFilter</filter-name>
+		<servlet-name>LfwDispatcherServlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>HttpResponseFilter</filter-name>
+		<filter-class>
+			nc.uap.lfw.core.servlet.ResponseHeaderFilter
+		</filter-class>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>max-age=3600</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.gif</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.swf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpResponseFilter</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>gatefilter</filter-name>
+		<filter-class>nc.uap.portal.servlet.PortalLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>gatefilter</filter-name>
+		<servlet-name>CoreServlet</servlet-name>
+	</filter-mapping> 
+	<filter-mapping>
+		<filter-name>gatefilter</filter-name>
+		<url-pattern>/securitycheck</url-pattern>
+	</filter-mapping> 
+	<filter-mapping>
+		<filter-name>gatefilter</filter-name>
+		<servlet-name>LfwDispatcherServlet</servlet-name>
+	</filter-mapping>
+	<filter>
+		<filter-name>appFilter</filter-name>
+		<filter-class>nc.uap.lfw.app.filter.AppFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>appFilter</filter-name>
+		<url-pattern>/app/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>CoreServlet</servlet-name>
+		<servlet-class>nc.uap.lfw.core.servlet.CoreServlet</servlet-class>
+		<init-param>
+			<param-name>actionfolder</param-name>
+			<param-value>nc.portal.action,nc.uap.portal.action,nc.portal.pdbl.action,nc.portal.pwfm.action,nc.uap.lfw.file.action,nc.portal.pbase.swf,nc.portal.workflow.action,nc.portal.portlet.action,nc.uap.portal.ctrl.office.action,nc.uap.wfm.action,nc.bs.oa.oapo.scheduler.action,nc.bs.oa.oapo.task.action,nc.bs.oa.oamt.action</param-value>
+		</init-param>
+	 
+		<init-param>
+			<param-name>urlprefix</param-name>
+			<param-value>/pt</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+  
+	<servlet>
+		<servlet-name>LfwDispatcherServlet</servlet-name>
+		<servlet-class>nc.uap.lfw.core.servlet.LfwDispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>ctrlclass</param-name>
+			<param-value>nc.uap.portal.ctrl.PortalCoreController</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ctxpath</param-name>
+			<param-value>/core</param-value>
+		</init-param>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+  
+	<servlet>
+		<servlet-name>PortletServlet</servlet-name>
+		<servlet-class>nc.uap.portal.servlet.PortletServlet</servlet-class>
+		<load-on-startup>5</load-on-startup>
+	</servlet>
+ 
+	<servlet>
+		<servlet-name>PortletActServlet</servlet-name>
+		<servlet-class>nc.uap.portal.servlet.PortletActServlet</servlet-class>
+		<load-on-startup>6</load-on-startup>
+	</servlet>
+  
+	<servlet>
+		<servlet-name>CodeServlet</servlet-name>
+		<servlet-class>nc.uap.lfw.core.servlet.CodeServlet</servlet-class>
+	</servlet>
+  
+	<servlet>
+		<servlet-name>RandomImageServlet</servlet-name>
+		<servlet-class>nc.uap.portal.servlet.RandomImageServlet</servlet-class>
+	</servlet>
+  
+	<servlet>
+		<servlet-name>NormalServlet</servlet-name>
+		<servlet-class>nc.uap.portal.servlet.NormalServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LfwSsoRegisterServlet</servlet-name>
+		<servlet-class>nc.uap.lfw.login.action.LfwSsoRegisterServlet</servlet-class>
+	</servlet>
+	
+    <servlet>
+		<servlet-name>mailAuditAction</servlet-name>
+		<servlet-class>nc.portal.pwfm.action.MailAuditAction</servlet-class>
+	</servlet>
+    <servlet-mapping>
+		<servlet-name>mailAuditAction</servlet-name>
+		<url-pattern>/mailaudit</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>ClientCacheServlet</servlet-name>
+		<servlet-class>nc.uap.lfw.core.servlet.ClientCacheServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>OfflineService</servlet-name>
+		<servlet-class>nc.portal.offline.OfflineService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientCacheServlet</servlet-name>
+		<url-pattern>/cache</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CoreServlet</servlet-name>
+		<url-pattern>/pt/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LfwDispatcherServlet</servlet-name>
+		<url-pattern>/core/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RandomImageServlet</servlet-name>
+		<url-pattern>/randimg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NormalServlet</servlet-name>
+		<url-pattern>/nm/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CodeServlet</servlet-name>
+		<url-pattern>/code/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NormalServlet</servlet-name>
+		<url-pattern>/securitycheck</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LfwSsoRegisterServlet</servlet-name>
+		<url-pattern>/registerServlet</url-pattern>
+	</servlet-mapping>
+  
+	<servlet-mapping>
+		<servlet-name>PortletServlet</servlet-name>
+		<url-pattern>*.pt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PortletActServlet</servlet-name>
+		<url-pattern>/ppt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>OfflineService</servlet-name>
+		<url-pattern>/offlineservice</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>OfflineService</servlet-name>
+		<url-pattern>/offlineservice</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ThirdPartyLoginServlet</servlet-name>
+		<servlet-class>nc.uap.portal.servlet.ThirdPartyLoginServlet</servlet-class>
+		<init-param>
+			<param-name>actionfolder</param-name>
+			<param-value>nc.uap.portal.action</param-value>
+		</init-param>
+	 
+		<init-param>
+			<param-name>urlprefix</param-name>
+			<param-value>/auth</param-value>
+		</init-param>
+		<load-on-startup>7</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ThirdPartyLoginServlet</servlet-name>
+		<url-pattern>/auth/*</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>180</session-timeout> 
+	</session-config> 
+	<!--@EJBREF@-->
+
+	<error-page>   
+        <error-code>403</error-code>   
+        <location>/error.jsp</location>   
+    </error-page>   
+	<error-page>   
+        <error-code>404</error-code>   
+        <location>/error.jsp</location>   
+    </error-page>   
+     <error-page>   
+        <error-code>400</error-code>   
+        <location>/error.jsp</location>   
+    </error-page>   
+    <error-page>   
+        <error-code>500</error-code>   
+        <location>/error.jsp</location>   
+	</error-page>   
+	<jsp-config>
+	</jsp-config>
+	<mime-mapping>
+    	<extension>esp</extension>
+	<mime-type>application/octet-stream</mime-type>
+	</mime-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>

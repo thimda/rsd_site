@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="600" height="400" showCloseButton="true" 
+				close="closeHandler(event)" title="选择执行者" backgroundColor="#FFFFFF" borderStyle="outset" 
+				borderColor="#000000" creationComplete="loadPerson(event)">
+	<!--http://localhost:8080/workflow/service/personService-->
+	
+	<mx:HTTPService id="userProvider" url="{ServletConst.PERSON_SERVLET_URL}" resultFormat="text" 
+					result="userProvider_resultHandler(event)" showBusyCursor="true">
+		
+	</mx:HTTPService>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import servlet.ServletConst;
+
+			[Bindable]
+			protected var selects:Array = new Array();
+			
+			[Bindable]
+			public var mainApp:Object = null;  
+			[Bindable]
+			public var callbackFunction:Function;  //回调函数  
+			
+			protected function closeHandler(event:CloseEvent):void
+			{
+					PopUpManager.removePopUp(this);   
+					//this.setVisible(false);				
+			}
+
+			protected function loadPerson(event:FlexEvent):void
+			{
+				userProvider.send();
+			}
+
+
+			protected function userProvider_resultHandler(event:ResultEvent):void
+			{
+			    
+				var users:XMLList  = new XMLList(event.result.toString());
+				//Alert.show("users:"+users);
+				usergrid.dataProvider = users.User;
+			}
+
+
+			protected function submit(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+				callbackFunction.call(mainApp,selects);
+			}
+			
+			public function selectHanlder(obj:Object):void{
+				if(obj.chxBox.selected){    
+					selects.push(usergrid.selectedItem);
+				}else{    
+					selects.splice(usergrid.selectedItem);
+				}    
+			}
+			
+		]]>
+	</mx:Script>		
+	<mx:Binding source="usergrid.selectedItems" destination="selects">		
+	</mx:Binding>
+		<mx:DataGrid id="usergrid" width="100%" height="90%" x="0" y="0" allowMultipleSelection="true">      
+			<mx:columns>   
+						
+				<mx:DataGridColumn dataField="@id" headerText="ID"> 
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@name" headerText="名字">   
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@group" headerText="集团">    
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@pk_user" headerText="pk_user"> 
+				</mx:DataGridColumn>
+			</mx:columns>      
+		</mx:DataGrid>    
+	<mx:Canvas width="100%" height="30" bottom="0" x="0">
+		<mx:Button label="取消" x="304" y="4" click="PopUpManager.removePopUp(this); ">		
+		</mx:Button>
+		<mx:Button label="确定" y="4" x="213" click="submit(event)">		
+		</mx:Button>
+	</mx:Canvas>
+
+</mx:TitleWindow>

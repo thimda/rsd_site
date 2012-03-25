@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.vo.pub.portlet.PtLinksNodeVO"  lazyLoad="true">
+    <Fields>
+   		  <Field id="pk_linksnode" field="pk_linksnode" dataType="String" i18nName="" /><!--pk-->
+		  <Field id="linknodetext" field="linknodetext" dataType="String" i18nName="linksds.linkText" nullAble="false" defaultValue="NEW NODE"/><!-- 链接文字-->
+		  <Field id="linknodeurl" field="linknodeurl" dataType="String" i18nName="linksds.linkURL" nullAble="true"/><!--链接地址 -->
+	</Fields>
+</Dataset>

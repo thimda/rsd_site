@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.mng.page.PageManagerRelationViewController" dialog="false" id="relationView" refId="relationView" sourcePackage="pmng/src/public/">
+    <PlugoutDescs>
+    </PlugoutDescs>
+    <PluginDescs>
+        <PluginDesc id="Assign_plugin">
+            <PluginDescItem clazztype="java.lang.String" id="assignRow">
+            </PluginDescItem>
+        </PluginDesc>
+        <PluginDesc id="main_plugin">
+            <PluginDescItem clazztype="java.lang.String" id="gridRow">
+            </PluginDescItem>
+        </PluginDesc>
+    </PluginDescs>
+    <Events>
+        <Event async="true" methodName="pluginAssign_plugin" onserver="true">
+            <Params>
+                <Param>
+                    <Name>keys</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+        <Event async="true" methodName="pluginmain_plugin" onserver="true">
+            <Params>
+                <Param>
+                    <Name>keys</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+    </Events>
+    <Models>
+        <Datasets>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="pageroleds" lazyLoad="false" notNullBody="false" voMeta="nc.portal.portlet.vo.PtPageRoleVO">
+                <Fields>
+                    <Field dataType="String" field="pk_pagerole" id="pk_pagerole" nullAble="true" primaryKey="true" text="pk_pagerole">
+                    </Field>
+                    <Field dataType="String" field="pk_page" id="pk_page" nullAble="true" primaryKey="false" text="pk_page">
+                    </Field>
+                    <Field dataType="String" field="pk_role" id="pk_role" nullAble="true" primaryKey="false" text="pk_role">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_pageroleds" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="pagedeptds" lazyLoad="false" notNullBody="false" voMeta="nc.portal.portlet.vo.PtPageDeptVO">
+                <Fields>
+                    <Field dataType="String" field="pk_pagedept" id="pk_pagedept" nullAble="true" primaryKey="true" text="pk_pagedept">
+                    </Field>
+                    <Field dataType="String" field="pk_page" id="pk_page" nullAble="true" primaryKey="false" text="pk_page">
+                    </Field>
+                    <Field dataType="String" field="pk_dept" id="pk_dept" nullAble="true" primaryKey="false" text="pk_dept">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_pagedeptds" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="pageuserds" lazyLoad="false" notNullBody="false" voMeta="nc.portal.portlet.vo.PtPageUserVO">
+                <Fields>
+                    <Field dataType="String" field="pk_pageuser" id="pk_pageuser" nullAble="true" primaryKey="true" text="pk_pageuser">
+                    </Field>
+                    <Field dataType="String" field="pk_page" id="pk_page" nullAble="true" primaryKey="false" text="pk_page">
+                    </Field>
+                    <Field dataType="String" field="pk_user" id="pk_user" nullAble="true" primaryKey="false" text="pk_user">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_pageuserds" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="pageroleds" editable="false" enabled="true" id="grid_pagerole" multiSelect="false" pagenationTop="false" showColInfo="false" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_pagerole" fixedHeader="false" id="pk_pagerole" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_page" fixedHeader="false" id="pk_page" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="页面主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_role" fixedHeader="false" id="pk_role" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="角色主键" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <GridComp dataset="pagedeptds" editable="false" enabled="true" id="grid_pagedept" multiSelect="false" pagenationTop="false" showColInfo="false" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_pagedept" fixedHeader="false" id="pk_pagedept" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_page" fixedHeader="false" id="pk_page" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="页面主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_dept" fixedHeader="false" id="pk_dept" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="部门主键" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <GridComp dataset="pageuserds" editable="false" enabled="true" id="grid_pageuser" multiSelect="false" pagenationTop="false" showColInfo="false" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_pageuser" fixedHeader="false" id="pk_pageuser" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_page" fixedHeader="false" id="pk_page" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="页面主键" textAlign="left" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_user" fixedHeader="false" id="pk_user" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="用户主键" textAlign="left" visible="true" width="120">
+            </Column>
+        </GridComp>
+    </Components>
+    <Menus>
+    </Menus>
+</Widget>

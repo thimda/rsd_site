@@ -1,0 +1,178 @@
+.portaltab
+{
+	overflow:hidden;
+}
+
+.portaltab .tab_content_div
+{
+	width:100%;
+	overflow:hidden;
+}
+
+.portaltab .tab_items_bar
+{
+	clear:both;
+	height: 27px;
+    width: 100%;
+    background-image:url('../images/tabs/tabitem_nm_bg.png');
+    background-repeat:repeat-x;
+    background-color:#ff9500;
+    background-position:0px -2px;
+}
+
+.portaltab .tab_seperator_ver
+{
+	position:relative;
+	top: 5px;
+	float:left;
+	height:18px;
+	width:1px;
+	background-image:url("../images/tabs/seperator_ver.png");
+	
+}
+
+.portaltab .left_space
+{
+	position:relative;
+	float:left;
+	height:100%;
+}
+
+.portaltab .right_space
+{
+	position:relative;
+	float:right;
+	height:100%;
+}
+
+.portaltab .tab_img_div
+{	
+ 	float:right;
+    position: relative;
+    height:100%;
+}
+
+.portaltab .tab_item_div
+{
+ 	position: relative;
+ 	height:25px;
+ 	top:0px;
+ 	float:left;
+ 	overflow:hidden;
+ 	padding-right: 1px;
+ 	padding-left: 1px;
+}
+
+.tab_content_div{
+	 overflow:auto; 
+	 width:100%;
+	 height:100%;  
+	 position:relative;
+}
+
+.portaltab .tab_item_leftborder_off{
+    width:13px;
+    height:100%;
+    float:left;
+}
+
+.portaltab .tab_item_centerborder_off{
+    width:13px;
+    height:100%;
+    float:left;
+    padding-top:7px;
+    padding-left:0px;
+    padding-right:0px;
+    white-space:nowrap;
+    color:#4a5c8a;
+}
+
+/* attached to tab_item_centerborder_off*/
+.portaltab .tab_item_centerboder_disable{
+	color: gray;
+}
+
+.portaltab .tab_item_rightborder_off {
+    height:100%;
+    width:13px;
+    float:left;
+}
+
+.portaltab .tab_item_leftborder_click_on {
+	background:url('../images/tabs/tabitem_current.png');    
+    width:33px;
+    float:left;
+    height:100%;
+}
+
+.portaltab .tab_item_centerborder_click_on {
+	background:url('../images/tabs/tabitem_current.png');
+	background-repeat:repeat;
+	float:left;
+    padding-top:7px;
+    padding-left:0px;
+    padding-right:0px;
+    font-weight:bold;
+    height:100%;
+    white-space:nowrap;
+    color:#ffffff;
+}
+
+.portaltab .tab_item_rightborder_click_on {
+	background:url('../images/tabs/tabitem_current.png');
+    width:33px;
+    float:left;
+    height:100%;
+}
+
+.portaltab .tab_item_leftborder_click_off {
+	background:url('../images/tabs/tabitem_current.png');    
+    width:33px;
+    float:left;
+    height:100%;
+}
+
+.portaltab .tab_item_centerborder_click_off {
+	background:url('../images/tabs/tabitem_current.png');
+	background-repeat:repeat;
+    float:left;
+    padding-top:7px;
+    padding-left:0px;
+    padding-right:0px;
+    font-weight:bold;
+    height:100%;
+    white-space:nowrap;
+    color:#ffffff;
+}
+
+.portaltab .tab_item_rightborder_click_off {
+	background:url('../images/tabs/tabitem_current.png');
+    width:33px;
+   	float:left;
+   	height:100%;
+}
+
+.portaltab .tab_item_closeicon {
+	position:absolute;
+	height: 16px;
+	width: 10px;
+	top: 0px;
+	display: none;
+	background: url('../images/tabs/tabitem_close.gif') no-repeat right top;
+}
+
+.portaltab .left_fixed_space{
+	position:relative;
+	width:0px;
+    height:100%;
+    float:left;
+    background-position-y:bottom;
+}
+
+.portaltab .right_fixed_space{
+	position:relative;
+	width:0px;
+    height:100%;
+    float:right;
+    background-position-y:bottom;
+}

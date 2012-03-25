@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 集团ds -->
+<Dataset voMeta="nc.uap.portal.vo.PtAppsNodeVO"  lazyLoad="true">
+    <Fields>
+   		<Field id="pk_appsnode" field="pk_appsnode" dataType="String"  i18nName="nc.uap.portal.vo.pk_appsnode"/>
+   		<Field id="nodeid" field="nodeid" dataType="String"  i18nName="nc.uap.portal.vo.nodeid" />
+   		<Field id="module" field="module" dataType="String"  i18nName="nc.uap.portal.vo.module"/>
+   		<Field id="pk_appscategory" field="pk_appscategory" dataType="String"  i18nName="nc.uap.portal.vo.pk_appscategory" />
+		<Field id="activeflag" field="activeflag" dataType="String"  i18nName="nc.uap.portal.vo.activeflag"/>
+		<Field id="pk_group" field="pk_group" dataType="String"  i18nName="nc.uap.portal.vo.pk_group"/>
+		<Field id="title" field="title" dataType="String"  i18nName="nc.uap.portal.vo.title"/>
+		<Field id="i18nname" field="i18nname" dataType="String"  i18nName="nc.uap.portal.vo.i18nname"/>
+		<Field id="url" field="url" dataType="String"  i18nName="nc.uap.portal.vo.url"/>
+	</Fields>
+</Dataset>

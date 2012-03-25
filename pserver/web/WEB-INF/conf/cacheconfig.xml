@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:dbCacheConfig activate="true" configurable="true" lfuMax="10000"
+    refreshInterval="120" autoRefresh="true" appliable="true"
+    pagedSize="6000" xmlns:ns2="http://www.ufida.com.cn/NC/dbcache/cacheconfig">
+    <pool>
+        <driver>org.hsqldb.jdbcDriver</driver>
+        <url>jdbc:hsqldb:file</url>
+        <user>sa</user>
+        <password></password>
+        <maxConn>5</maxConn>
+        <minConn>0</minConn>
+    </pool>
+    <headSql ignoreError="true">
+        <sql><![CDATA[]]></sql>
+    </headSql>
+    <endSql ignoreError="true">
+        <sql><![CDATA[]]></sql>
+    </endSql>
+    <!--
+     <table name="pt_user" strategy="FULL" groupColumn="pk_group" primaryKey="pk_user">
+     	-->
+     <table name="pt_user" strategy="FULL" primaryKey="pk_user">
+        <column system="true" name="pk_user"/>
+        <column system="false" name="activedate"/>
+        <column system="false" name="authmode"/>
+        <column system="false" name="description"/>
+        <column system="false" name="disabledate"/>
+        <column system="false" name="disused"/>
+        <column system="false" name="userid"/>
+        <column system="false" name="username"/>
+        <column system="false" name="ext0"/>
+        <column system="false" name="ext1"/>
+        <filterSql><![CDATA[]]></filterSql>
+        <postCreateSql><![CDATA[]]></postCreateSql>
+    </table>
+    
+    <table name="pt_group" strategy="FULL" primaryKey="pk_group">
+        <column system="true" name="pk_group"/>
+        <column system="false" name="datecreated"/>
+        <column system="false" name="groupcode"/>
+        <column system="false" name="groupname"/>
+        <column system="false" name="groupno"/>
+        <column system="false" name="issealed"/>
+        <column system="false" name="pk_parent"/>
+        <column system="false" name="ts"/>
+        <column system="false" name="usercreated"/>
+        <filterSql><![CDATA[]]></filterSql>
+        <postCreateSql><![CDATA[]]></postCreateSql>
+    </table>
+    <table name="pt_dept" strategy="FULL" primaryKey="pk_dept">
+        <column system="true" name="pk_dept"/>
+        <column system="false" name="datecreated"/>
+        <column system="false" name="deptcode"/>
+        <column system="false" name="deptname"/>
+        <column system="false" name="deptobj"/>
+        <column system="false" name="deptobj1"/>
+        <column system="false" name="ext0"/>
+        <column system="false" name="ext1"/>
+        <column system="false" name="leader"/>
+        <column system="false" name="original"/>
+        <column system="false" name="original_pk"/>
+        <column system="false" name="phone"/>
+        <column system="false" name="pk_group"/>
+        <column system="false" name="pk_org"/>
+        <column system="false" name="pk_parent"/>
+        <column system="false" name="syncdate"/>
+        <column system="false" name="usercreated"/>
+        <filterSql><![CDATA[]]></filterSql>
+        <postCreateSql><![CDATA[]]></postCreateSql>
+    </table>
+    <table name="pt_userdept" strategy="FULL" primaryKey="pk_userdept">
+        <column system="true" name="pk_userdept"/>
+        <column system="false" name="pk_dept"/>
+        <column system="false" name="pk_user"/>
+        <filterSql><![CDATA[]]></filterSql>
+        <postCreateSql><![CDATA[]]></postCreateSql>
+    </table>
+    <table name="pt_orgs" strategy="FULL" primaryKey="pk_orgs">
+        <column system="true" name="pk_orgs"/>
+        <column system="false" name="code"/>
+        <column system="false" name="name"/>
+        <column system="false" name="pk_fatherorg"/>        
+        <column system="false" name="code"/>
+        <column system="false" name="pk_group"/>
+        <column system="false" name="shortname"/>
+        <filterSql><![CDATA[]]></filterSql>
+        <postCreateSql><![CDATA[]]></postCreateSql>
+    </table>
+</ns2:dbCacheConfig>
+

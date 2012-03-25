@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0" jsExcel="0">
+    <BorderLayout id="borderlayout1">
+        <BorderPanel position="center">
+            <PanelLayout display="0" id="panel1" roundRect="1" scroll="1" transparent="0" visibility="0" withBorder="1">
+                <PanelPanel>
+                    <Widget id="main">
+                    </Widget>
+                </PanelPanel>
+            </PanelLayout>
+        </BorderPanel>
+    </BorderLayout>
+</UIMeta>

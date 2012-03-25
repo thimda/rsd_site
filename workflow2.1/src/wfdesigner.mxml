@@ -1,0 +1,2467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" error="httpErrorHandler(event)"  applicationComplete="onAppComplete();"  fontSize="12" height="100%" width="100%" xmlns:comp="wf.comp.*" backgroundColor="#FFFFFF" xmlns:workflow="workflow.*">
+	
+	<mx:HTTPService id="wfservlet"  resultFormat="text"  result="wfxml_resultHandler(event)" showBusyCursor="true" 
+					fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>  
+	<mx:HTTPService id="saveXmlToFile" contentType="application/xml" method="POST" url="{ServletConst.SAVEXML_SERVLET_URL}" 
+					showBusyCursor="true" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>
+	<mx:HTTPService id="getFormField" contentType="application/xml" method="POST"  resultFormat="e4x" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>
+	<mx:HTTPService id="getMapginFormField" contentType="application/xml" method="POST"  resultFormat="e4x" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>
+	<mx:HTTPService id="loadInsServlet" contentType="application/xml" method="POST" url="{ServletConst.LOAD_INS_SERVLET_RUL}" 
+					result="getIns_resultHandler(event)" resultFormat="e4x" showBusyCursor="true" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>
+	<mx:HTTPService id="reminderServlet" url="{ServletConst.REMINDERTYPE_SERVLET_URL}" contentType="application/xml" method="POST"  
+					resultFormat="e4x" fault="HttpFaultUtil.faultHandler(event)" result="getReminder_resultHandler(event)">		
+	</mx:HTTPService>
+	
+	<mx:Script>
+		<![CDATA[
+			import context.WfContext;
+			
+			import exception.HttpFaultUtil;
+			import exception.RuntimeError;
+			
+			import flash.external.ExternalInterface;
+			
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.controls.Alert;
+			import mx.controls.CheckBox;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ItemClickEvent;
+			import mx.events.ListEvent;
+			import mx.formatters.DateFormatter;
+			import mx.graphics.codec.JPEGEncoder;
+			import mx.graphics.codec.PNGEncoder;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.StringUtil;
+			import mx.utils.URLUtil;
+			
+			import servlet.ServletConst;
+			
+			import wf.property.UserActivitiesProperty;
+			
+			import wevent.WStatusEvent;
+			import workflow.*;
+			import workflow.comp.*;
+			import workflow.control.HTMLToolTip;
+			import workflow.service.ExcuteSequenceParser;
+			import workflow.utils.HashMap;
+			
+			[Bindable]
+			public var myDrawBoard:DrawBoard=new DrawBoard();
+			private var fr:FileReference= new FileReference();
+			private var iniXml:XML ;	
+			private var browseMode :Boolean = false;
+			//在浏览态下，已经完成的节点
+			//private var finishedElements:Array = new Array();
+			//在浏览态下，正在执行的节点
+			//private var currentElements:Array = new Array();		  
+			
+			private function onAppComplete():void {	
+				setServerInfo();
+				setParam();
+				//如果是浏览模式
+				if(browseMode==true){
+					main.setStyle("top","0");
+					main.setStyle("bottom","0");					
+					//tn_designer.percentWidth = 100;
+					myCanvas.percentWidth = 100;
+					tn_prop.percentWidth = 0;
+					//myDrawBoard.mouseChildren = false;	
+					myDrawBoard.mouseEnabled = false;
+					//CreateContainer();
+					//loadXml();
+				}
+				//System.useCodePage = true;
+				CreateContainer();
+				createBaseElement();
+				//加载一些静态数据
+				loadDefaultData();
+				tn_prop.removeAllChildren();
+				fr.addEventListener(Event.SELECT,onFileSelect);
+				fr.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				fr.addEventListener(Event.COMPLETE,onFileComplete);
+			}
+			public function setServerInfo():void{
+				//	  		var url:String = Application.application.url;	  		
+				//	  		var fullURL:String = URLUtil.getFullURL(url, url);
+				//	  		var port:int = URLUtil.getPort(url);
+				//	  		var protocol:String = URLUtil.getProtocol(url);
+				//	  		var serverName:String = URLUtil.getServerName(url);
+				//	  		var isSecure:Boolean = URLUtil.isHttpsURL(url); 
+				//			
+				//			Alert.show("url:"+url);
+				//			Alert.show("fullURL:"+fullURL);
+				//			Alert.show("port:"+port);
+				//			Alert.show("protocol:"+protocol);
+				//			Alert.show("serverName:"+serverName);
+				//			Alert.show("isSecure:"+isSecure);
+				//		
+				var serverWebRoot:String =  ExternalInterface.call("getServerWebRoot");
+				ServletConst.Server_web_root = "http://localhost/pbase";
+				//Alert.show("loadservlet:"+ServletConst.Server_web_root);
+				if(ServletConst.Server_web_root==null||ServletConst.Server_web_root==""){
+					Alert.show("没有获得服务器地址,与服务器的交互都不会成功的");
+				}			
+			}
+			//设置参数，浏览模型，浏览模型时的xml...
+			//参数格式:browseMode=true/false,wfpk:流程pk，loadServlet：加载流程xml的servlet,proInsPk:流程实例pk
+			public function setParam():void{
+				var url:String =  ExternalInterface.call("getUrl");
+				if(url==null||url=="")return;
+				if(url.indexOf("?")<0)return;
+				var paramUrl:String = StringUtil.trim(url.substring(url.indexOf("?")+1));
+				//去除末尾的"#"
+				if(paramUrl.indexOf("#")==paramUrl.length-1)
+					paramUrl = paramUrl.substr(0,paramUrl.length-1);
+				
+				//if(paramUrl==null||paramUrl==""||paramUrl.length<3)return;
+				
+				var params:Array = paramUrl.split("&");
+				var map:HashMap = new HashMap();
+				for each(var kv:String in params){
+					var kvs:Array = kv.split("=");
+					if(kvs.length!=2)continue;
+					map.put(kvs[0],kvs[1]);
+				}
+				
+				var broseModeParam:String = map.get("browseMode") as String;
+				if(broseModeParam=="true")
+				{
+					browseMode=true;	
+				}else {
+					browseMode=false;
+				}
+				var pk_group:String = map.get("pk_group") as String;
+				if(pk_group!=null&&pk_group!=""){
+					WfContext.Pk_group = pk_group;
+				}	
+				var pk_formdefinition:String = map.get("pk_formdefinition") as String;
+				if(pk_formdefinition!=null&&pk_formdefinition!=""){
+					WfContext.Pk_formdefinition = pk_formdefinition;
+				}
+				var wfpk:String = map.get("wfpk") as String;
+				if(wfpk!=null&&wfpk!=""){
+					wfservlet.url = ServletConst.LOAD_WFXML_SERVLET_URL;
+					wfservlet.url += "?wfpk="+wfpk;
+					//Alert.show("wfservlet:"+wfservlet.url);
+					wfservlet.send(wfpk);
+				}	
+				var proInsPk:String = map.get("proInsPk") as String;
+				if(proInsPk!=null&&proInsPk!=""){
+					loadInsServlet.url = ServletConst.LOAD_INS_SERVLET_RUL;
+					loadInsServlet.url += "?proInsPk="+proInsPk;
+					loadInsServlet.send();
+				}
+			}
+			protected function httpErrorHandler(event:ErrorEvent):void
+			{
+				Alert.show("服务请求失败:"+(event.currentTarget));
+			}
+			//加载一些静态数据
+			private function loadDefaultData():void{
+				reminderServlet.url = ServletConst.REMINDERTYPE_SERVLET_URL;
+				reminderServlet.send();
+				//				reminderServlet.url = ServletConst.REMINDERTYPE_SERVLET_URL+"?type=taskCreated";
+				//				reminderServlet.send();
+				//				
+				//				reminderServlet.url = ServletConst.REMINDERTYPE_SERVLET_URL+"?type=taskCompleted";
+				//				reminderServlet.send();
+				//				
+				//				reminderServlet.url = ServletConst.REMINDERTYPE_SERVLET_URL+"?type=overtime";
+				//				reminderServlet.send();
+				//				
+				//				reminderServlet.url = ServletConst.REMINDERTYPE_SERVLET_URL+"?type=overtimeAct";
+				//				reminderServlet.send();
+			}
+			// deprecate
+			private function addSignatureNode(id:String):void{
+				var prenode:UseractivitiesNode = myDrawBoard.GetElementFromID(id) as UseractivitiesNode;
+				if(prenode==null)throw new RuntimeError("没有指定加签节点");				
+				ele_hbox.removeAllChildren();
+				var node:UseractivitiesNode = new UseractivitiesNode(myDrawBoard);
+				node.x = prenode.x+100; 
+				node.y = prenode.y-50; 
+				node.State = 3;
+				node.Selected = true;
+				node.Draw();
+				
+				myCanvas.mouseChildren = false;
+			}
+			//读取xml文件后结果处理
+			public function wfxml_resultHandler(event:ResultEvent):void{
+				iniXml = new XML(event.result.toString());
+				CreateContainer();
+			}
+			private function getInitXml():XML{
+				return iniXml;
+			}
+			private function ioErrorHandler(e:IOErrorEvent): void {
+				Alert.show(e.toString());
+			}
+			//获取流程实例后结果处理
+			public function getIns_resultHandler(event:ResultEvent):void{
+				var insXml:XML = new XML(event.result.toString());
+				var parse:ExcuteSequenceParser = new ExcuteSequenceParser(myDrawBoard);
+				if(browseMode==true){
+					parse.parseFromXml(insXml);
+					setElementState(parse);	
+				}
+				
+				//				finishedElements = parse.parseFromXml(insXml);
+				//				currentElements = parse.currentElements;
+				//				//如果是浏览态，进行变色
+				//				//if(browseMode==false)setElementState();	
+				//				if(browseMode==true)setElementState();	
+			}
+			//获取消息提醒方式后结果处理
+			public function getReminder_resultHandler(event:ResultEvent):void{
+				var root:XML  = new XML(event.result.toString());	
+				var reminders:XMLList = root.Reminders;
+				for each(var remindersXml:XML in reminders){
+					var type:String = remindersXml.@type;
+					var elements:XMLList = remindersXml.Reminder;
+					
+					if(type=="taskCreated"){
+						taskCreated_reminder_hbox.removeAllChildren();
+						for each (var ele1:XML in elements) {
+							var remindType1:CheckBox = new CheckBox();	
+							remindType1.label = ele1.@name;
+							remindType1.data = ele1.@id;
+							taskCreated_reminder_hbox.addChild(remindType1);	
+							remindType1.addEventListener(Event.CHANGE,taskCreatedReminder_changeHandler);											
+						}		
+					}
+					else if(type=="taskCompleted"){
+						taskCompleted_reminder_hbox.removeAllChildren();
+						for each (var ele2:XML in elements) {
+							var remindType2:CheckBox = new CheckBox();	
+							remindType2.label = ele2.@name;
+							remindType2.data = ele2.@id;
+							taskCompleted_reminder_hbox.addChild(remindType2);	
+							remindType2.addEventListener(Event.CHANGE,taskCompletedReminder_changeHandler);											
+						}		
+					}
+					else if(type=="overtime"){
+						overtime_reminder_hbox.removeAllChildren();
+						for each (var ele3:XML in elements) {
+							var remindType3:CheckBox = new CheckBox();	
+							remindType3.label = ele3.@name;
+							remindType3.data = ele3.@id;
+							overtime_reminder_hbox.addChild(remindType3);	
+							remindType3.addEventListener(Event.CHANGE,overtimeReminder_changeHandler);											
+						}		
+					}
+					else if(type=="overtimeAct"){
+						overtimeAct_reminder_hbox.removeAllChildren();
+						for each (var ele4:XML in elements) {						
+							var remindType4:CheckBox = new CheckBox();	
+							remindType4.label = ele4.@name;
+							remindType4.data = ele4.@id;
+							overtimeAct_reminder_hbox.addChild(remindType4);	
+							remindType4.addEventListener(Event.CHANGE,overtimeActReminder_changeHandler);					
+						}		
+					}	
+				}
+				
+				
+			}
+			private function OpenFile():void {
+				var allFilter:FileFilter = new FileFilter("xml (*.xml)", "*.xml");				
+				fr.browse(new Array(allFilter));
+			}
+			private function onFileComplete(event: Event):void {
+				loadXml();
+			}
+			private function onFileSelect(event: Event):void {
+				//http://localhost:8080/workflow/servlet/uploadController
+				var uploadRequest:URLRequest = new URLRequest(ServletConst.UPLOAD_SERVLET_URL);
+				fr.upload(uploadRequest);		
+			}
+			//从文件下加载xml文件 
+			private function loadXml():void{
+				var request:URLRequest = new URLRequest(ServletConst.LOAD_URL);
+				var loader:URLLoader = new URLLoader();
+				loader.dataFormat = URLLoaderDataFormat.TEXT;
+				loader.load(request);
+				loader.addEventListener(Event.COMPLETE, loadCompleteHandler);
+				
+				
+				//loader.close();
+			}
+			private function loadCompleteHandler(event:Event):XML{
+				iniXml = new XML(event.target.data);
+				this.myDrawBoard.Clear();
+				this.myDrawBoard.ParseFromXml(iniXml);				
+				this.myDrawBoard.AddUndo();
+				trace(iniXml);
+				
+				//测试变色
+				//				var parse:ExcuteSequenceParser = new ExcuteSequenceParser(myDrawBoard);
+				//				parse.parseFromXml(new XML(
+				//					<Nodes>
+				//<Node id="1" isPas="true" pid="" tooltip="任务开始时间：2011-03-24 15:05:34&lt;br&gt;任务结束时间：2011-03-24 15:05:34&lt;br&gt;任务执行人：李秀敏&lt;br&gt;"/>
+				//<Node id="2" isPas="true" pid="1" tooltip=""/>
+				//<Node id="3" isPas="true" pid="2" tooltip="任务开始时间：2011-03-24 15:23:18&lt;br&gt;当前执行人：袁志戎&lt;br&gt;"/>
+				//<Node id="4" isExe="true" pid="3" tooltip="任务开始时间：2011-03-24 15:05:34&lt;br&gt;任务结束时间：2011-03-24 15:23:18&lt;br&gt;任务执行人：袁志戎&lt;br&gt;"/>
+				//<Node id="5" isPending="true" pid="4" tooltip="任务开始时间：2011-03-24 15:23:18&lt;br&gt;当前执行人：袁志戎&lt;br&gt;"/>
+				//<Node id="6" isBack="true" pid="5" tooltip="任务开始时间：2011-03-24 15:23:18&lt;br&gt;当前执行人：袁志戎&lt;br&gt;"/>
+				//<Node id="7" isStop="true" pid="6" tooltip="任务开始时间：2011-03-24 15:23:18&lt;br&gt;当前执行人：袁志戎&lt;br&gt;"/>
+				//</Nodes>
+				//				));
+				//				setElementState(parse);
+				//--
+				return iniXml;
+			}
+			//把xml文件保存到后台,如果是保存到数据库就执行脚本，如果保存到文件里就调用servlet，根据使用场景改注释代码
+			private function SaveFile():void {			
+				var dupIds:String = myDrawBoard.getTopDrawBoard().checkIdDupli(myDrawBoard.getTopDrawBoard(),new Array());
+				if(dupIds!=""){
+					Alert.show("id有重复:"+dupIds);
+					return;
+				}
+				
+				var xmlString:String = myDrawBoard.getTopDrawBoard().BuildXml().toString();
+				var xml:XML=new XML(xmlString);
+				//如果在portal节点中使用则通过js调用调用保存到数据库			  
+				var isSucess:Boolean = ExternalInterface.call("setXmltoWorkflow",xmlString);
+				
+				if(isSucess==true)Alert.show("保存成功");
+				else Alert.show("保存失败");
+				//________save to document______
+				//			  var dt:Date = new Date();
+				//			  var filename:String;			  
+				//			  		  
+				//			  var dateFormatter:DateFormatter=new DateFormatter();
+				//			  dateFormatter.formatString="YYYY-MM-DD--JJ-NN-SS";//2009-01-21 12-01-04
+				//			  filename="workflow_"+dateFormatter.format(dt);
+				//
+				//			  saveXmlToFile.url = ServletConst.SAVEXML_SERVLET_URL;
+				//			  saveXmlToFile.url+="?filename="+filename;
+				//			  saveXmlToFile.send(encodeURIComponent(xml));	
+				//________//save to document______
+			}
+			//导出xml
+			private function OutputFile():void{
+				var xmlString:String = myDrawBoard.getTopDrawBoard().BuildXml().toString();
+				var xml:XML=new XML(xmlString);
+				
+				var filename:String;  
+				var date:Date = new Date();
+				var dateFormatter:DateFormatter=new DateFormatter();
+				dateFormatter.formatString="YYYY-MM-DD--JJ-NN-SS";//2010-11-21--12-01-04
+				filename="process_"+dateFormatter.format(date);
+				
+				var request:URLRequest = new URLRequest(ServletConst.OUTPUTXML_SERVLET_URL+"?filename="+filename);
+				request.method=URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";
+				request.data = encodeURIComponent(xml);
+				navigateToURL(request);
+			}
+			
+			//导出图片到本地
+			private function outputImage():void{
+				while(myDrawBoard.parent is DrawBoard){
+					myDrawBoard = myDrawBoard.parent as DrawBoard;
+				}
+				var bitmapData:BitmapData=new BitmapData(myDrawBoard.width,myDrawBoard.height);
+				bitmapData.draw(myDrawBoard);
+				
+				var filename:String;  
+				var date:Date = new Date();
+				var dateFormatter:DateFormatter=new DateFormatter();
+				dateFormatter.formatString="YYYY-MM-DD--JJ-NN-SS";//2010-11-21--12-01-04
+				filename="image_"+dateFormatter.format(date);
+				
+				var request:URLRequest = new URLRequest(ServletConst.OUTPUTIMAGE_SERVLET_URL+"?filename="+filename);
+				request.method=URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";
+				request.data = new PNGEncoder().encode(bitmapData);
+				navigateToURL(request);
+			}
+			//保存流程为图片到服务器
+			private function saveAsImage():void{
+				while(myDrawBoard.parent is DrawBoard){
+					myDrawBoard = myDrawBoard.parent as DrawBoard;
+				}
+				myDrawBoard.saveAsImage(ServletConst.SAVEIMAGE_SERVLET_URL);
+			}
+			//保存整个界面为图片
+			private function saveAllAsImage():void{
+				var bitmapData:BitmapData=new BitmapData(this.width,this.height);
+				bitmapData.draw(this);
+				//var bitmap:Bitmap = new Bitmap(bitmapData);
+				
+				var request:URLRequest = new URLRequest(ServletConst.SAVEIMAGE_SERVLET_URL);
+				request.method=URLRequestMethod.POST;
+				request.contentType = "application/octet-stream";
+				request.data = new JPEGEncoder(80).encode(bitmapData);
+				var loader:URLLoader = new URLLoader();
+				loader.load(request);
+			}
+			//查看xml文件
+			private function showXml():void{
+				var xml:String = myDrawBoard.getTopDrawBoard().BuildXml().toString();
+				
+				var xmlwin:TitleWindow = TitleWindow(PopUpManager.createPopUp(this,TitleWindow,true)); 
+				xmlwin.title = "xml文件";
+				xmlwin.width = 800;
+				xmlwin.height = 600;
+				xmlwin.x = Math.ceil((screen.width-xmlwin.width)/2); 
+				xmlwin.y = Math.ceil((screen.height-xmlwin.height)/2); 
+				xmlwin.showCloseButton = true;
+				xmlwin.setStyle("borderColor","#FFFFFF");
+				xmlwin.addEventListener(CloseEvent.CLOSE,xmlwinCloseHandler);
+				
+				var area:TextArea = new TextArea();
+				area.percentWidth = 100;
+				area.percentHeight = 100;
+				area.text = xml;
+				xmlwin.addChild(area);
+				
+				PopUpManager.centerPopUp(xmlwin);			 
+			}
+			//进行运行态设计
+			private function rundesign():void{
+				var design:BrowseDesign = BrowseDesign(PopUpManager.createPopUp(this,BrowseDesign,true)); 
+				
+				//第一次xml由myDrawBoard创建，以后就直接读取runXml；	
+				var xml:String = myDrawBoard.getTopDrawBoard().BuildXml().toString();
+				design.InitXml = new XML(xml);
+				
+				design.x = Math.ceil((screen.width-design.width)/2); 
+				design.y = Math.ceil((screen.height-design.height)/2); 
+				
+				design.callbackFunction = designCallback;
+				design.mainApp = this;
+				
+				PopUpManager.centerPopUp(design);
+			}
+			
+			private function designCallback(designDrawboard:DrawBoard):void{
+				setDesignLoc(myDrawBoard.getTopDrawBoard(),designDrawboard);
+			}
+			
+			private function setDesignLoc(drawboard:DrawBoard,designDrawboard:DrawBoard):void{
+				var childs:Array = designDrawboard.getChildren();
+				for(var i:int=0;i<childs.length;i++){
+					if(!(childs[i] is Node))continue;
+					var node:Node = childs[i];
+					if(node is SubprocessNode){
+						drawboard = drawboard.GetElementFromID(node.ID) as DrawBoard;
+						setDesignLoc(drawboard,node as DrawBoard);
+					}						  
+					else{
+						var onode:Node =  drawboard.GetElementFromID(node.ID) as Node;
+						onode.rx = node.x;
+						onode.ry = node.y;
+					}
+				}
+			}
+			
+			//关闭弹出的xml文件查看框
+			private function xmlwinCloseHandler(event:CloseEvent):void{
+				PopUpManager.removePopUp(event.currentTarget as TitleWindow);
+			}
+			
+			private function downloadComplete(event:Event):void{
+				Alert.show("下载完毕 "+fr.name+"-"+fr.type);
+			}
+			//初始化设计界面
+			private function CreateContainer():void {								
+				myDrawBoard.x=0;
+				myDrawBoard.y=0;
+				myDrawBoard.percentWidth=100;
+				myDrawBoard.percentHeight=100;
+				myCanvas.addChild(myDrawBoard);
+				myDrawBoard.addEventListener(WStatusEvent.STATUS_CHANGED,onstatuschanged);
+				myDrawBoard.addEventListener(ElementEvent.ELEMENT_SELECT_CHANGED,onelementselectchanged);				
+				
+				iniXml =getInitXml();
+				myDrawBoard.ParseFromXml(iniXml);
+				
+				myDrawBoard.AddUndo();
+				
+			}
+			//如果是浏览态，则设置节点的执行状态,根据状态进行变色,传入解析器,所有执行状态结果放在 解析器中
+			private function setElementState(parse:ExcuteSequenceParser):void{			  
+				var finishedElements:Array = parse.finishedElements;
+				var currentElements:Array = parse.currentElements;
+				var pendingElements:Array = parse.pendingElements;
+				var stopElements:Array = parse.stopElements;
+				var backElements:Array = parse.backElements;
+				for(var i:int=0;i<finishedElements.length;i++){
+					var temp:Element = null;
+					temp = myDrawBoard.GetElementFromID(finishedElements[i]);
+					if(temp!=null){
+						temp.State = 3;
+						temp.Draw();
+					}
+				}
+				for(var j:int=0;j<currentElements.length;j++){
+					var tmp:Element = null;
+					tmp = myDrawBoard.GetElementFromID(currentElements[j]);
+					if(tmp!=null){
+						tmp.State = 2;
+						tmp.Draw();
+					}
+				}
+				for(var p:int=0;p<pendingElements.length;p++){
+					var tmpp:Element = null;
+					tmpp = myDrawBoard.GetElementFromID(pendingElements[p]);
+					if(tmpp!=null){
+						tmpp.State = 1;
+						tmpp.Draw();
+					}
+				}
+				for(var s:int=0;s<stopElements.length;s++){
+					var tmps:Element = null;
+					tmps = myDrawBoard.GetElementFromID(stopElements[s]);
+					if(tmps!=null){
+						tmps.State = 4;
+						tmps.Draw();
+					}
+				}
+				for(var b:int=0;b<backElements.length;b++){
+					var tmpb:Element = null;
+					tmpb = myDrawBoard.GetElementFromID(backElements[b]);
+					if(tmpb!=null){
+						tmpb.State = 5;
+						tmpb.Draw();
+					}
+				}
+			}
+			//初始化基本元素，只是显示图标
+			private function createBaseElement():void{		  
+				var elementLoad:BaseElementLoad = new BaseElementLoad();
+				elementLoad.HBox = ele_hbox;
+				elementLoad.load();  
+				
+			}		  
+			
+			private function onstatuschanged(event:WStatusEvent):void {
+				tx_Status.text= event.status;
+			}
+			//根据选择的不同节点，显示相应的属性
+			private function onelementselectchanged(event:ElementEvent):void {
+				if (event.srcElement is Element) {
+					//如果是子流程，myDrawBoard为当前选中元素的父容器
+					if(event.srcElement is Element){
+						var selectElement:Element = event.srcElement as Element;
+						if(selectElement.parent is DrawBoard)
+							myDrawBoard = selectElement.parent as DrawBoard;
+					}
+					//tn_prop.removeAllChildren();
+					if (event.srcElement.Selected==true) {
+						tn_prop.removeAllChildren();
+						if (event.srcElement is WorkNode) {
+							tn_prop.addChild(tab_worknode_prop);
+							tn_prop.tabChildren=false;
+							showWorkNodeProperty(event.srcElement as WorkNode)
+						}
+						if (event.srcElement is BeginNode) {
+							tn_prop.addChild(tab_beginnode_prop);
+							tn_prop.tabIndex=0;
+							showBeginNodeProperty(event.srcElement as BeginNode)
+						}
+						if (event.srcElement is EndNode) {
+							tn_prop.addChild(tab_endnode_prop);
+							tn_prop.tabIndex=0;
+							showEndNodeProperty(event.srcElement as EndNode)
+						}
+						if (event.srcElement is Route) {
+							tn_prop.addChild(tab_route_prop);
+							tn_prop.tabIndex=0;
+							showRouteProperty(event.srcElement as Route)
+						}
+						if(event.srcElement is SubprocessNode){
+							tn_prop.addChild(tab_subprocess_prop);
+							tn_prop.tabIndex=0;
+							showsubprocessProperty(event.srcElement as SubprocessNode)
+						}
+						if(event.srcElement is UseractivitiesNode){
+							tn_prop.addChild(tab_useractivities_prop);
+							tn_prop.tabIndex=0;
+							showUseractiviesProperty(event.srcElement as UseractivitiesNode)
+						}
+						if(event.srcElement is ScriptactivitiesNode){
+							tn_prop.addChild(tab_scriptactivities_prop);
+							tn_prop.tabIndex=0;
+							showScriptactiviesProperty(event.srcElement as ScriptactivitiesNode)
+						}
+						if(event.srcElement is NCProcessNode){
+							tn_prop.addChild(tab_ncsubprocess_prop);
+							tn_prop.tabIndex=0;
+							showncsubprocessProperty(event.srcElement as NCProcessNode)
+						}
+						if(event.srcElement is ESBProcessNode){
+							tn_prop.addChild(tab_esbsubprocess_prop);
+							tn_prop.tabIndex=0;
+							showesbsubprocessProperty(event.srcElement as ESBProcessNode)
+						}
+						if(event.srcElement is MessageNode){
+							tn_prop.addChild(tab_msgactivities_prop);
+							tn_prop.tabIndex=0;
+							showMessageactiviesProperty(event.srcElement as MessageNode)
+						}
+						if(event.srcElement is GateWayNode){
+							tn_prop.addChild(gateway_prop);
+							tn_prop.tabIndex = 0;
+							showGateWayProperty(event.srcElement as GateWayNode);
+						}
+						if(event.srcElement is DrawBoard){
+							var drawBoard:DrawBoard = event.srcElement as DrawBoard;
+							drawBoard.addEventListener(ElementEvent.ELEMENT_SELECT_CHANGED,onelementselectchanged);							
+						}
+						if(event.srcElement==myDrawBoard){    //如果是主流程
+							tn_prop.addChild(tab_main_process_prop);
+							tn_prop.tabIndex=0;
+							showMainProcessProperty(event.srcElement as DrawBoard)
+						}
+					}
+					tx_Eement.text=event.srcElement.className;
+					//tx_Status.text= myDrawBoard.Status;
+				}
+			}
+			
+			private function showMainProcessProperty(iElement:DrawBoard):void{
+				tx_main_process_ID.text =iElement.ID.toString();
+				tx_main_process_Name.text =iElement.Name;
+				tx_main_process_Width.text =iElement.width.toString();
+				tx_main_process_Height.text =iElement.height.toString();
+			}
+			private function showWorkNodeProperty(iElement:WorkNode):void{
+				tx_WorkNode_ID.text =iElement.ID.toString();
+				tx_WorkNode_Name.text =iElement.Name;
+				cb_WorkNode_Type.text =iElement.NodeType;
+				tx_WorkNode_Left.text =iElement.x.toString();
+				tx_WorkNode_Top.text =iElement.y.toString();
+				tx_WorkNode_Width.text =iElement.width.toString();
+				tx_WorkNode_Height.text =iElement.height.toString();
+			}
+			
+			private function showBeginNodeProperty(iElement:BeginNode):void{
+				tx_BeginNode_ID.text =iElement.ID.toString();
+				tx_BeginNode_Name.text = iElement.Name
+				//tx_BeginNode_Left.text =iElement.x.toString();
+				//tx_BeginNode_Top.text =iElement.y.toString();
+				begin_allowPrint_radio.selectedValue = iElement.allowPrint;
+				begin_allowIncludeBill_radio.selectedValue = iElement.allowIncludeBill;
+				begin_service_class.text = iElement.serviceClass;
+			}
+			private function showEndNodeProperty(iElement:EndNode):void{
+				tx_EndNode_ID.text =iElement.ID.toString();
+				tx_EndNode_Name.text =iElement.Name;
+				tx_EndNode_Left.text =iElement.x.toString();
+				tx_EndNode_Top.text =iElement.y.toString();
+			}
+			private function showRouteProperty(iElement:Route):void{
+				route_style_radio.selectedValue = iElement.routeStyle;
+				
+				tx_Route_ID.text =iElement.ID.toString();
+				tx_Route_Name.text =iElement.Name;				
+				
+				route_selfDefClass_text.text = iElement.selfDefClass;
+				
+				if(iElement.fromElement is BeginNode || iElement.toElement is EndNode){
+					route_condition_canvas.visible = false;
+					return ;
+				}else route_condition_canvas.visible = true;
+				//为条件设置做准备
+				var usernodes:Array = myDrawBoard.getAllUserActivities(true);
+				var forms:XML = new XML("<Forms/>");
+				var pks:Array = new Array();
+				for each(var node:UseractivitiesNode in usernodes){
+					if(node.form.pk_formdefinition==null||node.form.pk_formdefinition==""||pks.indexOf(node.form.pk_formdefinition)>-1)continue;
+					var form:XML = new XML("<Form/>");
+					form.@pk_formdefinition = node.form.pk_formdefinition;
+					form.@formName = node.form.formName;
+					forms.appendChild(form);
+					pks.push(node.form.pk_formdefinition);
+				}
+				var elements:XMLList = forms.Form;
+				forms_comb.dataProvider = forms.Form;
+				forms_comb.enabled = elements.length()>0;          //如果没有数据，不让点击，为了避免CheckBox本身的一个bug
+				forms_comb.selectedIndex = -1;
+				form_item_comb.selectedIndex = 0;
+				
+				condition_text.text = iElement.condition;
+				conditionZH_text.text = iElement.conditionZH;
+				
+			}
+			private function showsubprocessProperty(iElement:SubprocessNode):void{
+				tx_subprocess_ID.text =iElement.ID.toString();
+				tx_subprocess_Name.text =iElement.Name;
+				tx_subprocess_Left.text =iElement.x.toString();
+				tx_subprocess_Top.text =iElement.y.toString();
+				tx_subprocess_Width.text =iElement.width.toString();
+				tx_subprocess_Height.text =iElement.height.toString();
+			}
+			private function showncsubprocessProperty(iElement:NCProcessNode):void{
+				tx_ncsubprocess_ID.text =iElement.ID.toString();
+				tx_ncsubprocess_Name.text =iElement.Name;
+				tx_ncsubprocess_Left.text =iElement.x.toString();
+				tx_ncsubprocess_Top.text =iElement.y.toString();
+				tx_ncsubprocess_Width.text =iElement.width.toString();
+				tx_ncsubprocess_Height.text =iElement.height.toString();
+			}
+			private function showesbsubprocessProperty(iElement:ESBProcessNode):void{
+				tx_esbsubprocess_ID.text =iElement.ID.toString();
+				tx_esbsubprocess_Name.text =iElement.Name;
+				tx_esbsubprocess_Left.text =iElement.x.toString();
+				tx_esbsubprocess_Top.text =iElement.y.toString();
+				tx_esbsubprocess_Width.text =iElement.width.toString();
+				tx_esbsubprocess_Height.text =iElement.height.toString();
+			}
+			//用户活动属性
+			private function showUseractiviesProperty(iElement:UseractivitiesNode):void{
+				tx_useractivities_ID.text =iElement.ID.toString();
+				tx_useractivities_Name.text =iElement.Name;
+				//useractivities_description.text = iElement.description;
+				relate_form_text.text = iElement.form.formName;
+				
+				activite_type_comb.selectedIndex = iElement.actionType;
+				
+				excute_org_text.text = iElement.excuterTrategy.excuteOrgName;
+				excute_role_text.text = iElement.excuterTrategy.excuteRoleName;
+				excute_user_text.text = iElement.excuterTrategy.excuteUserName;
+				selfDefClass_text.text = iElement.excuterTrategy.selfDefClass;
+				
+				var virtualRoleValue:String = iElement.excuterTrategy.virtualRole;
+				if(virtualRoleValue==null)virtualRole_comb.selectedIndex = 0;
+				else virtualRole_comb.selectedIndex = int(virtualRoleValue);
+				
+				//同其他活动节点
+				sameAsOthers_provider.splice(0,sameAsOthers_provider.length);
+				var previousUserNodes:Array = myDrawBoard.getPreviousUserActivities(myDrawBoard.selectedElement as UseractivitiesNode);	
+				//var ids:Array = new Array();
+				for(var pu:int=0;pu<previousUserNodes.length;pu++){
+					var previousNode:UseractivitiesNode = previousUserNodes[pu];
+					var obj:Object = new Object();
+					obj.data = previousNode.ID;
+					obj.label = previousNode.Name;
+					//ids.push(obj);
+					sameAsOthers_provider.push(obj);
+				}		
+				//sameAsOthers.enabled = ids.length>0;
+				//sameAsOthers.dataProvider = ids;
+				//sameAsOthers.dropdownWidth = sameAsOthers.width-3;
+				//sameAsOthers.dropdown.dataProvider = ids;
+				//sameAsOthers.selectedIndex = -1;
+				
+				
+				var sameAsOthersValue:String = iElement.excuterTrategy.sameAsOthers;
+				if(sameAsOthersValue==null)sameAsOthers.selectedIndex = -1;
+				else {
+					for(var sa:int=0;sa<sameAsOthers_provider.length;sa++){
+						var tempObj:Object = sameAsOthers_provider[sa];
+						if(tempObj.data==sameAsOthersValue){
+							sameAsOthers.selectedItem = tempObj;
+							break;
+						}
+					}
+					//					var item:Object = sameAsOthers.itemToLabel(sameAsOthersValue);
+					//					var datas:Array = sameAsOthers.dataProvider as Array;
+					//					sameAsOthers.selectedItem = item;
+				}//同其他活动节点
+				
+				var asignByOthersValue:String = iElement.excuterTrategy.asignByOthers;
+				//				if(asignByOthersValue==null)asignByOthers.selectedIndex = 0;
+				//				else asignByOthers.selectedIndex = int(asignByOthersValue);
+				
+				//				var asignExcuterClass:String = iElement.excuterTrategy.asignExcuterClass;
+				//				if(asignExcuterClass!=null&&asignExcuterClass!="")asign_excuter_text.text = asignExcuterClass;
+				//				else asign_excuter_text.text = null;
+				
+				var assignValue:String= iElement.assignTrategy.taskAssignStrategy;
+				if(assignValue==null)taskAssign.selection = null;
+				else taskAssign.selectedValue = assignValue;
+				
+				var finishValue:String = iElement.completeTrategy.taskFinishedStrategy;
+				if(finishValue==null)taskFinish.selection = null;
+				taskFinish.selectedValue = finishValue;
+				if(finishValue=="1"){
+					countersign_type.selectedIndex = int(iElement.completeTrategy.countersign_type);
+				}
+				setUserActivitiesFinishStrategyState(finishValue);
+				taskFinishCount.text = iElement.completeTrategy.taskFinishCount;
+				taskFinishPercent.text = iElement.completeTrategy.taskFinishePercent;
+				
+				var backStrategyValue:String = iElement.backTrategy.backable;
+				if(backStrategyValue==null)backStrategy.selection = null;
+				backStrategy.selectedValue = backStrategyValue;
+				setBackStrategyState(backStrategyValue);
+				var backScopeValue:String = iElement.backTrategy.backScope;
+				backScope.selectedIndex = (int)(backScopeValue);
+				setBackScopeState(backScopeValue);
+				var backActivitiesId:String = iElement.backTrategy.backActivites;
+				if(backActivitiesId!=null&&backActivitiesId!="")
+					backActivities_text.text = myDrawBoard.GetElementFromID(backActivitiesId).Name;
+				backActivities_comb.selectedIndex = 0;
+				
+				control_time_check.selected = iElement.messageStrategy.allowControl;
+				timeunit_comb.selectedIndex = int(iElement.messageStrategy.unit);
+				aheadtime_text.text = iElement.messageStrategy.aheadTime;
+				worktime_text.text = iElement.messageStrategy.workTime;
+				//remindMethod_comb.selectedIndex = (int)(iElement.overTimeStrategy.remindType);
+				//passTime_comb.selectedIndex = (int)(iElement.overTimeStrategy.handlerType);							
+				
+				delegatorClass_text.text = iElement.delegatorClass;
+				//afterClass_text.text = iElement.afterClass;
+				
+				allowPrint_radio.selectedValue = iElement.allowPrint;
+				is_addSign_radio.selectedValue = iElement.allowAddSign;
+				is_transmit_radio.selectedValue = iElement.allowTransmit;
+				allowPreAssign_radio.selectedValue = iElement.allowPreAssign;
+				allowDeliver_radio.selectedValue = iElement.allowDeliver;
+				allowResDept_radio.selectedValue = iElement.allowResDept;
+				allowEditOpinion_radio.selectedValue = iElement.allowEditOpinion;
+				allowUrge_radio.selectedValue = iElement.allowUrge;
+				//任务创建提醒
+				var taskCreatedReminders:Array = iElement.messageStrategy.createdMsg;
+				var taskCreatedChecks:Array = taskCreated_reminder_hbox.getChildren();
+				for(var i:int=0;i<taskCreatedChecks.length;i++){
+					if(!(taskCreatedChecks[i] is CheckBox))continue;
+					var temp:CheckBox = taskCreatedChecks[i];
+					var flag:Boolean = false;
+					for(var j:int=0;j<taskCreatedReminders.length;j++){
+						if(taskCreatedReminders[j]==temp.data)flag = true;
+					}
+					if(flag==true)temp.selected = true;
+					else temp.selected = false;
+				}
+				//任务完成提醒
+				var taskCompletedReminders:Array = iElement.messageStrategy.completedMsg;
+				var taskCompletedChecks:Array = taskCompleted_reminder_hbox.getChildren();
+				for(var k:int=0;k<taskCompletedChecks.length;k++){
+					if(!(taskCompletedChecks[k] is CheckBox))continue;
+					var temp2:CheckBox = taskCompletedChecks[k];
+					var flag2:Boolean = false;
+					for(var l:int=0;l<taskCompletedReminders.length;l++){
+						if(taskCompletedReminders[l]==temp2.data)flag2 = true;
+					}
+					if(flag2==true)temp2.selected = true;
+					else temp2.selected = false;
+				}
+				//超时提醒
+				var overtimeReminders:Array = iElement.messageStrategy.overtimeMsg;
+				var overtimeChecks:Array = overtime_reminder_hbox.getChildren();
+				for(var m:int=0;m<overtimeChecks.length;m++){
+					if(!(overtimeChecks[m] is CheckBox))continue;
+					var temp3:CheckBox = overtimeChecks[m];
+					var flag3:Boolean = false;
+					for(var n:int=0;n<overtimeReminders.length;n++){
+						if(overtimeReminders[n]==temp3.data)flag3 = true;
+					}
+					if(flag3==true)temp3.selected = true;
+					else temp3.selected = false;
+				}
+				//超时动作
+				var overtimeActReminders:Array = iElement.messageStrategy.overtimeAct;
+				var overtimeActChecks:Array = overtimeAct_reminder_hbox.getChildren();
+				for(var o:int=0;o<overtimeActChecks.length;o++){
+					if(!(overtimeActChecks[o] is CheckBox))continue;
+					var temp4:CheckBox = overtimeActChecks[o];
+					var flag4:Boolean = false;
+					for(var p:int=0;p<overtimeActReminders.length;p++){
+						if(overtimeActReminders[p]==temp4.data)flag4 = true;
+					}
+					if(flag4==true)temp4.selected = true;
+					else temp4.selected = false;
+				}
+				
+				//允许发起的子流程
+				start_subprocess_text.text = iElement.startProdefs.prodefName;
+				//表单字段映射原字段,(运行环境启用)
+				//load_maping_oldField();
+			}
+			private function showScriptactiviesProperty(iElement:ScriptactivitiesNode):void{
+				tx_scriptactivities_ID.text =iElement.ID.toString();
+				tx_scriptactivities_Name.text =iElement.Name;
+				tx_scriptactivities_Left.text =iElement.x.toString();
+				tx_scriptactivities_Top.text =iElement.y.toString();
+				tx_scriptactivities_Width.text =iElement.width.toString();
+				tx_scriptactivities_Height.text =iElement.height.toString();
+			}
+			private function showMessageactiviesProperty(iElement:MessageNode):void{
+				tx_msgactivities_ID.text =iElement.ID.toString();
+				tx_msgactivities_Name.text =iElement.Name;
+				tx_msgactivities_Left.text =iElement.x.toString();
+				tx_msgactivities_Top.text =iElement.y.toString();
+				tx_msgactivities_Width.text =iElement.width.toString();
+				tx_msgactivities_Height.text =iElement.height.toString();
+			}
+			private function showGateWayProperty(iElement:GateWayNode):void{
+				gateway_ID.text = iElement.ID;
+				gateway_Name.text = iElement.Name;
+				var index:String = iElement.type;
+				gatewayStyle_comb.selectedIndex = (index==null?-1:int(index));
+				polylogic.selectedValue = iElement.logic;
+				if(iElement.logic=="2"&&iElement.count>0)loginc_count.text = (String)(iElement.count);
+				else loginc_count.text = null;
+			}
+			//删除节点
+			private function DeleteElement():void {				
+				var children:Array = myDrawBoard.getChildren();				
+				for (var i:int=0;i<children.length;i++) {
+					if (!(children[i] is Element))continue;
+					var ele:Element = children[i] as Element;
+					if(ele.Selected==true){
+						myDrawBoard.DeleteElement(ele);
+					}
+				}
+				//同时删除外面的选择框
+				if(myDrawBoard.selectCanvas!=null&&myDrawBoard.contains(myDrawBoard.selectCanvas)){
+					myDrawBoard.removeChild(myDrawBoard.selectCanvas);
+					myDrawBoard.selectCanvas = null;
+				}
+				myDrawBoard.Status;
+				myDrawBoard.AddUndo();	
+			}
+			
+			private function onChange(event: IndexChangedEvent):void {
+				if (event.newIndex==1) {
+					//tx_XML.text=myDrawBoard.getTopDrawBoard().BuildXml().toString();
+				}
+			}
+			private function ontabIndexChange(event: Event):void {
+				Alert.show(event.toString());
+			}
+			private function onIDChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.ID=(event.currentTarget as TextInput).text;
+				//myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			private function onNameChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.Name=(event.currentTarget as TextInput).text;
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}		 
+			private function onLeftChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.x=int((event.currentTarget as TextInput).text);
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			private function onTopChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.y=int((event.currentTarget as TextInput).text);
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			private function onWidthChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.width=int((event.currentTarget as TextInput).text);
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			private function onHeightChange(event: flash.events.Event):void {
+				myDrawBoard.selectedElement.height=int((event.currentTarget as TextInput).text);
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			private function onNodeTypeChange(event: flash.events.Event):void {
+				(myDrawBoard.selectedElement as WorkNode).NodeType=(event.currentTarget as ComboBox).text;
+				if (myDrawBoard.selectedElement.Name=="") {
+					myDrawBoard.selectedElement.Name=(event.currentTarget as ComboBox).text;
+					tx_WorkNode_Name.text=myDrawBoard.selectedElement.Name;
+				}
+				myDrawBoard.selectedElement.Draw();
+				myDrawBoard.AddUndo();
+			}
+			public function ontoolbarclick(event:ItemClickEvent) : void {
+				switch(event.item.cmd) {
+					case "inputfile":
+					{
+						OpenFile();
+						break;
+					}
+					case "outputfile":
+					{
+						OutputFile();
+						break;
+					}
+					case "savefile":
+					{
+						SaveFile();
+						break;
+					}
+					case "delete":
+					{
+						DeleteElement();
+						break;
+					}
+					case "select":
+					{
+						myDrawBoard.Status="";
+						break;
+					}
+					case "beginnode":
+					{
+						myDrawBoard.Status="beginnode";
+						break;
+					}
+					case "endnode":
+					{
+						myDrawBoard.Status="endnode";
+						break;
+					}
+					case "worknode":
+					{
+						myDrawBoard.Status="worknode";
+						break;
+					}
+					case "route":
+					{
+						myDrawBoard.Status="routebegin";
+						break;
+					}
+					case "undo":
+					{
+						myDrawBoard.Undo();
+						break;
+					}
+					case "redo":
+					{
+						myDrawBoard.Redo();
+						break;
+					}
+					case "clear":
+					{
+						Alert.show("您确认要清空图形吗？","提示",Alert.YES | Alert.NO,null,onClearCloseHandler);
+						break;
+					}
+					case "saveImage":{  //调用顶级容器的保存图像方法		
+						outputImage();
+						break;
+						//saveAsImage();
+						//saveAllAsImage();
+					}
+					case "showXml":{
+						showXml();
+						break;
+					}
+					case "rundesign":{
+						rundesign();	
+					}
+				}
+			}
+			//清空当前界面元素
+			private function onClearCloseHandler(event:CloseEvent):void {
+				if (event.detail==Alert.YES) {
+					myDrawBoard.Clear();
+					myDrawBoard.AddUndo();
+				}
+			}
+			
+			//________________________主流程___________________________________		  
+			protected function process_description_text_changeHandler(event:Event):void
+			{
+				myDrawBoard.description = (event.currentTarget as TextArea).text;
+			}
+			protected function tx_main_process_Name_changeHandler(event:Event):void
+			{
+				myDrawBoard.Name = (event.currentTarget as TextInput).text;
+			}
+			//________________________主流程___________________________________
+			
+			//________________________开始___________________________________
+			
+			protected function begin_service_class_changeHandler(event:Event):void
+			{
+				var begin:BeginNode = myDrawBoard.selectedElement as BeginNode;
+				var value:String = begin_service_class.text;
+				begin.serviceClass = value;
+			}
+			//开始节点是否允许打印
+			protected function begin_allowPrint_radio_changeHandler(event:Event):void
+			{
+				var begin:BeginNode = myDrawBoard.selectedElement as BeginNode;
+				var value:String = String(begin_allowPrint_radio.selectedValue);
+				begin.allowPrint = value;
+			}
+			//开始节点是否包含制单节点
+			protected function begin_allowIncludeBill_radio_changeHandler(event:Event):void
+			{
+				var begin:BeginNode = myDrawBoard.selectedElement as BeginNode;
+				var value:String = String(begin_allowIncludeBill_radio.selectedValue);
+				begin.allowIncludeBill = value;
+			}
+			//________________________//开始___________________________________
+			
+			//________________________用户活动___________________________________
+			private function org_clickHandler(event:MouseEvent):void
+			{
+				var org:Org2 = Org2(PopUpManager.createPopUp(this,Org2,true)); 
+				
+				org.x = Math.ceil((screen.width-org.width)/2); 
+				org.y = Math.ceil((screen.height-org.height)/2); 
+				
+				org.callbackFunction = orgCallback;
+				org.mainApp = this;
+				
+				PopUpManager.centerPopUp(org);
+			}		  
+			private function orgCallback(orgs:Array):void{
+				excute_org_text.text = "";
+				var orginfo:String = "";
+				var orgPks:String = "";
+				for(var i:int=0;i<orgs.length;i++){
+					var org:XML = orgs[i];
+					if(i==orgs.length-1){
+						orginfo +=org.@name;
+						orgPks +=org.@pk_org;
+					}
+					else {
+						orginfo += org.@name+",";
+						orgPks += org.@pk_org+",";
+					}
+				}
+				excute_org_text.text = orginfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteOrg=orgPks;
+				useractivities.excuterTrategy.excuteOrgName = orginfo;
+			}	
+			//		  private function dept_clickHandler(event:MouseEvent):void{
+			//			  var dept:Dept = Dept(PopUpManager.createPopUp(this,Dept,true)); 
+			//			  
+			//			  dept.x = Math.ceil((screen.width-dept.width)/2); 
+			//			  dept.y = Math.ceil((screen.height-dept.height)/2); 
+			//			  
+			//			  dept.callbackFunction = deptCallback;
+			//			  dept.mainApp = this;
+			//			  
+			//			  PopUpManager.centerPopUp(dept);
+			//		  }
+			//		  private function deptCallback(depts:Array):void{
+			//			  excute_dept_text.text = "";
+			//			  var deptinfo:String = "";
+			//			  var deptPks:String = "";
+			//			  for(var i:int=0;i<depts.length;i++){
+			//				  var dept:XML = depts[i];
+			//				  if(i==depts.length-1){
+			//					  deptinfo +=dept.@deptname;
+			//					  deptPks +=dept.@pk_dept;
+			//				  }
+			//				  else {
+			//					  deptinfo += dept.@deptname+",";
+			//					  deptPks += dept.@pk_dept+"+";
+			//				  }
+			//			  }
+			//			  excute_dept_text.text = deptinfo;
+			//			  
+			//			  var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//			  useractivities.excuterTrategy.excuteDept=deptPks;
+			//			  useractivities.excuterTrategy.excuteDeptName = deptinfo;
+			//		  }
+			private function person_clickHandler(event:MouseEvent):void
+			{
+				var person:Person2 = Person2(PopUpManager.createPopUp(this,Person2,true)); 
+				
+				person.x = Math.ceil((screen.width-person.width)/2); 
+				person.y = Math.ceil((screen.height-person.height)/2); 
+				
+				person.callbackFunction = personCallback;
+				person.mainApp = this;
+				
+				PopUpManager.centerPopUp(person);
+			}			  
+			
+			private function personCallback(users:Array):void{
+				excute_user_text.text = "";
+				var userinfo:String = "";
+				var userPks:String = "";
+				for(var i:int=0;i<users.length;i++){
+					var user:XML = users[i];
+					if(i==users.length-1){
+						userinfo +=user.@name;
+						userPks +=user.@pk_user;
+					}
+					else {
+						userinfo += user.@name+","; 
+						userPks +=user.@pk_user+",";
+					}
+				}
+				//Alert.show("userPks:"+userPks);  
+				excute_user_text.text = userinfo;
+				//把选择的执行人保存至当前节点信息中
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteUser=userPks;
+				useractivities.excuterTrategy.excuteUserName = userinfo;
+			}
+			
+			private function role_clickHandler(event:MouseEvent):void
+			{
+				var role:Role2 = Role2(PopUpManager.createPopUp(this,Role2,true)); 
+				
+				role.x = Math.ceil((screen.width-role.width)/2); 
+				role.y = Math.ceil((screen.height-role.height)/2); 
+				
+				role.callbackFunction = roleCallback;
+				role.mainApp = this;
+				
+				PopUpManager.centerPopUp(role);
+			}
+			
+			private function roleCallback(roles:Array):void{
+				excute_role_text.text = "";
+				var roleinfo:String = "";
+				var rolePks:String = "";
+				for(var i:int=0;i<roles.length;i++){
+					var role:XML = roles[i];
+					if(i==roles.length-1){
+						roleinfo +=role.@name;
+						rolePks +=role.@pk_role;
+					}
+					else {
+						roleinfo += role.@name+",";
+						rolePks +=role.@pk_role+",";
+					}
+				}
+				excute_role_text.text = roleinfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.excuterTrategy.excuteRole = rolePks;
+				useractivities.excuterTrategy.excuteRoleName = roleinfo;
+			}
+			protected function relate_form_clickHandler(event:MouseEvent):void
+			{
+				var form:RelateForm = RelateForm(PopUpManager.createPopUp(this,RelateForm,true)); 
+				
+				form.x = Math.ceil((screen.width-form.width)/2); 
+				form.y = Math.ceil((screen.height-form.height)/2); 
+				
+				form.callbackFunction = formCallback;
+				form.mainApp = this;
+				
+				PopUpManager.centerPopUp(form);
+			}
+			//关联表单回调函数
+			private function formCallback(forms:Array):void{
+				relate_form_text.text = "";
+				var forminfo:String = "";
+				var formPks:String = "";
+				for(var i:int=0;i<forms.length;i++){
+					var form:XML = forms[i];
+					if(i==forms.length-1){
+						forminfo +=form.@name;
+						formPks +=form.@pk_formdefinition;
+					}
+					else {
+						forminfo += form.@name+",";
+						formPks +=form.@pk_formdefinition+",";
+					}
+				}
+				relate_form_text.text = forminfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.form.pk_formdefinition = formPks;
+				useractivities.form.formName = forminfo;
+				//扩展字段映射中的原字段由当前用户活动关联的表单提供
+				//load_maping_oldField();
+			}
+			//			protected function useractivities_excuter_changeHandler(event:Event):void
+			//			{
+			//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var value:String = String(useractivities_excuter.selectedValue);
+			//				setUseractivitiesExcuterPropertyState(value);			  
+			//				useractivities.excuterTrategy.excuter = value;
+			//			}
+			//设置用户活动执行策略属性状态
+			protected function setUseractivitiesExcuterPropertyState(value:String):void{
+				var previousUserNodes:Array = myDrawBoard.getPreviousUserActivities(myDrawBoard.selectedElement as UseractivitiesNode);			  
+				var otherUserNodes:Array = myDrawBoard.getAllUserActivities(false);
+				if(value==null){
+					virtualRole_comb.enabled = false;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					sameAsOthers.enabled = false;
+					//asignByOthers.enabled = false;
+				}
+				if(value=="0"||value=="4"){				  
+					excute_org.enabled = true;
+					excute_role.enabled = true;
+					excute_user.enabled = true;
+					virtualRole_comb.enabled = false;
+					sameAsOthers.enabled = false;
+					//asignByOthers.enabled = false;
+				}
+				else if(value=="1"){	
+					virtualRole_comb.enabled = true;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					sameAsOthers.enabled = false;
+					//asignByOthers.enabled = false;
+				}
+				else if(value=="2"){	
+					sameAsOthers.enabled = true;
+					//asignByOthers.enabled = false;
+					virtualRole_comb.enabled = false;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					
+					sameAsOthers_provider.splice(1,sameAsOthers_provider.length-1);
+					for(var i:int=0;i<previousUserNodes.length;i++){
+						var previousNode:UseractivitiesNode = previousUserNodes[i];
+						sameAsOthers_provider.push(previousNode.ID);					  
+					}
+				}
+				else if(value=="3"){
+					//asignByOthers.enabled = true;
+					sameAsOthers.enabled = false;
+					virtualRole_comb.enabled = false;
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					
+					asignByOthers_provider.splice(1,asignByOthers_provider.length-1);
+					for(var j:int=0;j<otherUserNodes.length;j++){
+						var otherNode:UseractivitiesNode = otherUserNodes[j];
+						asignByOthers_provider.push(otherNode.ID);					  
+					}
+				}
+				else if(value=="5"){	
+					excute_org.enabled = false;
+					excute_role.enabled = false;
+					excute_user.enabled = false;
+					virtualRole_comb.enabled = false;
+					sameAsOthers.enabled = false;
+					//asignByOthers.enabled = false;
+				}
+			}
+			protected function virtualRole_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(virtualRole_comb.selectedIndex);
+				useractivities.excuterTrategy.virtualRole = value;
+			}		  
+			protected function sameAsOthers_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var obj:Object = sameAsOthers.selectedItem;
+				var id:String = obj.data;
+				if(id=="-1")return;
+				useractivities.excuterTrategy.sameAsOthers = id;		
+			}
+			protected function selfDefClass_text_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = selfDefClass_text.text;
+				useractivities.excuterTrategy.selfDefClass = value;
+			}
+			//			protected function asignByOthers_changeHandler(event:ListEvent):void
+			//			{
+			//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var value:String = String(asignByOthers.selectedLabel);
+			//				useractivities.excuterTrategy.asignByOthers = value;
+			//			}
+			//用户活动分配策略
+			protected function taskAssign_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:Object = taskAssign.selection.value;
+				useractivities.assignTrategy.taskAssignStrategy = String(value);
+			}		  
+			//用户活动完成策略
+			protected function taskFinish_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(taskFinish.selectedValue);
+				setUserActivitiesFinishStrategyState(value);
+				useractivities.completeTrategy.taskFinishedStrategy = value;
+			}
+			protected function setUserActivitiesFinishStrategyState(value:String):void{
+				if(value=="2"){
+					taskFinishCount.enabled = true;
+					taskFinishPercent.enabled = true;
+				}else{
+					taskFinishCount.enabled = false;
+					taskFinishPercent.enabled = false;
+				}
+			}
+			//用户活动描述
+			//			protected function useractivities_description_changeHandler(event:Event):void
+			//			{
+			//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				useractivities.description = useractivities_description.text;
+			//			}
+			//用户活动完成数量指定
+			protected function taskFinishCount_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.completeTrategy.taskFinishCount = taskFinishCount.text;
+			}
+			//用户活动完成百分比指定	  
+			protected function taskFinishPercent_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.completeTrategy.taskFinishePercent = taskFinishPercent.text;
+			}
+			//回退策略
+			protected function backStrategy_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(backStrategy.selectedValue);
+				setBackStrategyState(value);
+				useractivities.backTrategy.backable = value;
+			}
+			protected function setBackStrategyState(value:String):void{
+				if(value==null||value=="0"){
+					backScope.enabled = false;
+					backActivitiesBtn.enabled = false;
+					backActivities_comb.visible = false;
+					backActivities_text.text = "";
+				}
+				else if(value=="1"){
+					backScope.enabled = true;
+					if(backScope.selectedIndex==3)
+						backActivitiesBtn.enabled = true;
+					else backActivitiesBtn.enabled = false;
+				}			  
+			}
+			//回退范围指定
+			protected function backScope_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(backScope.selectedIndex);
+				setBackScopeState(value);
+				useractivities.backTrategy.backScope = value;
+			}
+			protected function setBackScopeState(value:String):void{
+				if(value=="3"){
+					backActivitiesBtn.enabled = true;
+				}
+				else {
+					backActivitiesBtn.enabled = false;
+					backActivities_comb.visible = false;
+					backActivities_text.text = "";
+				}				  
+			}
+			//回退范围设置
+			protected function backActivitiesBtn_clickHandler(event:MouseEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				backActivities_comb.visible = true;
+				var dataProviders:Array = myDrawBoard.getPreviousUserActivities(myDrawBoard.selectedElement as UseractivitiesNode);
+				var ids:Array = new Array();
+				//ids.push("请选择");
+				for each(var node:UseractivitiesNode in dataProviders){
+					var obj:Object = new Object();
+					obj.id = node.ID;
+					obj.name = node.Name;
+					ids.push(obj);
+				}
+				backActivities_comb.dataProvider = ids;
+				backActivities_comb.dropdown.dataProvider = ids;
+				backActivities_comb.selectedIndex = -1;
+			}  
+			protected function backActivities_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var obj:Object = backActivities_comb.selectedItem;
+				var value:String = obj.id+"-"+obj.name;
+				backActivities_text.text = obj.name;
+				useractivities.backTrategy.backActivites = obj.id;
+			}
+			//超时处理
+			//			protected function passTime_comb_changeHandler(event:ListEvent):void
+			//			{
+			//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var value:String = String(passTime_comb.selectedIndex);
+			//				useractivities.overTimeStrategy.handlerType = value;
+			//			}
+			//			//超时提醒方式		  
+			//			protected function remindMethod_comb_changeHandler(event:ListEvent):void
+			//			{
+			//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var value:String = String(remindMethod_comb.selectedIndex);			 
+			//				useractivities.overTimeStrategy.remindType= value;
+			//			}
+			
+			protected function control_time_check_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:Boolean = control_time_check.selected;			 
+				useractivities.messageStrategy.allowControl= value;
+			}
+			protected function aheadtime_text_changeHandler(event:Event):void
+			{
+				aheadtime_text_validator.validate();
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = aheadtime_text.text;
+				var reg:RegExp = /\d+/g;
+				var arr:Array = value.match(reg);
+				if(arr.length==1)useractivities.messageStrategy.aheadTime = arr[0];
+				else useractivities.messageStrategy.aheadTime = null;
+			}
+			protected function worktime_text_changeHandler(event:Event):void
+			{
+				worktime_text_validator.validate();
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = worktime_text.text;
+				var reg:RegExp = /\d+/g;
+				var arr:Array = value.match(reg);
+				if(arr.length==1)useractivities.messageStrategy.workTime = arr[0];
+				else useractivities.messageStrategy.workTime = null;
+			}
+			protected function timeunit_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(timeunit_comb.selectedIndex);
+				useractivities.messageStrategy.unit = value;
+			}
+			//用户活动类型
+			protected function activite_type_comb_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:int = activite_type_comb.selectedIndex;
+				useractivities.actionType = value;
+			}		 
+			//用户活动事件处理类
+			protected function delegatorClass_text_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = delegatorClass_text.text;
+				useractivities.delegatorClass = value;
+			}
+			protected function afterClass_text_changeHandler(event:Event):void
+			{
+				//				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				//				var value:String = afterClass_text.text;
+				//				useractivities.afterClass = value;
+			}
+			//是否允许加签
+			protected function is_addSign_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(is_addSign_radio.selectedValue);
+				useractivities.allowAddSign = value;
+			}
+			//是否允许转发
+			protected function is_transmit_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(is_transmit_radio.selectedValue);
+				useractivities.allowTransmit = value;
+			}
+			//是否允许传阅
+			protected function allowDeliver_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowDeliver_radio.selectedValue);
+				useractivities.allowDeliver = value;
+			}
+			//是否由上一步指派
+			protected function allowPreAssign_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowPreAssign_radio.selectedValue);
+				useractivities.allowPreAssign = value;
+			}
+			//是否同部门限定
+			protected function allowResDept_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowResDept_radio.selectedValue);
+				useractivities.allowResDept = value;
+			}
+			//是否可编辑意见
+			protected function allowEditOpinion_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowEditOpinion_radio.selectedValue);
+				useractivities.allowEditOpinion = value;
+			}
+			//是否允许催办
+			protected function allowUrge_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowUrge_radio.selectedValue);
+				useractivities.allowUrge = value;
+			}
+			//是否允许打印
+			protected function allowPrint_radio_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(allowPrint_radio.selectedValue);
+				useractivities.allowPrint = value;
+			}
+			//任务创建提醒
+			protected function taskCreatedReminder_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.messageStrategy.createdMsg.splice(0,useractivities.messageStrategy.createdMsg.length);
+				
+				//避免后台数据变化而xml还是旧的情况
+				var messageChecks:Array = taskCreated_reminder_hbox.getChildren();
+				for(var i:int=0;i<messageChecks.length;i++){
+					if(!(messageChecks[i] is CheckBox))continue;
+					var temp:CheckBox = messageChecks[i];
+					
+					var select:Boolean = temp.selected;
+					var value:String = String(temp.data);
+					if(select==true)useractivities.messageStrategy.createdMsg.push(value);					
+				}
+			}
+			//任务完成提醒
+			protected function taskCompletedReminder_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.messageStrategy.completedMsg.splice(0,useractivities.messageStrategy.completedMsg.length);
+				
+				var messageChecks:Array = taskCompleted_reminder_hbox.getChildren();
+				for(var i:int=0;i<messageChecks.length;i++){
+					if(!(messageChecks[i] is CheckBox))continue;
+					var temp:CheckBox = messageChecks[i];
+					
+					var select:Boolean = temp.selected;
+					var value:String = String(temp.data);
+					if(select==true)useractivities.messageStrategy.completedMsg.push(value);					
+				}
+			}
+			//超时提醒
+			protected function overtimeReminder_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.messageStrategy.overtimeMsg.splice(0,useractivities.messageStrategy.completedMsg.length);
+				
+				var messageChecks:Array = overtime_reminder_hbox.getChildren();
+				for(var i:int=0;i<messageChecks.length;i++){
+					if(!(messageChecks[i] is CheckBox))continue;
+					var temp:CheckBox = messageChecks[i];
+					
+					var select:Boolean = temp.selected;
+					var value:String = String(temp.data);
+					if(select==true)useractivities.messageStrategy.overtimeMsg.push(value);					
+				}
+			}
+			//超时动作
+			protected function overtimeActReminder_changeHandler(event:Event):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;				
+				useractivities.messageStrategy.overtimeAct.splice(0,useractivities.messageStrategy.overtimeAct.length);
+				
+				var auditReminderChecks:Array = overtimeAct_reminder_hbox.getChildren();
+				for(var m:int=0;m<auditReminderChecks.length;m++){
+					if(!(auditReminderChecks[m] is CheckBox))continue;
+					var temp2:CheckBox = auditReminderChecks[m];
+					
+					var select:Boolean = temp2.selected;
+					var value:String = String(temp2.data);
+					if(select==true)useractivities.messageStrategy.overtimeAct.push(value);
+				}
+			}
+			
+			//增加，删除字段映射关系
+			//			protected function maping_add_btn_clickHandler(event:MouseEvent):void
+			//			{
+			//				var useractivitiesnode:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				//增加字段映射关系
+			//				if(maping_add_btn.label=="增加"){
+			//					var formfield:String = maping_column_comb.selectedItem.@field;
+			//					var extatt:String = ext_column_comb.selectedLabel;
+			//					var item:Object={column1:formfield,column2:extatt};
+			//					var coll:ArrayCollection = useractivitiesnode.extArr;
+			//					var exist:Boolean = false;
+			//					for(var i:int=0;i<coll.length;i++){
+			//						var temp:Object = coll.getItemAt(i);
+			//						if(item["column1"]==temp["column1"]||item["column2"]==temp["column2"]){
+			//							exist = true;
+			//							break;
+			//						}
+			//					}
+			//					if(!exist)useractivitiesnode.extArr.addItem(item);
+			//				}
+			//					//删除字段映射关系
+			//				else if(maping_add_btn.label=="删除"){
+			//					var selectitem:Object=column_maping_grid.selectedItem;   
+			//					var extArr:ArrayCollection = useractivitiesnode.extArr;
+			//					var index:int=extArr.getItemIndex(selectitem);   
+			//					extArr.removeItemAt(index);   
+			//					column_maping_grid.dataProvider=extArr; 
+			//					column_maping_grid.selectedItem = null;
+			//					maping_add_btn.label = "增加";
+			//				}
+			//			}
+			//			
+			//			protected function maping_del_btn_clickHandler(event:MouseEvent):void{
+			//				var useractivitiesnode:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var item:Object=column_maping_grid.selectedItem;   
+			//				var extArr:ArrayCollection = useractivitiesnode.extArr;
+			//				var index:int=extArr.getItemIndex(item);   
+			//				extArr.removeItemAt(index);   
+			//				column_maping_grid.dataProvider=extArr; 
+			//				column_maping_grid.selectedItem = null;
+			//			}
+			//			//改变按钮状态
+			//			protected function column_maping_grid_clickHandler(event:MouseEvent):void
+			//			{
+			//				var items:Array = column_maping_grid.selectedItems;
+			//				if(items.length>0)maping_add_btn.label = "删除";
+			//			}
+			//加载表单项数据
+			//			protected function  load_maping_oldField():void{     
+			//				var useractivitiesnode:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+			//				var pk_formdefinition:String = useractivitiesnode.getPk_formdefinition();
+			//				if(pk_formdefinition==null||pk_formdefinition=="")pk_formdefinition = WfContext.Pk_formdefinition;
+			//				//maping_column_comb.dataProvider = null;
+			//				//maping_column_comb.enabled = pk_formdefinition!=null&&pk_formdefinition!="";          //如果没有数据，不让点击，
+			//				if(pk_formdefinition==null||pk_formdefinition=="")return;
+			//				getMapginFormField.url = ServletConst.GET_FORMFIELD_SERVLET_URL;
+			//				getMapginFormField.url+="?pk_formdefinition="+pk_formdefinition;
+			//				getMapginFormField.send();
+			//				getMapginFormField.addEventListener(ResultEvent.RESULT,getMapgingFormField_resultHandler);
+			//			}
+			//			protected function getMapgingFormField_resultHandler(event:ResultEvent):void
+			//			{
+			//				var Form:XMLList  = new XMLList(event.result);
+			//				maping_column_comb.dataProvider = Form.Field;
+			//				maping_column_comb.dropdown.dataProvider = Form.Field;
+			//				maping_column_comb.selectedIndex = 0;		
+			//			}
+			protected function start_subprocess_clickHandler(event:MouseEvent):void
+			{
+				var process:Subprocess = Subprocess(PopUpManager.createPopUp(this,Subprocess,true)); 
+				
+				process.x = Math.ceil((screen.width-process.width)/2); 
+				process.y = Math.ceil((screen.height-process.height)/2); 
+				
+				var target:PopUpButton =(event.target as PopUpButton);
+				process.callbackFunction = nodeStartProcessCallback;
+				
+				process.mainApp = this;				
+				PopUpManager.centerPopUp(process);
+			}			
+			//用户活动可发起子流程回调函数
+			private function nodeStartProcessCallback(arrs:Array):void{
+				start_subprocess_text.text = "";
+				var processinfo:String = "";
+				var processPks:String = "";
+				for(var i:int=0;i<arrs.length;i++){
+					var process:XML = arrs[i];
+					if(i==arrs.length-1){
+						processinfo +=process.@name;
+						processPks +=process.@pk_prodef;
+					}
+					else {
+						processinfo += process.@name+",";
+						processPks +=process.@pk_prodef+",";
+					}
+				}
+				start_subprocess_text.text = processinfo;
+				
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				useractivities.startProdefs.pk_prodef = processPks;
+				useractivities.startProdefs.prodefName = processinfo;
+			}
+			
+			//______________________________//用户活动___________________
+			
+			//__________________网关_______________________
+			protected function gatewayStyle_comb_changeHandler(event:ListEvent):void
+			{
+				var gateway:GateWayNode = myDrawBoard.selectedElement as GateWayNode;
+				var value:String = String(gatewayStyle_comb.selectedIndex);
+				if(value!=null)gateway.type = value;
+			} 
+			protected function route_style_radio_changeHandler(event:Event):void
+			{
+				var route:Route = myDrawBoard.selectedElement as Route;
+				var value:String = String(route_style_radio.selectedValue);
+				route.routeStyle = value;
+				route.Draw();
+			} 
+			
+			//路由条件设置
+			protected function condition_text_changeHandler(event:Event):void
+			{
+				var route:Route = myDrawBoard.selectedElement as Route;
+				var value:String = condition_text.text;			 
+				route.condition = value;
+				//route.conditionZH = conditionZH_text.text;
+			}
+			//表单选择处理
+			protected function forms_comb_changeHandler(event:ListEvent):void
+			{
+				//先将字段数据置为空
+				//form_item_comb.dataProvider = null;
+				var value:Object = forms_comb.selectedItem;
+				var pk_formdefinition:String = value.@pk_formdefinition;
+				getFormField.url = ServletConst.GET_FORMFIELD_SERVLET_URL;
+				getFormField.url+="?pk_formdefinition="+pk_formdefinition;
+				getFormField.send();
+				getFormField.addEventListener(ResultEvent.RESULT,getFormField_resultHandler);
+			}
+			protected function getFormField_resultHandler(event:ResultEvent):void
+			{
+				var Form:XMLList  = new XMLList(event.result);
+				
+				var defaultField:XML = new XML(<Field/>);
+				defaultField.@field="spjg";
+				defaultField.@text="审批结果";
+				Form.insertChildBefore(Form.Field[0],defaultField);
+				
+				form_item_comb.dataProvider = Form.Field;
+				form_item_comb.dropdown.dataProvider = Form.Field;
+				form_item_comb.selectedIndex = 0;
+			}
+			
+			//增加条件
+			protected function add_condition_btn_clickHandler(event:MouseEvent):void
+			{
+				var condition:String = "";
+				var conditionZH:String = "";
+				var form:Object = forms_comb.selectedItem;
+				var field:Object = form_item_comb.selectedItem;
+				if(field==null||condition_value.text=="")return;
+				if(field.@field=="spjg"){
+					condition = "${"+field.@field+"}"+route_compare.selectedLabel+"'"+condition_value.text+"'";
+					conditionZH = field.@text+""+route_compare.selectedLabel+"'"+condition_value.text+"'";
+				}
+				else{
+					condition="${"+form.@pk_formdefinition+"."+field.@field+"}"+route_compare.selectedLabel+"'"+condition_value.text+"'";
+					conditionZH = ""+form.@formName+"."+field.@text+""+route_compare.selectedLabel+"'"+condition_value.text+"'";
+				}
+				if(condition_text.text.length>1){
+					condition_text.text+="&&";
+					conditionZH_text.text +="\n";
+				}
+				condition_text.text+=condition;
+				conditionZH_text.text+=conditionZH;
+				
+				var route:Route = myDrawBoard.selectedElement as Route;
+				route.condition = condition_text.text;
+				route.conditionZH = conditionZH_text.text;
+				route.Draw();
+				
+				//重置条件
+				//forms_comb.selectedItem = null;
+				//form_item_comb.selectedItem = null;
+				route_compare.selectedIndex = 0;
+				condition_value.text = null;
+			}
+			//Route自定义处理类
+			protected function route_selfDefClass_text_changeHandler(event:Event):void
+			{
+				var route:Route = myDrawBoard.selectedElement as Route;
+				var value:String = route_selfDefClass_text.text;
+				route.selfDefClass = value;
+			}
+			protected function clear_condition_btn_clickHandler(event:MouseEvent):void
+			{
+				condition_text.text="";
+				conditionZH_text.text="";
+				var route:Route = myDrawBoard.selectedElement as Route;
+				route.condition = null;	
+				route.conditionZH = null;
+				route.Draw();
+			}
+			protected function polylogic_changeHandler(event:Event):void
+			{
+				var gateway:GateWayNode = myDrawBoard.selectedElement as GateWayNode;
+				var value:String = String(polylogic.selectedValue);
+				gateway.logic = value;
+			}
+			protected function loginc_count_changeHandler(event:Event):void
+			{
+				var gateway:GateWayNode = myDrawBoard.selectedElement as GateWayNode;
+				var value:int = (int)(loginc_count.text);
+				if(value>0)gateway.count = value;
+			}
+			
+			//__________________//网关_____________________
+			
+			
+			protected function countersign_type_changeHandler(event:ListEvent):void
+			{
+				var useractivities:UseractivitiesNode = myDrawBoard.selectedElement as UseractivitiesNode;
+				var value:String = String(countersign_type.selectedIndex);
+				useractivities.completeTrategy.countersign_type = value;
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Array id="ToolButton"> 
+		<mx:Object  icon="@Embed('images/menu/open.gif')" cmd="inputfile" toolTip="导入"/> 
+		<mx:Object  icon="@Embed('images/menu/output.png')" cmd="outputfile" toolTip="导出"/> 
+		<mx:Object  icon="@Embed('images/menu/save.png')" cmd="savefile" toolTip="保存"/> 
+		<mx:Object  icon="@Embed('images/menu/clear.gif')" cmd="clear" toolTip="清空"/> 
+		<mx:Object  icon="@Embed('images/menu/delete.png')" cmd="delete" toolTip="删除"/>
+		<mx:Object  icon="@Embed('images/menu/undo.png')" cmd="undo" toolTip="撤销"/>
+		<mx:Object  icon="@Embed('images/menu/redo.png')" cmd="redo" toolTip="重做"/>
+		<mx:Object  icon="@Embed('images/menu/saveImage.png')" cmd="saveImage" toolTip="导出图片"/>
+		<mx:Object  icon="@Embed('images/menu/showxml2.png')" cmd="showXml" toolTip="查看xml文件"/>
+		<mx:Object  icon="@Embed('images/menu/rundesign.png')" cmd="rundesign" toolTip="运行态设计"/>
+	</mx:Array> 
+	<!--用户活动-->
+	<mx:Array id="virtualRole">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="流程启动者"/> 			
+	</mx:Array>
+	<mx:Array id="sameAsOthers_provider">
+		<!--<mx:Object label="请选择" data="-1"/> 		-->	
+	</mx:Array>
+	<mx:Array id="asignByOthers_provider">
+		<mx:Object label="请选择"/> 		
+	</mx:Array>
+	<mx:Array id="backScope_provider">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="上一步"/> 	
+		<mx:Object label="全部活动"/> 
+		<mx:Object label="指定活动"/>
+		<mx:Object label="驳回制单人"/>
+	</mx:Array>
+	<mx:Array id="timeUnit">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="分钟"/> 
+		<mx:Object label="小时"/> 
+		<mx:Object label="天"/> 	
+		<mx:Object label="周"/> 
+		<mx:Object label="月"/> 			
+	</mx:Array>
+	<mx:Array id="remindMethod">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="短信提醒"/> 
+		<mx:Object label="邮箱提醒"/> 			
+	</mx:Array>
+	<mx:Array id="passTimeHandler">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="继续等待"/> 
+		<mx:Object label="不用等了"/> 			
+	</mx:Array>
+	
+	<mx:Array id="actionType_provider">
+		<mx:Object label="普通"/> 
+		<mx:Object label="审批"/> 
+		<mx:Object label="传阅"/>
+		<mx:Object label="领导审批"/>
+	</mx:Array>
+	
+	<mx:Array id="countersign_type_dataProvider">
+		<mx:Object label="并行"/> 
+		<mx:Object label="串行"/> 
+	</mx:Array>
+	
+	<mx:Array id="ext_column_dataProvider">
+		<mx:Object label="ext1"/> 
+		<mx:Object label="ext2"/> 
+		<mx:Object label="ext3"/> 
+		<mx:Object label="ext4"/> 
+		<mx:Object label="ext5"/> 
+		<mx:Object label="ext6"/> 
+		<mx:Object label="ext7"/> 
+		<mx:Object label="ext8"/> 
+		<mx:Object label="ext9"/> 
+	</mx:Array>
+	
+	<!--//用户活动-->
+	<!--路由条件-->	
+	<mx:Array id="route_condition_provider">
+		<mx:Object label="=="/> 
+		<mx:Object label="!="/> 
+		<mx:Object label=">"/> 
+		<mx:Object label=">="/> 
+		<mx:Object label="&lt;"/> 
+		<mx:Object label="&lt;="/> 
+	</mx:Array>
+	<mx:XML id="form_item_comb_provider">
+		<Form>
+			<Field field="spjg" text="审批结果"/>
+		</Form>
+	</mx:XML>
+	<!--//路由条件-->	
+	
+	<mx:Array id="priorityLevels">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="1"/> 
+		<mx:Object label="2"/> 	
+		<mx:Object label="3"/> 
+		<mx:Object label="4"/> 
+	</mx:Array>	
+	<mx:Array id="flowTimeUnit">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="分钟"/> 
+		<mx:Object label="小时"/> 
+		<mx:Object label="天"/> 	
+		<mx:Object label="周"/> 
+		<mx:Object label="月"/> 
+	</mx:Array>
+	<mx:Array id="startMode">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="自动启动"/> 
+	</mx:Array>
+	<mx:Array id="endMode">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="自动结束"/> 
+	</mx:Array>
+	<mx:Array id="excuteMode">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="同步执行"/> 
+	</mx:Array>
+	
+	<mx:Array id="dynamicSelectData">
+		<mx:Object label="请选择"/> 
+		<mx:Object label="从组织机构选 "/> 
+	</mx:Array>
+	<mx:Array id="gateway_provider">
+		<mx:Object label="内嵌网关" data="0"/> 
+		<mx:Object label="唯一网关" data="1"/> 
+	</mx:Array>
+	
+	<mx:Array id="worknode_type_provider">
+		<mx:Object label="查勘" data="查勘"/>
+		<mx:Object label="审批" data="审批"/>
+		<mx:Object label="收费" data="收费"/>
+		<mx:Object label="配表" data="配表"/>
+		<mx:Object label="装接" data="装接"/>
+		<mx:Object label="归档" data="归档"/>
+	</mx:Array>
+	
+	<mx:NumberValidator id="aheadtime_text_validator" source="{aheadtime_text}" property="text" enabled="{control_time_check.selected}">
+	</mx:NumberValidator> 
+	<mx:NumberValidator id="worktime_text_validator" source="{worktime_text}" property="text" enabled="{control_time_check.selected}">
+	</mx:NumberValidator>	
+	
+	<mx:Canvas x="0" y="2" width="100%" height="30" id="topCanvas" backgroundColor="#FFFFFF">
+		<mx:ButtonBar x="0" y="0" id="tb_Main" height="100%"  dataProvider="{ToolButton}" itemClick="ontoolbarclick(event)">
+		</mx:ButtonBar>
+		<mx:HBox  id="ele_hbox" width="{topCanvas.width-tb_Main.width-20}" height="100%"  x="{tb_Main.x+tb_Main.width+20}" 
+				  borderStyle="solid" verticalAlign="middle" horizontalGap="35" cornerRadius="3">			
+		</mx:HBox>
+	</mx:Canvas>
+	<mx:HDividedBox id="main" left="0" top="35" bottom="0" right="0"  backgroundColor="#FFFFFF" backgroundAlpha="0.6" borderStyle="outset" borderColor="#0495FB">
+		<!--
+		<mx:TabNavigator change="onChange(event);" width="90%" height="100%" id="tn_designer" selectedIndex="0" creationPolicy="all" tabIndexChange="ontabIndexChange(event);">
+		<mx:Canvas label="设计器" width="80%" height="100%" id="myCanvas" themeColor="#FFFFFF" backgroundColor="#FFFFFF">
+		</mx:Canvas>
+		<mx:Canvas label="XML" width="100%" height="100%">
+		<mx:TextArea x="0" y="0" width="100%" height="100%" id="tx_XML"/>
+		</mx:Canvas>
+		</mx:TabNavigator>
+		-->
+		<mx:Canvas label="设计器" width="75%" height="670" id="myCanvas" themeColor="#FFFFFF" backgroundColor="#FFFFFF">
+		</mx:Canvas>
+		<mx:TabNavigator width="25%" height="689" id="tn_prop" creationPolicy="all" tabHeight="0" paddingTop="0"  backgroundColor="#FFFFFF">
+			<mx:Canvas id="tab_main_process_prop" label="主流程" width="100%" height="100%">
+				<mx:Canvas width="100%" height="307">
+					<mx:Label x="10" y="10" text="流程编号："/>
+					<mx:TextInput y="8" right="10" left="71" id="tx_main_process_ID" enabled="false"/>
+					<mx:Label x="10" y="42" text="流程名称："/>
+					<mx:TextInput y="40" right="10" left="71" id="tx_main_process_Name" change="tx_main_process_Name_changeHandler(event)"/>
+					<mx:Label x="10" y="77" text="流程描述："/>
+					<mx:TextArea y="105" id="process_description_text"  height="100" left="10" right="10" change="process_description_text_changeHandler(event)"/>
+					<mx:Label x="10" y="221" text="宽："/>
+					<mx:TextInput y="219" right="47" left="71" id="tx_main_process_Width" enabled="false"/>
+					<mx:Label x="10" y="262" text="高："/>
+					<mx:TextInput y="260" right="47" left="71" id="tx_main_process_Height" enabled="false"/>
+				</mx:Canvas>
+			</mx:Canvas>
+			<mx:Canvas id="tab_worknode_prop" label="业务环节" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_WorkNode_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:Label x="10" y="75" text="业务类型："/>
+				<mx:Label x="10" y="113" text="位置"/>
+				<mx:Label x="71" y="115" text="左："/>
+				<mx:Label x="71" y="143" text="上："/>
+				<mx:TextInput y="113" right="10" left="108" id="tx_WorkNode_Left" change="onLeftChange(event);"/>
+				<mx:Label x="71" y="173" text="宽："/>
+				<mx:TextInput y="171" right="10" left="108" id="tx_WorkNode_Width" change="onWidthChange(event);"/>
+				<mx:Label x="71" y="203" text="高："/>
+				<mx:TextInput y="201" right="10" left="108" id="tx_WorkNode_Height" change="onHeightChange(event);"/>
+				<mx:TextInput y="141" right="10" left="108" id="tx_WorkNode_Top" change="onTopChange(event);"/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_WorkNode_Name" change="onNameChange(event)"/>
+				<mx:HRule y="103" right="10" left="10"/>
+				<mx:ComboBox y="72"  right="10" left="71" id="cb_WorkNode_Type" dataProvider="{worknode_type_provider}" change="onNodeTypeChange(event)">				
+				</mx:ComboBox>
+			</mx:Canvas>
+			<mx:TabNavigator id="tab_useractivities_prop" label="人工活动" width="100%" height="100%">
+				<mx:Canvas id="tab_useractivities_prop_1" label="基本信息" width="100%" height="100%" borderStyle="none">
+					<mx:Canvas y="0" height="65"  borderStyle="solid" width="100%" x="0">
+						<mx:Label x="10" y="6" text="编号："/>
+						<mx:TextInput y="4" right="10" left="71" id="tx_useractivities_ID" change="onIDChange(event)" enabled="true"/>
+						<mx:Label x="10" y="33" text="名称："/>
+						<mx:TextInput y="31" right="10" left="71" id="tx_useractivities_Name" change="onNameChange(event)"/>
+						<!--<mx:Label x="10" y="61" text="描述："/>
+						<mx:TextArea id="useractivities_description" y="66" right="10" left="71" change="useractivities_description_changeHandler(event)"/>-->
+					</mx:Canvas>					
+					<mx:Canvas x="0" y="64" width="100%" height="45" id="active_type_canvas" borderStyle="solid">
+						<mx:ComboBox id="activite_type_comb" y="8" left="100" right="20" dataProvider="{actionType_provider}" change="activite_type_comb_changeHandler(event)"></mx:ComboBox>
+						<mx:Label x="10" y="10" width="76" text="活动类型："/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="108" width="100%" height="73" id="formCanvas" borderStyle="solid">
+						<mx:PopUpButton id="relate_form" y="38" label="选择表单" width="{(formCanvas.width-40)*0.4}" labelPlacement="left" height="20" right="10" click="relate_form_clickHandler(event)"/>
+						<mx:TextInput id="relate_form_text" y="36" width="{(formCanvas.width-40)*0.6}" left="10" editable="false"/>
+						<mx:Label x="10" y="9" text="关联表单:"/>
+					</mx:Canvas>
+					<mx:Canvas y="180" height="225"  borderStyle="solid" width="100%" x="0" id="excuteCanvas">
+						<!--						<mx:RadioButtonGroup id="useractivities_excuter" change="useractivities_excuter_changeHandler(event)" selectedValue="-1"/>
+						-->						<mx:Label x="2" y="5" text="指定参与者:"/>
+						<!--<mx:RadioButton x="2" y="240" label="由其它节点指派" groupName="useractivities_excuter" value="3" visible="false"/>-->
+						<!--<mx:RadioButton x="99" y="5" label="由上一步指派" groupName="useractivities_excuter" value="4"/>-->
+						<mx:TextInput id="excute_org_text" y="36" width="{(excuteCanvas.width-40)*0.6}" right="10" />
+						<mx:TextInput id="excute_role_text" y="66" width="{(excuteCanvas.width-40)*0.6}" right="10" />
+						<mx:TextInput id="excute_user_text" y="94" width="{(excuteCanvas.width-40)*0.6}" right="10" />
+						<mx:PopUpButton id="excute_org" y="38" label="组织机构" height="20" left="20" width="{(excuteCanvas.width-40)*0.4}" click="org_clickHandler(event)"/>
+						<mx:PopUpButton id="excute_role" y="68" label="角色" left="20" width="{(excuteCanvas.width-40)*0.4}" labelPlacement="left" height="20" click="role_clickHandler(event)"/>
+						<mx:PopUpButton id="excute_user" y="96"  label="人" height="20" left="20" width="{(excuteCanvas.width-40)*0.4}" click="person_clickHandler(event)"/>
+						
+						<mx:Label y="124" left="20" text="自定义参与者:"/>
+						<mx:TextInput id="selfDefClass_text" y="124" right="10" width="{(excuteCanvas.width-40)*0.6}" change="selfDefClass_text_changeHandler(event)"/>
+						
+						<mx:Label  y="154" left="20"  text="虚拟角色:"/>
+						<mx:ComboBox id="virtualRole_comb" y="153" width="{(excuteCanvas.width-40)*0.6}" right="10" dataProvider="{virtualRole}" change="virtualRole_comb_changeHandler(event)"></mx:ComboBox>
+						
+						<mx:Label y="189" left="20" text="同其它活动节点:"/>
+						<mx:ComboBox id="sameAsOthers"  y="188" width="{(excuteCanvas.width-40)*0.6}" right="10"  change="sameAsOthers_changeHandler(event)" dataProvider="{sameAsOthers_provider}" labelField="label"></mx:ComboBox>						
+						
+						<!--<mx:ComboBox id="asignByOthers" x="24" y="214" dataProvider="{asignByOthers_provider}" enabled="false" change="asignByOthers_changeHandler(event)" visible="false"></mx:ComboBox>-->									
+					</mx:Canvas>
+					<mx:Canvas x="0" y="404" width="100%" height="50" id="subprocess_canvas">
+						<mx:Label x="10" y="15" text="可发起的子流程："/>
+						<mx:TextInput id="start_subprocess_text" x="110" y="12" left="110" width="{(subprocess_canvas.width-120)*0.6}" editable="false"/>
+						<mx:PopUpButton id="node_start_subprocess" y="12" right="5" width="{(subprocess_canvas.width-120)*0.4}" click="start_subprocess_clickHandler(event)" label="选择流程"></mx:PopUpButton>						
+					</mx:Canvas>
+					<mx:Canvas x="0" y="453" width="100%" height="68" borderStyle="solid">
+						<mx:Label x="10" y="7" text="自定义处理类："/>
+						<mx:TextInput id="delegatorClass_text" y="29" left="10" right="10" change="delegatorClass_text_changeHandler(event)"/>
+						
+						<!--<mx:Label x="10" y="58" text="后置处理类："/>
+						<mx:TextInput id="afterClass_text" y="82" left="10" right="10" change="afterClass_text_changeHandler(event)"/>-->
+					</mx:Canvas>
+				</mx:Canvas>
+				<mx:Canvas id="tab_useractivities_prop_2" label="活动策略" width="100%" height="100%" borderStyle="none">					
+					<mx:Canvas  id="backCanvas" x="0" y="173" width="100%" height="204" borderStyle="solid">
+						<mx:Label x="10" y="0" text="回退权限："/>
+						<mx:RadioButtonGroup id="backStrategy" change="backStrategy_changeHandler(event)"/>
+						<mx:RadioButton x="37" y="20" label="禁止回退" groupName="backStrategy" value="0"/>
+						<mx:RadioButton x="37" y="46" label="允许回退" groupName="backStrategy" value="1"/>		
+						<mx:ComboBox id="backScope" x="83" y="76" width="120" dataProvider="{backScope_provider}" enabled="false" change="backScope_changeHandler(event)"></mx:ComboBox>
+						<mx:Label x="10" y="79" text="回退范围："/>
+						<mx:Label x="10" y="112" text="回退活动："/>
+						<mx:TextArea id="backActivities_text" y="141" height="50" right="10"  left="20" editable="false"/>
+						<mx:Button id="backActivitiesBtn" y="110" label="设置" left="83" enabled="false" click="backActivitiesBtn_clickHandler(event)"/>
+						<mx:ComboBox id="backActivities_comb" x="157" y="109" left="150" width="{backCanvas.width-(150+10)}" visible="true" change="backActivities_comb_changeHandler(event)" labelField="name"></mx:ComboBox>
+					</mx:Canvas>
+					<mx:Canvas  height="174"  borderStyle="solid" width="100%" x="0" y="0" >
+						<mx:Label x="0" y="9" text="任务完成策略"/>
+						<mx:RadioButtonGroup id="taskFinish" change="taskFinish_changeHandler(event)"/>	
+						<mx:RadioButton x="24" y="28" label="任意一个完成" groupName="taskFinish" value="0"/>
+						<mx:RadioButton x="24" y="55" label="必须所有完成" groupName="taskFinish" value="1"/>
+						<mx:RadioButton x="24" y="84" label="完成多个" groupName="taskFinish" value="2"/>
+						<mx:Label x="51" y="111" text="要求完成数:"/>
+						<mx:TextInput id="taskFinishCount" y="109"  left="150" right="10" change="taskFinishCount_changeHandler(event)" enabled="false" restrict="0-9."/>
+						<mx:Label x="51" y="141" text="要求完成百分比:"/>
+						<mx:TextInput id="taskFinishPercent" y="139"  left="150" right="10" change="taskFinishPercent_changeHandler(event)" enabled="false" restrict="0-9."/>
+						<mx:ComboBox id="countersign_type" x="132" y="54" enabled="{taskFinish.selectedValue==1}" dataProvider="{countersign_type_dataProvider}" change="countersign_type_changeHandler(event)"></mx:ComboBox>
+					</mx:Canvas>
+					<mx:Canvas  height="103"  borderStyle="solid" width="100%" x="0" y="416" visible="false">
+						<mx:Label x="0" y="0" text="任务分配策略"/>
+						<mx:RadioButtonGroup id="taskAssign" change="taskAssign_changeHandler(event)"/>
+						<mx:RadioButton x="24" y="21" label="分配所有人" groupName="taskAssign" value="0"/>
+						<mx:RadioButton x="24" y="46" label="分配多个人" groupName="taskAssign" value="1"/>
+						<mx:RadioButton x="24" y="71" label="分配一个人" groupName="taskAssign" value="2"/>						
+					</mx:Canvas>
+					<mx:Canvas x="0" y="376" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="6" text="是否允许加签："/>
+						<mx:RadioButtonGroup id="is_addSign_radio" change="is_addSign_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="6" label="是" value="0" groupName="is_addSign_radio"/>
+						<mx:RadioButton x="183" y="6" label="否" value="1" groupName="is_addSign_radio"/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="410" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="6" text="是否允许转发："/>
+						<mx:RadioButtonGroup id="is_transmit_radio" change="is_transmit_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="6" label="是" value="0" groupName="is_transmit_radio"/>
+						<mx:RadioButton x="183" y="6" label="否" value="1" groupName="is_transmit_radio"/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="444" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="5" text="是否允许传阅："/>
+						<mx:RadioButtonGroup id="allowDeliver_radio" change="allowDeliver_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowDeliver_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowDeliver_radio"/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="478" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="5" text="是否由上一步指派："/>
+						<mx:RadioButtonGroup id="allowPreAssign_radio" change="allowPreAssign_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowPreAssign_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowPreAssign_radio"/>						
+					</mx:Canvas>
+					<mx:Canvas x="0" y="512" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="5" text="是否同部门限定："/>
+						<mx:RadioButtonGroup id="allowResDept_radio" change="allowResDept_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowResDept_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowResDept_radio"/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="546" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="5" text="是否可编辑意见："/>
+						<mx:RadioButtonGroup id="allowEditOpinion_radio" change="allowEditOpinion_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowEditOpinion_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowEditOpinion_radio"/>						
+					</mx:Canvas>
+					<mx:Canvas x="0" y="580" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="6" text="是否允许催办："/>
+						<mx:RadioButtonGroup id="allowUrge_radio" change="allowUrge_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowUrge_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowUrge_radio"/>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="614" width="100%" height="35" borderStyle="solid">
+						<mx:Label x="10" y="6" text="是否允许打印："/>
+						<mx:RadioButtonGroup id="allowPrint_radio" change="allowPrint_radio_changeHandler(event)"/>
+						<mx:RadioButton x="125" y="5" label="是" value="0" groupName="allowPrint_radio"/>
+						<mx:RadioButton x="183" y="5" label="否" value="1" groupName="allowPrint_radio"/>						
+					</mx:Canvas>
+				</mx:Canvas>
+				<mx:Canvas id="tab_useractivities_prop_3" label="消息提醒" width="100%" height="100%">
+					<mx:Canvas x="0" y="0" width="100%" height="64" borderStyle="solid">
+						<mx:Label x="10" y="7" text="任务创建提醒："/>
+						<mx:HBox id="taskCreated_reminder_hbox" x="22" y="30" width="100%" verticalAlign="middle">							
+						</mx:HBox>
+					</mx:Canvas>
+					<mx:Canvas x="0" y="63" width="100%" height="64" borderStyle="solid">
+						<mx:Label x="10" y="7" text="任务完成提醒："/>
+						<mx:HBox id="taskCompleted_reminder_hbox" x="22" y="30" width="100%" verticalAlign="middle">							
+						</mx:HBox>
+					</mx:Canvas>					
+					<mx:Canvas x="0" y="126" width="100%" height="151" borderStyle="solid">
+						<mx:Label x="12" y="7" text="时间估算：" enabled="true"/>
+						<mx:Label x="27" y="56" text="时间单位："/>
+						<mx:ComboBox y="53" width="100" x="100" id="timeunit_comb" dataProvider="{timeUnit}" enabled="{control_time_check.selected==true}" change="timeunit_comb_changeHandler(event)"></mx:ComboBox>
+						<mx:TextInput y="88"  right="10" left="100" id="aheadtime_text" enabled="{control_time_check.selected==true&amp;&amp;timeunit_comb.selectedIndex>0}" change="aheadtime_text_changeHandler(event)" restrict="0-9."/>
+						<mx:Label x="27" y="88" text="提醒时间："/>
+						<mx:TextInput y="118"  right="10" left="100" id="worktime_text" enabled="{control_time_check.selected==true&amp;&amp;timeunit_comb.selectedIndex>0}" change="worktime_text_changeHandler(event)" restrict="0-9."/>
+						<mx:Label x="26" y="118" text="工作时间："/>
+						<mx:CheckBox x="27" y="26" id="control_time_check" label="是否控制流程时间" change="control_time_check_changeHandler(event)"/>
+						<!--<mx:Label x="10" y="147" text="超时处理："/>
+						<mx:Label x="26" y="175" text="提醒方式："/>
+						<mx:Label x="26" y="208" text="超时处理："/>
+						<mx:ComboBox id="passTime_comb" x="95" y="205" width="100" enabled="{control_time_check.selected==true}" dataProvider="{passTimeHandler}" change="passTime_comb_changeHandler(event)">
+						</mx:ComboBox>
+						<mx:ComboBox id="remindMethod_comb" x="95" y="172" width="100" enabled="{control_time_check.selected==true}" dataProvider="{remindMethod}" change="remindMethod_comb_changeHandler(event)"></mx:ComboBox>						
+					--></mx:Canvas>	
+					<mx:Canvas id="overtime_canvas" x="0" y="276" width="100%" height="64" borderStyle="solid" visible="{control_time_check.selected==true}">
+						<mx:Label x="10" y="7" text="超时提醒："/>
+						<mx:HBox id="overtime_reminder_hbox" x="22" y="30" width="100%" verticalAlign="middle">							
+						</mx:HBox>
+					</mx:Canvas>
+					<mx:Canvas id="overtimeAct_canvas" x="0" y="339" width="100%" height="64" borderStyle="solid" visible="{control_time_check.selected==true}">
+						<mx:Label x="10" y="7" text="超时动作："/>
+						<mx:HBox id="overtimeAct_reminder_hbox" x="22" y="30" width="100%" verticalAlign="middle">							
+						</mx:HBox>
+					</mx:Canvas>
+					
+					<!--<mx:Canvas id="column_maping_canvas" x="0" y="408" width="100%" height="245" borderStyle="solid">
+					<mx:Label x="10" y="0" text="扩展属性映射："/>
+					<mx:ComboBox id="maping_column_comb" y="28" width="{(column_maping_canvas.width-90)*0.45}" labelField="@text" left="20"></mx:ComboBox>
+					<mx:ComboBox id="ext_column_comb" y="28" right="70" width="{(column_maping_canvas.width-90)*0.45}" dataProvider="{ext_column_dataProvider}"></mx:ComboBox>
+					<mx:Button id="maping_add_btn" y="28" width="60" right="5" label="增加" click="maping_add_btn_clickHandler(event)"></mx:Button>
+					<mx:DataGrid id="column_maping_grid" y="60" height="180"  left="20" right="10" click="column_maping_grid_clickHandler(event)" dataProvider="{(myDrawBoard.selectedElement as UseractivitiesNode).extArr}" allowMultipleSelection="false">							
+					<mx:columns>      
+					<mx:DataGridColumn dataField="column1" headerText="表单字段" visible="true" textAlign="center"> 
+					</mx:DataGridColumn>  
+					<mx:DataGridColumn dataField="column2" headerText="扩展字段" textAlign="center">   
+					</mx:DataGridColumn>  
+					</mx:columns>
+					</mx:DataGrid>
+					</mx:Canvas>-->
+				</mx:Canvas>
+			</mx:TabNavigator>
+			
+			<mx:Canvas id="tab_scriptactivities_prop" label="脚本活动" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_scriptactivities_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:Label x="10" y="92" text="位置"/>
+				<mx:Label x="71" y="89" text="左："/>
+				<mx:Label x="71" y="117" text="上："/>
+				<mx:TextInput y="87" right="10" left="108" id="tx_scriptactivities_Left" change="onLeftChange(event);" enabled="false"/>
+				<mx:Label x="71" y="147" text="宽："/>
+				<mx:TextInput y="145" right="10" left="108" id="tx_scriptactivities_Width" change="onWidthChange(event);" enabled="false"/>
+				<mx:Label x="71" y="177" text="高："/>
+				<mx:TextInput y="177" right="10" left="108" id="tx_scriptactivities_Height" change="onHeightChange(event);" enabled="false"/>
+				<mx:TextInput y="117" right="10" left="108" id="tx_scriptactivities_Top" change="onTopChange(event);" enabled="false"/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_scriptactivities_Name" change="onNameChange(event)"/>
+				<mx:HRule y="75" right="10" left="10"/>
+			</mx:Canvas>
+			<mx:Canvas id="tab_msgactivities_prop" label="消息活动" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_msgactivities_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:Label x="10" y="90" text="位置"/>
+				<mx:Label x="71" y="87" text="左："/>
+				<mx:Label x="71" y="115" text="上："/>
+				<mx:TextInput y="85" right="10" left="108" id="tx_msgactivities_Left" change="onLeftChange(event);" enabled="false"/>
+				<mx:Label x="71" y="145" text="宽："/>
+				<mx:TextInput y="143" right="10" left="108" id="tx_msgactivities_Width" change="onWidthChange(event);" enabled="false"/>
+				<mx:Label x="71" y="175" text="高："/>
+				<mx:TextInput y="175" right="10" left="108" id="tx_msgactivities_Height" change="onHeightChange(event);" enabled="false"/>
+				<mx:TextInput y="115" right="10" left="108" id="tx_msgactivities_Top" change="onTopChange(event);" enabled="false"/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_msgactivities_Name" change="onNameChange(event)"/>
+				<mx:HRule y="75" right="10" left="10"/>
+			</mx:Canvas>
+			<mx:Canvas id="tab_subprocess_prop"  label="子流程" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_subprocess_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_subprocess_Name" change="onNameChange(event)"/>
+				<mx:Label x="10" y="90" text="位置"/>
+				<mx:Label x="71" y="87" text="左："/>
+				<mx:Label x="71" y="115" text="上："/>
+				<mx:TextInput y="85" right="10" left="108" id="tx_subprocess_Left" change="onLeftChange(event);" enabled="false"/>
+				<mx:Label x="71" y="145" text="宽："/>
+				<mx:TextInput y="143" right="10" left="108" id="tx_subprocess_Width" change="onWidthChange(event);" enabled="false"/>
+				<mx:Label x="71" y="175" text="高："/>
+				<mx:TextInput y="175" right="10" left="108" id="tx_subprocess_Height" change="onHeightChange(event);" enabled="false"/>
+				<mx:TextInput y="115" right="10" left="108" id="tx_subprocess_Top" change="onTopChange(event);" enabled="false"/>
+				<mx:HRule y="75" right="10" left="10"/>
+				
+			</mx:Canvas>
+			<mx:Canvas id="tab_ncsubprocess_prop" label="NC子流程" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_ncsubprocess_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:Label x="10" y="90" text="位置"/>
+				<mx:Label x="71" y="87" text="左："/>
+				<mx:Label x="71" y="115" text="上："/>
+				<mx:TextInput y="85" right="10" left="108" id="tx_ncsubprocess_Left" change="onLeftChange(event);" enabled="false"/>
+				<mx:Label x="71" y="145" text="宽："/>
+				<mx:TextInput y="143" right="10" left="108" id="tx_ncsubprocess_Width" change="onWidthChange(event);" enabled="false"/>
+				<mx:Label x="71" y="175" text="高："/>
+				<mx:TextInput y="175" right="10" left="108" id="tx_ncsubprocess_Height" change="onHeightChange(event);" enabled="false"/>
+				<mx:TextInput y="115" right="10" left="108" id="tx_ncsubprocess_Top" change="onTopChange(event);" enabled="false"/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_ncsubprocess_Name" change="onNameChange(event)"/>
+				<mx:HRule y="75" right="10" left="10"/>
+			</mx:Canvas>
+			<mx:Canvas id="tab_esbsubprocess_prop" label="ESB子流程" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_esbsubprocess_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:Label x="10" y="90" text="位置"/>
+				<mx:Label x="71" y="87" text="左："/>
+				<mx:Label x="71" y="115" text="上："/>
+				<mx:TextInput y="85" right="10" left="108" id="tx_esbsubprocess_Left" change="onLeftChange(event);" enabled="false"/>
+				<mx:Label x="71" y="145" text="宽："/>
+				<mx:TextInput y="143" right="10" left="108" id="tx_esbsubprocess_Width" change="onWidthChange(event);" enabled="false"/>
+				<mx:Label x="71" y="175" text="高："/>
+				<mx:TextInput y="175" right="10" left="108" id="tx_esbsubprocess_Height" change="onHeightChange(event);" enabled="false"/>
+				<mx:TextInput y="115" right="10" left="108" id="tx_esbsubprocess_Top" change="onTopChange(event);" enabled="false"/>
+				<mx:TextInput y="40" right="10" left="71" id="tx_esbsubprocess_Name" change="onNameChange(event)"/>
+				<mx:HRule y="75" right="10" left="10"/>
+			</mx:Canvas>
+			<mx:Canvas id="tab_endnode_prop" label="结束环节" width="100%" height="100%">
+				<mx:Label x="10" y="10" text="编号："/>
+				<mx:TextInput y="8" right="10" left="71" id="tx_EndNode_ID" change="onIDChange(event)" enabled="false"/>
+				<mx:Label x="10" y="86" text="位置"/>
+				<mx:Label x="71" y="88" text="左："/>
+				<mx:Label x="71" y="116" text="上："/>
+				<mx:TextInput y="86" right="10" left="108" id="tx_EndNode_Left" enabled="false" change="onLeftChange(event);"/>
+				<mx:TextInput y="114" right="10" left="108" id="tx_EndNode_Top" enabled="false" change="onTopChange(event);"/>
+				<mx:HRule y="76" right="10" left="10"/>
+				<mx:Label x="10" y="42" text="名称："/>
+				<mx:TextInput y="39" right="10" left="71" id="tx_EndNode_Name" change="onNameChange(event)"/>
+			</mx:Canvas>
+			<mx:Canvas id="tab_beginnode_prop" label="开始环节" width="100%" height="100%">				
+				<mx:Canvas id="flowCanvas" label="流程信息" width="100%" height="78" borderStyle="solid">
+					<mx:Label x="10" y="10" text="编号："/>
+					<mx:TextInput y="8" right="10" left="71" id="tx_BeginNode_ID" change="onIDChange(event)" enabled="false"/>
+					<mx:Label x="10" y="40" text="名称："/>
+					<mx:TextInput y="37" right="10" left="71" id="tx_BeginNode_Name" change="onNameChange(event)"/>
+				</mx:Canvas>		
+				<mx:Canvas x="0" y="77" width="100%" height="52" borderStyle="solid">
+					<mx:Label x="10" y="15" text="是否允许打印："/>
+					<mx:RadioButtonGroup id="begin_allowPrint_radio" change="begin_allowPrint_radio_changeHandler(event)"/>
+					<mx:RadioButton x="129" y="15" label="允许" value="0" groupName="begin_allowPrint_radio"/>
+					<mx:RadioButton x="191" y="15" label="不允许" value="1" groupName="begin_allowPrint_radio"/>
+				</mx:Canvas>
+				<mx:Canvas x="0" y="128" width="100%" height="52" borderStyle="solid">
+					<mx:Label x="10" y="15" text="是否包含制单节点："/>
+					<mx:RadioButtonGroup id="begin_allowIncludeBill_radio" change="begin_allowIncludeBill_radio_changeHandler(event)"/>
+					<mx:RadioButton x="129" y="15" label="是" value="0" groupName="begin_allowIncludeBill_radio"/>
+					<mx:RadioButton x="191" y="15" label="否" value="1" groupName="begin_allowIncludeBill_radio"/>
+				</mx:Canvas>
+				<mx:Canvas x="0" y="179" width="100%" height="86" borderStyle="solid">
+					<mx:Label x="10" y="13" text="单据处理类："/>
+					<mx:TextInput id="begin_service_class" y="42" right="10" left="30" change="begin_service_class_changeHandler(event)"/>
+				</mx:Canvas>
+			</mx:Canvas>
+			<mx:Canvas id="tab_route_prop" label="路由" width="100%" height="100%">
+				<mx:Canvas width="100%" height="88" borderStyle="solid" x="0" y="34">
+					<mx:Label x="10" y="10" text="编号："/>
+					<mx:TextInput y="8" right="10" left="71" id="tx_Route_ID" change="onIDChange(event)" enabled="false"/>
+					<mx:Label x="10" y="48" text="名称："/>
+					<mx:TextInput y="46" right="10" left="71" id="tx_Route_Name" change="onNameChange(event)"/>
+				</mx:Canvas>
+				<mx:Canvas x="0" y="188" id="route_condition_canvas" width="100%" height="354" borderStyle="solid">
+					<mx:Label x="10" y="47" text="选择表单："/>
+					<mx:ComboBox y="44" id="forms_comb" minWidth="10" left="80" right="10" labelField="@formName" change="forms_comb_changeHandler(event)">
+					</mx:ComboBox>
+					<mx:Label x="10" y="89" text="表单字段："/>
+					<mx:ComboBox y="86" id="form_item_comb" minWidth="10" left="80" right="10" dataProvider="{form_item_comb_provider.Field}"  labelField="@text" enabled="{forms_comb.selectedItem!=null}" toolTip="默认是审批结果,可以不选择">
+					</mx:ComboBox>
+					<mx:Label x="10" y="128" text="判断条件："/>
+					<mx:ComboBox y="126" id="route_compare" width="60" left="80" dataProvider="{route_condition_provider}" selectedIndex="0"></mx:ComboBox>
+					<mx:TextInput y="127" id="condition_value" left="150" right="10"/>
+					<mx:Label x="10" y="248" text="表达式："/>
+					<mx:TextArea y="217" id="condition_text" height="89" left="80" right="10" editable="{munaledit.selected}" change="condition_text_changeHandler(event)"/>
+					<mx:TextArea y="217" id="conditionZH_text" height="89" left="80" right="10" editable="false" visible="false"/>
+					<mx:CheckBox x="83" y="319" id="munaledit" label="手工编辑"/>
+					<mx:Button x="83" y="172" id="add_condition_btn" label="增加" click="add_condition_btn_clickHandler(event)"/>
+					<mx:Button x="158" y="172" id="clear_condition_btn" label="清空" click="clear_condition_btn_clickHandler(event)"/>
+					<mx:Label x="10" y="10" text="条件设置："/>
+				</mx:Canvas>
+				<mx:Canvas x="0" y="121" width="100%" height="68" borderStyle="solid">
+					<mx:Label x="10" y="7" text="自定义处理类："/>
+					<mx:TextInput id="route_selfDefClass_text" y="29" left="10" right="10" change="route_selfDefClass_text_changeHandler(event)"/>
+				</mx:Canvas>
+				<mx:Canvas x="0" y="0" width="100%" height="35" borderStyle="solid">
+					<mx:Label x="10" y="6" text="线条类型："/>
+					<mx:RadioButtonGroup id="route_style_radio" change="route_style_radio_changeHandler(event)"/>
+					<mx:RadioButton x="125" y="6" label="折线" value="0" groupName="route_style_radio"/>
+					<mx:RadioButton x="183" y="6" label="直线" value="1" groupName="route_style_radio"/>
+				</mx:Canvas>
+			</mx:Canvas>
+			<mx:Canvas id="gateway_prop" label="网关" width="100%" height="100%">
+				<mx:Canvas y="0" height="277"  borderStyle="solid" width="100%" x="0">
+					<mx:Label x="10" y="10" text="编号："/>
+					<mx:TextInput y="8" right="10" left="71" id="gateway_ID" enabled="false" change="onIDChange(event)"/>
+					<mx:Label x="10" y="42" text="名称："/>
+					<mx:TextInput y="40" right="10" left="71" id="gateway_Name" change="onNameChange(event)"/>
+					<mx:Label x="10" y="79" text="类型："/>
+					<mx:ComboBox id="gatewayStyle_comb" y="79" dataProvider="{gateway_provider}" selectedIndex="-1" width="100" x="71" change="gatewayStyle_comb_changeHandler(event)"></mx:ComboBox>
+					<mx:Label x="10" y="123" text="聚合逻辑："/>
+					<mx:RadioButtonGroup id="polylogic" change="polylogic_changeHandler(event)"/>
+					<mx:RadioButton x="15" y="151" label="AND(与操作)" groupName="polylogic" value="0"/>
+					<mx:RadioButton x="15" y="178" label="OR(或操作)" groupName="polylogic" value="1"/>
+					<mx:RadioButton x="15" y="204" label="按数量进行与操作" groupName="polylogic" value="2"/>
+					<mx:TextInput id="loginc_count" y="236" right="10" left="35" change="loginc_count_changeHandler(event)" enabled="{polylogic.selectedValue==2}"/>
+				</mx:Canvas>				
+			</mx:Canvas>
+		</mx:TabNavigator>
+	</mx:HDividedBox>
+	<mx:ControlBar width="100%" height="50" bottom="0" left="0">
+		<mx:Text width="128" id="tx_Status" visible="true"/>
+		<mx:TextInput id="tx_Eement" visible="true"/>		
+	</mx:ControlBar>
+	
+	<mx:Style>
+		mx|ToolTip {  
+			fontSize: 12;  
+			color: #000000;
+			backgroundColor:#abcdef;
+		}
+	</mx:Style>
+</mx:Application>

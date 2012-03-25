@@ -1,0 +1,51 @@
+<portlet-app
+	xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+	
+	<!--流程表单-->
+	<portlet>
+		<description>任务集成中心</description>
+		<portlet-name>TaskCenterPortlet</portlet-name>
+		<display-name>任务集成中心</display-name>
+		<portlet-class>
+			nc.uap.portlet.iframe.TriggerIframePortlet
+		</portlet-class>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+		</supports>
+		<portlet-preferences>
+			<preference>
+				<name>version</name>
+				<value>1</value>
+				<read-only>true</read-only>
+			</preference>
+			<preference>
+				<name>if_height</name>
+				<value>0</value>
+				<read-only>false</read-only>
+			</preference>
+			<preference>
+				<name>if_width</name>
+				<value>100%</value>
+				<read-only>false</read-only>
+			</preference>
+			<preference>
+				<name>if_src</name>
+				<description>链接地址</description>
+				<value><![CDATA[core/uimeta.ra?pageId=cp_funnode&type=wfl]]></value>
+				<read-only>false</read-only>
+			</preference>
+		</portlet-preferences>
+		<portlet-info>
+			<title>任务集成中心</title>
+		</portlet-info>
+		<supported-publishing-event>
+			<name>switchIframeContentEvent</name>
+		</supported-publishing-event>
+	</portlet>
+	
+	<default-namespace>http://ufida.com.cn</default-namespace>
+</portlet-app>

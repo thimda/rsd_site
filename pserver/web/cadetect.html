@@ -1,0 +1,11 @@
+<script src="cainclude.js"></script>
+<body onload="checkca();">
+	<script>
+		function checkca() {
+			if(keyready())
+				document.location.href = "core/login.jsp?pageId=calogin";
+			else
+				document.location.href = "core/login.jsp?pageId=login";
+		}
+	</script>
+</body>

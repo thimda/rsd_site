@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="true" height="400" i18nName="指派参与者" width="400">
+    <Models>
+        <Datasets>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_allactors" lazyLoad="false">
+                <Fields>
+                    <Field dataType="String" id="pk_user" isPrimaryKey="false" nullAble="true" text="pk_user">
+                    </Field>
+                    <Field dataType="String" id="username" isPrimaryKey="false" nullAble="true" text="username">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="HumActActorsLoadListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="false">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_allactors" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                	<![CDATA[
+                                		this.initialize();
+                                		
+                                	]]>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_selecteds" lazyLoad="true">
+                <Fields>
+                    <Field dataType="String" id="pk_user" isPrimaryKey="false" nullAble="true" text="pk_user">
+                    </Field>
+                    <Field dataType="String" id="username" isPrimaryKey="false" nullAble="true" text="username">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_selecteds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="ds_allactors" editable="true" enabled="true" height="100%" id="grid_allactors" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="false" showHeader="false" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_user" fixedHeader="false" id="pk_user" imageOnly="false" nullAble="false" renderType="DefaultRender" sortable="true" sumCol="false" text="用户编码" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="username" fixedHeader="false" id="username" imageOnly="false" nullAble="false" renderType="DefaultRender" sortable="true" sumCol="false" text="用户名称" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <GridComp dataset="ds_selecteds" editable="true" enabled="true" height="100%" id="grid_selecteds" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="false" showHeader="false" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_user" fixedHeader="false" id="pk_user" imageOnly="false" nullAble="false" renderType="DefaultRender" sortable="true" sumCol="false" text="用户编码" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="username" fixedHeader="false" id="username" imageOnly="false" nullAble="false" renderType="DefaultRender" sortable="true" sumCol="false" text="用户名称" visible="true" width="120">
+            </Column>
+        </GridComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_left_all" left="0" position="relative" text="&lt;&lt;" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_all_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_all_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignLeftAll();
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_rigth_all" left="0" position="relative" text="&gt;&gt;" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_all_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_all_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignRightAll();
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_cancel" left="0" position="relative" text="取消" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_current_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignCancel();
+    							]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_ok" left="0" position="relative" text="确定" top="0" visible="true" width="60">
+            <Listeners>
+               <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_all_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_all_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignOk();
+    							]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_right_one" left="0" position="relative" text="&gt;" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_all_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_all_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignRightOne();
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_left_one" left="0" position="relative" text="&lt;" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="SetAssginActorsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="assign" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_allactors" type="ds_all_line">
+                                    </Dataset>
+                                    <Dataset id="ds_selecteds" type="ds_all_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            	<![CDATA[
+                            		assignLeftOne();
+                            	]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

@@ -1,0 +1,13 @@
+<ul>
+	<#list nodes as node>
+		<li>
+			<a id="${node.pk_menuitem}" <#if node.pk_funnode ??>  onClick = "openFrame('','${node.funnode.url}')" <#else> onclick="$('#${node.pk_menuitem}_child').load('/portal/pt/link/tree/category?id=${node.pk_menuitem}');" </#if>  >${node.title}</a>
+			<#if node.pk_funnode ??>
+			<#else>
+				<div id="${node.pk_menuitem}_child">
+					
+				</div>
+			</#if>
+		</li>
+	</#list>
+</ul>

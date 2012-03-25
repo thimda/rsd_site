@@ -1,0 +1,8 @@
+fileserver=http://127.0.0.1/
+filestore=$/resources/portal/attachment
+login.provider=nc.uap.portal.login.PortalLoginProvider
+filemanager=nc.uap.portal.comm.file.PortalFileManager
+index.host="127.0.0.1"
+SYS_ID=1
+DEFAULT_THEME_ID=webclassic
+

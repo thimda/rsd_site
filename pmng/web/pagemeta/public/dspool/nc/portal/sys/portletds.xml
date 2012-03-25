@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset voMeta="nc.uap.portal.vo.PtPortletVO">
+    <Fields>
+        <Field dataType="UFBoolean" field="activeflag" id="activeflag" text="activeflag">
+        </Field>
+        <Field dataType="String" field="displayname" id="displayname" text="displayname">
+        </Field>
+        <Field field="dr" id="dr" text="dr">
+        </Field>
+        <Field dataType="Integer" field="expirecache" id="expirecache" text="expirecache">
+        </Field>
+        <Field dataType="String" field="fk_portaluser" id="fk_portaluser" text="fk_portaluser">
+        </Field>
+        <Field dataType="String" field="info" id="info" text="info">
+        </Field>
+        <Field dataType="String" field="initparams" id="initparams" text="initparams">
+        </Field>
+        <Field dataType="Multilangtext" field="memo" id="memo" text="memo">
+        </Field>
+        <Field dataType="UFID" field="pk_group" id="pk_group" text="pk_group">
+        </Field>
+        <Field dataType="UFID" field="pk_portlet" id="pk_portlet" text="pk_portlet">
+        </Field>
+        <Field dataType="String" field="portletclass" id="portletclass" text="portletclass">
+        </Field>
+        <Field dataType="CUSTOM" field="portletid" id="portletid" text="portletid">
+        </Field>
+        <Field dataType="UFID" field="parentid" id="parentid" text="parentid">
+        </Field>
+        <Field dataType="CUSTOM" field="resourcebundle" id="resourcebundle" text="resourcebundle">
+        </Field>
+        <Field dataType="UFBoolean" field="shareflag" id="shareflag" text="shareflag">
+        </Field>
+        <Field dataType="CUSTOM" field="supportlocales" id="supportlocales" text="supportlocales">
+        </Field>
+        <Field dataType="CUSTOM" field="supportmodes" id="supportmodes" text="supportmodes">
+        </Field>
+        <Field dataType="UFDate" field="ts" id="ts" text="ts">
+        </Field>
+        <Field dataType="String" field="version" id="version" text="version">
+        </Field>
+        <Field dataType="String" field="module" id="module" text="module">
+        </Field>
+        <Field dataType="String" field="newversion" id="newversion" text="newversion">
+        </Field>
+    </Fields>
+</Dataset>

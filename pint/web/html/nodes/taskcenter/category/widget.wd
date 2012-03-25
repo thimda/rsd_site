@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.task.ctrl.CategoryController" dialog="false" id="category" refId="category" sourcePackage="pint/src/public/">
+    <PlugoutDescs>
+        <PlugoutDesc id="doFilterTaskStatus">
+            <PlugoutDescItem clazztype="java.lang.String" name="taskstatus" source="cateds" type="Dataset.TYPE_DATASET_SEL_ROW">
+            </PlugoutDescItem>
+            <PlugoutEmitItem id="onCateChanged" source="cateds" type="Dataset.onAfterRowSelect">
+            </PlugoutEmitItem>
+        </PlugoutDesc>
+    </PlugoutDescs>
+    <PluginDescs>
+    </PluginDescs>
+    <Models>
+        <Datasets>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="cateds" lazyLoad="false" notNullBody="false">
+                <Fields>
+                    <Field dataType="String" id="id" nullAble="true" primaryKey="false" text="id">
+                    </Field>
+                    <Field dataType="String" id="title" nullAble="true" primaryKey="false" text="title">
+                    </Field>
+                    <Field dataType="String" id="i18nname" nullAble="true" primaryKey="false" text="i18nname">
+                    </Field>
+                    <Field dataType="String" id="taskstatus" nullAble="true" primaryKey="false" text="taskstatus">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_cateds" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+        </Datasets>
+        <ComboDatas>
+            <StaticComboData id="c001_data">
+                <ComboItem text="待办" value="UnRead">
+                </ComboItem>
+                <ComboItem text="已办" value="Readed">
+                </ComboItem>
+                <ComboItem text="办结" value="End">
+                </ComboItem>
+            </StaticComboData>
+            <StaticComboData id="c002_data">
+                <ComboItem text="待阅" value="UnRead">
+                </ComboItem>
+                <ComboItem text="已阅" value="Readed">
+                </ComboItem>
+                <ComboItem text="办结" value="End">
+                </ComboItem>
+            </StaticComboData>
+        </ComboDatas>
+    </Models>
+    <Components>
+        <TreeViewComp dragEnable="false" enabled="true" id="catetree" rootOpen="true" text="ROOT" visible="true" withCheckBox="false" withRoot="false">
+            <SimpleTreeLevel dataset="cateds" id="level1" labelFields="title" masterKeyField="id">
+            </SimpleTreeLevel>
+        </TreeViewComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" id="cbcc002" refComboData="c002_data" selectOnly="true" textAlign="left" textWidth="0" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TextListener" methodName="valueChanged_cbc" name="valueChanged" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>textEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ComBoBoxComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" id="cbcc001" refComboData="c001_data" selectOnly="true" textAlign="left" textWidth="0" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TextListener" methodName="valueChanged_cbc" name="valueChanged" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>textEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ComBoBoxComp>
+    </Components>
+    <Menus>
+    </Menus>
+</Widget>

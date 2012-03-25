@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.vo.pub.portlet.NewsVO"> 
+	<Fields>
+	
+		<Field id="pk_news" field="pk_news" dataType="String" i18nName="newsds.pk_news" nullAble="true"/><!--新闻主键 -->
+		<Field id="fk_newsgroup" field="fk_newsgroup" dataType="String" i18nName="newsgroup.pk_newsgroup" nullAble="false"/><!--新闻组主键 -->
+		<Field id="viewcount" field="viewcount" dataType="Integer" i18nName="newsds.viewcount" nullAble="true"/><!-- 浏览次数-->
+		<Field id="title" field="title" dataType="String" i18nName="newsds.title" nullAble="false"/><!--标题 -->
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="newsds.createdate" nullAble="true"/><!--创建时间 -->
+		<Field id="content" field="content" dataType="String" i18nName="newsds.content" nullAble="true"/><!--内容 -->
+		<Field id="approvestate" field="approvestate" dataType="Integer" i18nName="newsds.newsstate" nullAble="true"/><!--新闻状态 -->
+		<Field id="createuser" field="createuser" dataType="String" i18nName="newsds.createuser" nullAble="true"/><!-- 创建者-->
+		<Field id="subtitle" field="subtitle" dataType="String" i18nName="newsds.subtitle" nullAble="true"><!--子标题 -->
+			<Properties>
+				<Property name="maxLength" value="500"/>
+			</Properties>
+		</Field>
+		<Field id="newslevel" field="newslevel" dataType="Integer" i18nName="newsds.newslevel" nullAble="false" defaultValue="0"/><!--新闻等级 -->
+		<Field id="approveuser" field="approveuser" dataType="String" i18nName="newsds.assessor" nullAble="true"/><!--审核者 -->
+		<Field id="approvedate" field="approvedate" dataType="UFDateTime" i18nName="newsds.assessdate" nullAble="true"/><!--审核日期 -->
+		<Field id="message" field="message" dataType="String" i18nName="newsds.message" nullAble="true"/><!-- 信息-->
+		<Field id="titlestyle" field="titlestyle" dataType="Integer" defaultValue="0" i18nName="newsds.titlestyle" nullAble="false"/><!--标题类型 -->
+		<Field id="contentlink" field="contentlink" dataType="String" i18nName="newsds.contentlink" nullAble="true"><!--内容链接 -->
+			<Properties>
+				<Property name="maxLength" value="500"/>
+			</Properties>
+		</Field>
+		<Field id="identifier" field="identifier" dataType="String" i18nName="newsds.identifier" nullAble="false"/><!-- 标识-->
+		<Field id="seeRole" field="seeRole" dataType="String" i18nName="newsds.readcontrol" nullAble="true"/><!--浏览权限 -->
+		<Field id="seeRoleName" field="seeRoleName" dataType="String" i18nName="newsds.readcontrol" nullAble="true"/><!--浏览权限名称 -->
+		
+		<Field id="pk_org" field="pk_org" dataType="String" i18nName="cms.corp" nullAble="false"/><!--所属公司 -->
+		
+	</Fields>
+</Dataset>

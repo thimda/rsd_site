@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<display>
+	 
+	<category id="wfl" text="流程" i18nName="wfl">
+		<portlet id="TaskCenterPortlet" dynamic="true" title="任务中心"/> 
+		<portlet id="MyWflPortlet" dynamic="true" title="我的流程"/> 	
+	</category>
+	
+	<category id="msg" text="消息" i18nName="msg">
+		<portlet id="MsgCenterMenuPortlet" dynamic="true" title="消息中心"/> 
+		<portlet id="MsgCenterPopupPortlet" dynamic="true" title="弹出消息中心"/> 
+	</category>
+	
+	<category id="int" text="系统集成" i18nName="int">
+		<portlet id="WebApplicationPortlet" dynamic="true" title="集成"/> 
+		<portlet id="FormIntegrationPortlet" dynamic="true" title="表单集成"/> 
+		<portlet id="MyFunctionPortlet" dynamic="true" title="我的功能"/> 
+		
+	</category>
+</display>

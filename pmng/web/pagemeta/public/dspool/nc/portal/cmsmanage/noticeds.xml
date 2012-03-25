@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.vo.pub.portlet.NoticeVO">
+	<Fields>
+		<Field id="pk_notice" field="pk_notice" dataType="String" i18nName="noticeds.pk_notice" nullAble="false"/> <!--公告主键 -->
+		<Field id="title" field="title" dataType="String" i18nName="noticeds.title" nullAble="false"/><!--公告标题 -->
+		<Field id="mood" field="mood" dataType="String" i18nName="noticeds.mood" nullAble="false"/><!--类型 -->
+		<Field id="content" field="content" dataType="String" i18nName="noticeds.content" nullAble="false"/><!--公告内容 -->
+		<Field id="createuser" field="createuser" dataType="String" i18nName="noticeds.createuser" nullAble="false"/><!--创建者 -->
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="noticeds.createdate" nullAble="false"/><!-- 创建日期-->
+		<Field id="identifier" field="identifier" dataType="String" i18nName="noticeds.identifier" nullAble="false"/><!--公告标识 -->
+		<Field id="pk_org" field="pk_org" dataType="String" i18nName="cms.corp" nullAble="false"/><!--所属公司-->
+	</Fields>
+</Dataset>

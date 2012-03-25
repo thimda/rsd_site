@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding='gb2312'?>
+<module name="nc.uap.portal.PortalEJB">
+	<public>
+		<component  remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtWorkDayService</interface>
+			<implementation>nc.uap.portal.service.impl.PtWorkDayServiceImpl</implementation>
+		</component>
+		<component cluster="SP" remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalStatusService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalStatusServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IEncodeService</interface>
+			<implementation>nc.uap.portal.service.impl.NcEncodeImpl</implementation>
+		</component>
+		
+		<component  remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPageService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPageServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPageQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPageQryServiceImpl</implementation>
+		</component>
+		 
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPluginQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPluginQryServiceImpl</implementation>
+		</component>
+        
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPluginService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPluginServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPortalDeployService</interface>
+			<implementation>nc.uap.portal.service.impl.PortalDeployServiceImpl</implementation>
+		</component>
+       
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPortalSpecService</interface>
+			<implementation>nc.uap.portal.service.impl.PortalSpecServiceImpl</implementation>
+		</component>
+        
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalPageQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalPageQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPortalPageService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalPageServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortletQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortletQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPortletService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortletServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortletRegistryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortletRegistryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalPageRegistryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalPageRegistryServiceImpl</implementation>
+		</component>   
+        
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.PortletAppDescriptorService</interface>
+			<implementation>nc.uap.portal.service.impl.PortletAppDescriptorServiceImpl</implementation>
+		</component>
+   
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.container.service.itf.PortletInvokerService</interface>
+			<implementation>nc.uap.portal.container.service.impl.DefaultPortletInvokerService</implementation>
+		</component>
+         
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.container.service.itf.FilterManagerService</interface>
+			<implementation>nc.uap.portal.container.service.impl.FilterManagerServiceImpl</implementation>
+		</component>
+        
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.container.service.itf.NamespaceMapper</interface>
+			<implementation>nc.uap.portal.container.driver.DefaultNamespaceMapper</implementation>
+		</component>
+ 
+		
+        
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPortalDesignDataProvider</interface>
+			<implementation>nc.uap.portal.service.impl.PortalDesignDataProviderImpl</implementation>
+		</component>
+        
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.container.service.itf.PortletURLListenerService</interface>
+			<implementation>nc.uap.portal.container.service.impl.PortletURLListenerServiceImpl</implementation>
+		</component>
+		 
+		<component singleton="true" tx="NONE" remote="true">
+			<interface>nc.uap.portal.service.itf.IPtMessageCenterQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtMessageCenterQryServiceImpl</implementation>
+		</component> 
+		<component singleton="true" tx="CMT" remote="true">
+			<interface>nc.uap.portal.service.itf.IPtMessageCenterService</interface>
+			<implementation>nc.uap.portal.service.impl.PtMessageCenterServiceImpl</implementation>
+		</component> 
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtConfigQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtConfigQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalConfigRegistryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalConfigRegistryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtConfigService</interface>
+			<implementation>nc.uap.portal.service.impl.PtConfigServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalThemeQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalThemeQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPortalThemeService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalThemeServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalSkinQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalSkinQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPortalSkinService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalSkinServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtPortalModuleQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalModuleQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.service.itf.IPtPortalModuleService</interface>
+			<implementation>nc.uap.portal.service.impl.PtPortalModuleServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtUserAgentQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtUserAgentQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtWorkDayQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtWorkDayQryServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.itf.IPtIndexConfigService</interface>
+			<implementation>nc.uap.portal.service.impl.PtIndexConfigServiceImpl</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtDeviceQryService</interface>
+			<implementation>nc.uap.portal.service.impl.PtDeviceQryService</implementation>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.service.itf.IPtThirdPartyLoginService</interface>
+			<implementation>nc.uap.portal.service.impl.PtThirdPartyLoginServiceImpl</implementation>
+		</component>
+	</public>
+	<private>
+		<component singleton="true">
+			<implementation>nc.uap.portal.core.cache.PortalCacheClusterListener</implementation>
+			<property name="filterClass">
+				<value>nc.uap.portal.core.cache.ClusterCacheMessageFilter</value>
+			</property>
+		</component>
+		<component singleton="true">
+			<implementation>nc.portal.org.servlet.listener.UserImportServerListener</implementation>
+			<property name="filterClass">
+				<value>nc.portal.org.servlet.listener.UserImportMsgFilter</value>
+			</property>
+		</component>
+	</private>
+</module>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="popup_um" jquery="0">
+    <FlowvLayout autoFill="0" id="flowvlayout3784" widgetId="popup">
+        <FlowvPanel id="panelv03784" widgetId="popup">
+            <FormComp height="100%" id="settingform" label_position="" left="0" position="relative" top="0" widgetId="popup" width="100%">
+            </FormComp>
+        </FlowvPanel>
+        <FlowvPanel id="panelv13784" widgetId="popup">
+            <FlowhLayout id="flowhlayout9157" widgetId="popup">
+                <FlowhPanel id="panelh09157" widgetId="popup">
+                    <Button align="right" height="23" id="button0430" left="0" position="relative" top="0" widgetId="popup" width="64">
+                    </Button>
+                </FlowhPanel>
+                <FlowhPanel id="panelh19157" widgetId="popup">
+                    <Button height="23" id="button0614" left="0" position="relative" top="0" widgetId="popup" width="64">
+                    </Button>
+                </FlowhPanel>
+            </FlowhLayout>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

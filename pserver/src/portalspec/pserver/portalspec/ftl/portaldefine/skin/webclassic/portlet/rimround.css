@@ -1,0 +1,77 @@
+.rimround{
+		width:100%;
+	}
+	.rimround .head{
+		 height:38px;
+		 width:100%;
+		 background-image:url(${RES_PATH}/images/titlebar_top/titlebar_top_center.png);
+		 position:relative;
+	}
+	
+	.rimround .head .leftpad{
+		left:0;width:8px;height:38px;
+		position:absolute;
+		float:left;
+		top:0;
+		background-color:#FFF;
+		background-image:url(${RES_PATH}/images/titlebar_top/titlebar_left_top.png);
+	}
+	.rimround .head .rightpad{
+		position:absolute;
+		float:right;
+		right:0;
+		top:0;width:8px;height:38px;
+		background-color:#FFF;
+		background-image:url(${RES_PATH}/images/titlebar_top/titlebar_right_top.png);
+	}
+	.rimround .head .title {
+		padding:10px 0 0 12px;
+		float:left;
+	}
+	.rimround .head .title a {
+    color: #218DCB;
+    display: inline-block;
+    font-family: 微软雅黑;
+    font-size: 11pt;
+    font-weight: bold;
+    text-decoration: none;
+}
+	
+	.rimround .pbody{
+		border:1px solid #ccc;
+		border-top:none 0px;
+	}
+	
+		.rimround .foot{
+		 height:45px;
+		 width:100%;
+		 background-image:url(${RES_PATH}/images/titlebar_bottom/titlebar_bottom_center.png);
+		 position:relative;
+	}
+	
+	.rimround .foot .leftpad{
+		left:0;width:8px;height:45px;
+		position:absolute;
+		float:left;
+		top:0;
+		background-color:#FFF;
+		background-image:url(${RES_PATH}/images/titlebar_bottom/titlebar_left_bottom.png);
+	}
+	.rimround .foot .rightpad{
+		position:absolute;
+		float:right;
+		right:0;
+		top:0;width:8px;height:45px;
+		background-color:#FFF;
+		background-image:url(${RES_PATH}/images/titlebar_bottom/titlebar_right_bottom.png);
+	}
+	.rimround .foot .title{
+		display: block;
+   	 	line-height: 40px;
+    	text-align: center;
+    	color: #797979;
+   		font-family: Aral;
+    	font-weight: bold;
+    	font-size:10pt;
+	}
+	

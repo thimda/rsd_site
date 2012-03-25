@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='gb2312'?>
+<module name="nc.uap.portal.PmngEJB">
+	<public>		
+		<component singleton="true" tx="NONE" remote="true">
+			<interface>nc.portal.service.itf.ILfwTokenQryService</interface>
+			<implementation>nc.portal.service.impl.LfwTokenQryServiceImpl</implementation>
+		</component>
+		<component singleton="true" tx="NONE" remote="true">
+			<interface>nc.uap.portal.mng.page.itf.IPageManagerQryService</interface>
+			<implementation>nc.uap.portal.mng.page.impl.PageManagerQryServiceImpl</implementation>
+		</component>
+		<component singleton="true" tx="CMT" remote="true">
+			<interface>nc.uap.portal.mng.page.itf.IPageManagerService</interface>
+			<implementation>nc.uap.portal.mng.page.impl.PageManagerServiceImpl</implementation>
+		</component>
+	</public>
+   <private>
+   </private>
+</module>

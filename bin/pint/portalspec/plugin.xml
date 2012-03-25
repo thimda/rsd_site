@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<!--<extension-point point="MSG_PROVIDE" title="消息集成" classname="nc.uap.portal.msg.provide.IMsgProvide">
+	<extension isactive="true" id="mockmsg" title="outlook" classname="nc.uap.portal.msg.provide.impl.MockMsgProvideImpl"/>
+</extension-point>-->
+<extension-point point="TASK_QRY_PLUGIN" title="流程集成" classname="nc.uap.portal.task.itf.ITaskQryTmp">
+	<extension isactive="true" id="wfmtaskqry" title="协同流程" classname="nc.uap.portal.task.impl.WfmTaskQryTmpImpl"/>
+</extension-point>
+
+<extension-point point="FUN_INT" title="功能集成" classname="nc.uap.portal.integrate.funnode.IFunIntegrationProvider">
+	<extension isactive="true" id="nc_fun_int0" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int1" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int2" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int3" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int4" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int5" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+	<extension isactive="true" id="nc_fun_int6" title="NC功能" classname="nc.uap.portal.integrate.funnode.impl.NC60FunProviderImpl"/>
+</extension-point>
+
+</plugin>

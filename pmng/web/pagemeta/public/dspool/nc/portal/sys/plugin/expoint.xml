@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset voMeta="nc.uap.portal.plugins.model.PtExtensionPoint">
+    <Fields>
+        <Field dataType="String" field="pk_extpoint" id="pk_extpoint" text="pk_extpoint">
+        </Field>
+        <Field dataType="String" field="point" id="point" text="point">
+        </Field>
+        <Field dataType="String" field="classname" id="classname" text="classname">
+        </Field>
+        <Field dataType="String" field="title" id="title" text="title">
+        </Field>
+    </Fields>
+</Dataset>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<display>
+	<category id="gen" text="通用" i18nName="gen">
+		<portlet id="LFWPortlet" dynamic="false" title="LFWPortlet"/>
+		<portlet id="OutLookLinkTreePortlet" dynamic="false" title="通用Outlook挂接Portlet"/>
+		<portlet id="FloatLinkPortlet" dynamic="false" title="通用浮动挂接Portlet"/>
+		<portlet id="NavigationPortlet" dynamic="false" title="导航条Portlet"/>
+	</category>
+</display>

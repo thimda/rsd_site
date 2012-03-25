@@ -1,0 +1,379 @@
+<#assign listenerMenus = "">
+<#if LINK_ROOT ??>
+<#if LINK_ROOT?size != 0>
+<style>
+#${pageIndex}_MENU{
+	position: absolute; 
+}
+
+.floatmenu {
+	font-size:12px;
+	color:#0086b2;
+	line-height:28px;
+}
+
+.floatmenu ul{
+	/*padding-left:10px;*/
+}
+
+.floatmenu ul li a{
+	color:#0992C1;
+	cursor:pointer;
+}
+
+#menuitems{
+	padding-left:10px;
+	overflow-y:auto;
+}
+
+#menuitems li{
+	list-style:none;
+}
+
+#menuitems li a{
+	font-size:16px;
+	color:#0992C1;
+	cursor:pointer;
+	display:inline;
+}
+</style>
+<script>
+function addMenuItem(menuId,menuTitle){
+	var html = "  	  <li><a class=\"mi_l\"></a><a id=\""+ menuId +"\" href=\"javascript:return false;\"><span>"+ menuTitle +"</span></a><a class=\"mi_r\"></a> <span class=\"mi_f\"></span></li>";
+	//var html = "<li class=\"navSplit\"></li><li><a id=\""+ menuId +"\" href=\"javascript:return false;\">"+ menuTitle +"</a></li>";
+	$(html).appendTo(".menu");
+};
+</script>
+<style>
+.divBody{
+	
+}
+
+.divBody .top_left{
+	position:absolute;
+	left:0px;
+	top:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_left_top.png) no-repeat;
+	width:75px;
+	height:36px;
+}
+
+.divBody .top_center{
+	position:absolute;
+	left:75px;
+	right:75px;
+	top:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_top_center.png) repeat-x;
+	height:36px;
+}
+
+.divBody .top_right{
+	position:absolute;
+	right:0px;
+	top:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_right_top.png) no-repeat;
+	width:75px;
+	height:36px;
+}
+
+.divBody .center_left{
+	position:absolute;
+	left:0px;
+	top:36px;
+	bottom:80px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_left_center.png) repeat-y;
+	width:75px;
+}
+
+.divBody .center{
+	position:absolute;
+	left:75px;
+	right:75px;
+	top:36px;
+	bottom:80px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_center.png) repeat;
+}
+
+.divBody .center_right{
+	position:absolute;
+	right:0px;
+	top:36px;
+	bottom:80px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_right_center.png) repeat-y;
+	width:75px;
+}
+
+.divBody .bottom_left{
+	position:absolute;
+	left:0px;
+	bottom:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_left_bottom.png) no-repeat;
+	width:75px;
+	height:80px;
+}
+
+.divBody .bottom_center{
+	position:absolute;
+	left:75px;
+	right:75px;
+	bottom:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_bottom_center.png) repeat-x;
+	height:80px;
+}
+
+.divBody .bottom_right{
+	position:absolute;
+	right:0px;
+	bottom:0px;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/subtab_right_bottom.png) no-repeat;
+	width:75px;
+	height:80px;
+}
+
+.divBody .divContent{
+	position:relative;
+	width:100%;
+	height:100%;
+	margin-left:36px;
+	margin-right:35px;
+	margin-top:0px;
+	margin-bottom:40px;
+	overflow:hidden;
+}
+
+.divBody .td_style{
+	border-right:solid 1px #c9e6f2;
+}
+
+.divBody .td_top{
+	border-right:solid 1px #c9e6f2;
+	width:151px;
+}
+
+.divBody .divLeftBtn{
+	position:absolute;
+	left:0px;
+	top:50%;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/preview.png) no-repeat;
+	width:26px;
+	height:41px;
+	cursor:pointer;
+}
+
+.divBody .divRightBtn{
+	position:absolute;
+	right:0px;
+	top:50%;
+	background:url(/portal/apps/pserver/skin/webclassic/images/navigation/next.png) no-repeat;
+	width:26px;
+	height:41px;
+	cursor:pointer;
+}
+
+.floatmenuitem ul{
+	margin-left:10px;
+}
+
+</style>
+	<div id="${pageIndex}_MENU" class="divBody" style="display:none;" menu="t" title="${windowTitle}">
+		<div class="top_left"></div>
+		<div class="top_center"></div>
+		<div class="top_right"></div>
+		<div class="center_left"></div>
+		<div class="center"></div>
+		<div class="center_right"></div>
+		<div class="bottom_left"></div>
+		<div class="bottom_center"></div>
+		<div class="bottom_right"></div>
+		<div id="${pageIndex}_content" class="divContent">
+			<table id="${PAGE_CARD_ID}_body" style="position:relative;left:0px;">
+						<tr align="left" style="height:32px;">
+							<#list LINK_ROOT as child>
+								<td class="td_top" align="center">
+									<span class="floatmenu"><#if child.title ??>${child.title}<#else>未命名</#if></span>
+								</td>
+							</#list>
+						</tr>
+						<tr align="left">
+							<#list LINK_ROOT as child>
+								<td width="150" valign="top" class="td_style">
+									<div class="floatmenu" style="margin-left:40px;margin-top:18px;" menu="t"  title="<#if child.title ??>${child.title}<#else>未命名</#if>">
+									<ul>
+										<#list child.nodes as node>
+											<li title="${node.title}"  menu="t" >
+												<a id="${node.pk_menuitem}" <#if node.funnode.url ??> isFun="1" funURL = "<#if node.funnode.url ?? && node.funnode.url?length != 0><#if node.funnode.url?index_of("?") != -1>${node.funnode.url}&nodecode=${node.funnode.id}<#else>${node.funnode.url}?nodecode=${node.funnode.id}</#if></#if>" <#else>style="text-decoration:none;color:#666666;cursor:default;"</#if>  ><b>${node.title}</b></a>
+													<div class="floatmenuitem" id="${node.pk_menuitem}_child">
+														<ul>
+															<#list node.childrenMenu as childnode>
+																<li>
+																	<a id="${childnode.pk_menuitem}" <#if childnode.pk_funnode ??> isFun="1" funURL = "<#if childnode.funnode.url ?? && childnode.funnode.url?length != 0><#if childnode.funnode.url?index_of("?") != -1 >${childnode.funnode.url}&nodecode=${childnode.funnode.id}<#else>${childnode.funnode.url}?nodecode=${childnode.funnode.id}</#if></#if>" <#else>style="text-decoration:none;color:#666666;cursor:default;"</#if>  title="${childnode.title}" >${childnode.title}</a>
+																</li>
+															</#list>
+														</ul>
+													</div>
+											</li>
+										</#list>
+									</ul>
+									</div>
+								</td>
+							</#list>
+						</tr>
+						<tr style="height:33px;">
+							<#list LINK_ROOT as child>
+								<td class="td_style"></td>
+							</#list>
+						</tr>
+					</table>
+			<div id="${pageIndex}_divLeftBtn" class="divLeftBtn"></div>
+			<div id="${pageIndex}_divRightBtn" class="divRightBtn"></div>
+		</div>
+	</div>
+	<script>
+		var FloatTree_TD_WIDTH = 150;
+		var FloatTree_TD_SHOW_COUNT = 6;
+		var FloatTree_LEFT_RIGHT_MARGIN = 70;
+		$("#${PAGE_CARD_ID}_body").width((FloatTree_TD_WIDTH + 1) * $('#${PAGE_CARD_ID}_body').find('.td_top').length);
+	
+		if($('#${PAGE_CARD_ID}_body').find('.td_top').length > FloatTree_TD_SHOW_COUNT){
+			$("#${pageIndex}_MENU").width(FloatTree_TD_WIDTH * FloatTree_TD_SHOW_COUNT + FloatTree_LEFT_RIGHT_MARGIN);
+			$("#${pageIndex}_content").width(FloatTree_TD_WIDTH * FloatTree_TD_SHOW_COUNT);
+			$("#${pageIndex}_divLeftBtn").hide();
+		}else{
+			$("#${pageIndex}_content").width((FloatTree_TD_WIDTH + 1) * $('#${PAGE_CARD_ID}_body').find('.td_top').length - 1);
+			$("#${pageIndex}_divLeftBtn").hide();
+			$("#${pageIndex}_divRightBtn").hide();
+		}
+		
+		$("#${pageIndex}_divLeftBtn").click(function(){
+			var left = parseInt($('#${PAGE_CARD_ID}_body').css('left'), 10);
+			var size = $('#${PAGE_CARD_ID}_body').find('.td_top').size();
+			if(size > FloatTree_TD_SHOW_COUNT){
+				if(left < 0){
+					left = -left;
+				}
+				if(left > 0){
+					left = left - FloatTree_TD_WIDTH;	
+					$('#${PAGE_CARD_ID}_body').css('left', '-' + left + 'px');
+				}
+				changeDivBtnStatus($(this), $("#${pageIndex}_divRightBtn"), size, left);		
+			}
+		});
+		
+		$("#${pageIndex}_divRightBtn").click(function(){
+			var left = parseInt($('#${PAGE_CARD_ID}_body').css('left'), 10);
+			var size = $('#${PAGE_CARD_ID}_body').find('.td_top').size();
+			if(size > FloatTree_TD_SHOW_COUNT){
+				if(left < 0){
+					left = -left;
+				}
+				if(left < (size - FloatTree_TD_SHOW_COUNT) * FloatTree_TD_WIDTH){
+					left = left + FloatTree_TD_WIDTH;
+					$('#${PAGE_CARD_ID}_body').css('left', '-' + left + 'px');
+				}
+				changeDivBtnStatus($("#${pageIndex}_divLeftBtn"), $(this), size, left);
+			}
+		});
+		
+		function changeDivBtnStatus($leftBtn, $rightBtn, size, left){
+			if(left < 0){
+				left = -left;
+			}
+			if(left > 0){
+				$leftBtn.show();
+			}else{
+				$leftBtn.hide();
+			}
+			if(left < (size - FloatTree_TD_SHOW_COUNT) * FloatTree_TD_WIDTH){
+				$rightBtn.show();
+			}else{
+				$rightBtn.hide();				
+			}
+		}
+		
+		$("#${pageIndex}_MENU").add("#${PAGE_CARD_ID}").mouseout(function () {
+			$("#${pageIndex}_MENU").attr("placein","0");
+			setTimeout(function(){
+				if($("#${pageIndex}_MENU").attr("placein") == "0"){
+					$("#${pageIndex}_MENU").hide();
+				}
+			},1000);
+		});
+		$("#${pageIndex}_MENU").add("#${PAGE_CARD_ID}").mouseover(function () {
+			$("#${pageIndex}_MENU").attr("placein","1");
+			if(this.id != "${pageIndex}_MENU"){
+				$("#${PAGE_CARD_ID}_body").show();
+			
+				var documentWidth = $(document).width();
+				var docWidth = $(document).find("div").get(0).offsetWidth;
+				if(isNaN(docWidth) || docWidth <= 0){
+					docWidth = documentWidth;
+				}
+				
+				var marginLeft = parseInt((documentWidth - docWidth)/2, 10);
+							
+				var left = $(this).position().left - 35 - 10;//35图片阴影部分宽度
+				var top = $(this).position().top + 40;
+				
+				var bodyWidth = (FloatTree_TD_WIDTH + 1) * (FloatTree_TD_SHOW_COUNT > $('#${PAGE_CARD_ID}_body').find('.td_top').length ? $('#${PAGE_CARD_ID}_body').find('.td_top').length:FloatTree_TD_SHOW_COUNT) + FloatTree_LEFT_RIGHT_MARGIN;
+				if(left + bodyWidth > marginLeft + docWidth){
+					var right = $(this).position().left + $(this).width() + 35 + 10;
+					if(right <= marginLeft + docWidth && right - bodyWidth >= marginLeft){
+						left = right - bodyWidth;						
+					}else{
+						left = docWidth - bodyWidth + marginLeft;
+					}
+				}
+				$("#${pageIndex}_MENU").css("left",left + "px");
+				$("#${pageIndex}_MENU").css("top",top + "px");
+				$("#${pageIndex}_MENU").show();
+				$(".content").children("div").each(function(i){
+					if($(this).attr("id").length>0 && $(this).attr("id") != "${pageIndex}_MENU"){
+						$(this).attr("placein","0");
+						$(this).hide();
+					}
+				});
+			}
+		});
+		
+		$(".floatmenu").find("a").click(function () {
+			var isFun = $(this).attr("isFun");
+			if(isFun == "1"){
+				var parents = $(this).parents("[menu=t]");
+				var titles = new Array();
+				titles.push($(this).attr("title"));
+				for(var i = 0; i < parents.length; i ++){
+					titles.push($(parents[i]).attr("title"));
+				}
+				
+				openFrame(titles.join(",,,"), $(this).attr("funURL"));
+				
+			}else{
+				$("#"+this.id+"_child").load("/portal/pt/link/tree/category?id=" + this.id);
+			}
+		});
+		/**
+		 *  
+		 */
+		function openFrame(title,url){
+			if(url != ""){
+				var param = {};
+				param.frameUrl = url;
+				param.title = title;
+				getContainer("#${windowID}").doAction(param);
+				$(".content").children("div").each(function(i){
+					if($(this).attr("id").length>0){
+						$(this).attr("placein","0");
+						$(this).hide();
+					}
+				});
+			}
+		}
+		function debug(log){
+			if(console){
+				console.info(log);
+			}
+		};
+		
+	</script>
+</#if>
+</#if>

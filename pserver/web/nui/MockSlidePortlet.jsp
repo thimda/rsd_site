@@ -1,0 +1,1 @@
+<img src="/portal/nui/slide.gif">

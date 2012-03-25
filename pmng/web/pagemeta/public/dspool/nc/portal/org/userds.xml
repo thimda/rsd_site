@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 用户ds -->
+<Dataset voMeta="nc.portal.vo.org.PtUserVO">
+     <Fields>  
+        <Field id="pk_user" field="pk_user" dataType="String" text="用户主键" i18nName="org.user.pk_user"/><!--用户主键  -->
+		<Field id="userid" field="userid" dataType="String" text="用户编码" i18nName="org.user.userid" nullAble="false"/><!-- 用户编码 -->
+		<Field id="username" field="username" dataType="String"  text="用户名" i18nName="org.user.username" nullAble="false"/><!--用户名  -->
+		<Field id="nickname" field="nickname" dataType="String"  text="用户昵称" i18nName="org.user.nickname"/><!--用户昵称  -->
+		<Field id="password" field="password" dataType="String"  text="用户密码" i18nName="org.user.password"/><!--用户密码  -->
+		<Field id="langcode" field="langcode" dataType="String"  text="所用语言" i18nName="org.user.langcode" defaultValue="simpchn"/><!--所用语言  -->
+		<Field id="email" field="email" dataType="String"  text="邮箱" i18nName="org.user.email" formater="email"/><!--邮箱  -->
+		<Field id="tel" field="tel" dataType="String"  text="电话" i18nName="org.user.tel" formater="phone"/><!--电话  -->
+		<Field id="mobile" field="mobile" dataType="String"  text="手机" i18nName="org.user.mobile" formater="phone"/><!--手机  -->
+		<Field id="activedate" field="activedate" dataType="UFDate" text="启用日期"  i18nName="org.user.activedate" /><!--启用日期  -->
+		<Field id="disabledate" field="disabledate" dataType="UFDate"  text="失效日期" i18nName="org.user.disabledate" /><!--失效日期  -->
+		<Field id="description" field="description" dataType="String"  text="用户描述" i18nName="org.user.description"/><!--用户描述  -->
+		<Field id="pk_group" field="pk_group" dataType="String"  text="所属集团主键" i18nName="org.corp.pk_group"/><!--所属集团主键  -->
+		<Field id="pk_org" field="pk_org" dataType="String"  text="所属组织主键" i18nName="org.dept.pk_org"/><!--所属组织主键  -->
+		<Field id="pk_dept" field="pk_dept" dataType="String"  text="所属部门主键" i18nName="org.user.pk_dept"/><!--所属部门主键  -->
+		<Field id="locked" field="locked" dataType="UFBoolean"  text="是否锁定" i18nName="org.user.locked"/> <!--是否锁定-->
+		<Field id="disused" field="disused" dataType="UFBoolean"  text="是否弃用" i18nName="org.user.disused"/> <!--是否弃用  -->
+		<Field id="authmode" field="authmode" dataType="Integer"  text="身份认证方式" i18nName="org.user.authmode" defaultValue="0"/><!--身份认证方式  -->
+		<Field id="pwdlevelcode" field="pwdlevelcode" dataType="String"  text="密码安全级别编码" i18nName="org.user.pwdlevelcode" nullAble="false"/><!--密码安全级别编码  -->
+		<Field id="usertype" field="usertype" dataType="Integer"  text="用户类型" i18nName="org.user.usertype"/><!--用户类型  -->
+		<Field id="usercreated" field="usercreated" dataType="String"  text="创建人id" i18nName="org.user.usercreated"/>
+		<Field id="lastlogintime" field="lastlogintime" dataType="UFDateTime"  text="上次登陆日期" i18nName="org.user.lastlogintime"/><!--上次登陆日期 -->
+		<Field id="logintimes" field="logintimes" dataType="Integer"  text="登录次数" i18nName="org.user.logintimes" defaultValue = '0'/><!--登陆次数  -->
+		<Field id="modpass" field="modpass" dataType="UFBoolean"  text="是否修改过密码" i18nName="org.user.modpass" defaultValue = 'N'/> <!--是否修改过密码  -->
+		<Field id="staffcode" field="staffcode" dataType="String"  text="员工号" i18nName="org.user.staffcode"/><!--员工号  -->
+		<Field id="themeid" field="themeid" dataType="String"  text="主题" i18nName="org.user.themeid "/><!--主题  -->
+		<Field id="sex" field="sex" dataType="Integer"  text="性别" i18nName="org.user.sex" defaultValue="0"/><!--性别  -->
+		<Field id="userobj" field="userobj" dataType="String"  text="用户自定义项" i18nName="org.user.userobj"/><!--用户自定义项  -->
+		<Field id="original" field="original" dataType="String" text="来源"  i18nName="org.corp.original "/><!--来源  -->
+		<Field id="original_pk" field="original_pk" dataType="String"  text="来源PK" i18nName="org.corp.original_pk"/><!--来源pk  -->
+		<Field id="passwordmodifydate" field="passwordmodifydate" dataType="UFDate"  text="密码修改日期" i18nName="org.user.passwordmodifydate" /><!--密码修改日期  -->		
+		<Field id="passwordtrytimes" field="passwordtrytimes" dataType="Integer"  text="密码试验次数" i18nName="org.user.passwordtrytimes"  defaultValue = '0'/><!--密码试验次数  -->
+		<Field id="loginserialno" field="loginserialno" dataType="String"  text="终端登录序号" i18nName="org.user.loginserialno"/><!--终端登录序号  -->		
+  		<Field id="ext0" field="ext0" dataType="String"  text="排序字段1" i18nName="排序字段1"/><!--排序字段  -->
+  		<Field id="ext1" field="ext1" dataType="String"  text="排序字段2" i18nName="排序字段2"/><!--排序字段  -->
+   </Fields> 
+</Dataset>
+
+
+    	 

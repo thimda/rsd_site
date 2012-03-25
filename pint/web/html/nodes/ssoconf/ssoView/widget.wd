@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.sso.setting.SSOViewController" dialog="false" id="ssoView" refId="ssoView" sourcePackage="pint/src/public/">
+    <PlugoutDescs>
+    </PlugoutDescs>
+    <PluginDescs>
+    </PluginDescs>
+    <Models>
+        <Datasets>
+            <Dataset controloperatorStatus="true" controlwidgetopeStatus="true" enabled="true" id="ssoSystemsDs" lazyLoad="true" voMeta="nc.uap.portal.vo.PtSsopropVO">
+                <Fields>
+                    <Field dataType="String" field="systemcode" id="systemCode" nullAble="true" primaryKey="false" text="系统编码">
+                    </Field>
+                    <Field dataType="String" field="systemname" id="systemName" nullAble="true" primaryKey="false" text="系统名称">
+                    </Field>
+                    <Field dataType="UFBoolean" field="enablemapping" id="enableMapping" nullAble="true" primaryKey="false" text="启用IP映射">
+                    </Field>
+                    <Field dataType="String" field="authclass" id="authClass" nullAble="true" primaryKey="false" text="授权类">
+                    </Field>
+                    <Field dataType="String" field="gateurl" id="gateUrl" nullAble="true" primaryKey="false" text="网关地址">
+                    </Field>
+                    <Field dataType="String" field="nodesclass" id="nodesClass" nullAble="true" primaryKey="false" text="功能节点类">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="ssoView" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ssoSystemsDs" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                            <Event async="true" name="onAfterRowSelect" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="ssoView" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ssoSystemsDs" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>rowSelectEvent</Name>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <ButtonComp enabled="true" id="button9493" text="确定" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_ok" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+        <ButtonComp enabled="true" id="button3616" text="取消" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_cancel" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+        <FormComp columnCount="2" dataset="ssoSystemsDs" eleWidth="120" enabled="true" id="ssoform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="systemCode" height="22" id="systemCode" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="系统编码" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="systemName" height="22" id="systemName" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="系统名称" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="UFBoolean" editable="true" editorType="CheckBox" enabled="true" field="enableMapping" height="22" id="enableMapping" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="启用IP映射" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="authClass" height="22" id="authClass" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="授权类" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="nodesClass" height="22" id="nodesClass" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="功能节点类" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="gateUrl" height="22" id="gateUrl" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="网关地址" visible="true" width="">
+            </Element>
+        </FormComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

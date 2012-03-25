@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding='gb2312'?>
+<module name="nc.uap.portal.PintEJB">
+	<public>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.integrate.sso.itf.ISSOService</interface>
+			<implementation>nc.uap.portal.integrate.sso.impl.SSOServiceImpl</implementation>
+			<property name="iEncodeService">
+				<ref>nc.uap.portal.service.itf.IEncodeService</ref>
+			</property>
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.integrate.sso.itf.ISSOQueryService</interface>
+			<implementation>nc.uap.portal.integrate.sso.impl.SSOQueryServiceImpl</implementation>
+			<property name="iEncodeService">
+				<ref>nc.uap.portal.service.itf.IEncodeService</ref>
+			</property>
+			</component>
+		<component remote="true" singleton="true" tx="CMT">
+			<interface>nc.uap.portal.integrate.itf.IPtSsoConfigService</interface>
+			<implementation>nc.uap.portal.integrate.sso.impl.PtSsoConfigServiceImpl</implementation>
+			
+		</component>
+		<component remote="true" singleton="true" tx="NONE">
+			<interface>nc.uap.portal.integrate.itf.IPtSsoConfigQryService</interface>
+			<implementation>nc.uap.portal.integrate.sso.impl.PtSsoConfigQryServiceImpl</implementation>
+		</component>
+	</public>
+	<private>
+	</private>
+</module>

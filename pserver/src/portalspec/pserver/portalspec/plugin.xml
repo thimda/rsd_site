@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<extension-point point="CacheClusterHandle" title="缓存处理" classname="nc.uap.portal.core.cache.IPortalCacheClusterHandle">
+	<extension isactive="true" id="portalCacheClusterHandle" title="Portal缓存处理" classname="nc.uap.portal.core.cache.impl.PortalCacheClusterHandle"/>
+</extension-point>
+<extension-point point="startAutoSynTimmer" title="组织结构自动同步定时器" classname="nc.bs.framework.core.ServerListener">
+	<extension isactive="true" id="userimportTimmer" title="组织结构自动同步" classname="nc.portal.org.servlet.listener.PmngBizServerListener"/>
+</extension-point>
+<extension-point point="loginplugin" title="登录操作" classname="nc.uap.portal.user.itf.IUserLoginPlugin">
+	<!--
+		<extension isactive="true" id="HRLoginPlugin" title="HR登录操作" classname="nc.hr.user.impl.UserLoginPlugin"/>
+	-->
+</extension-point>
+<extension-point point="PortalSetting" title="门户设置" classname="nc.uap.portal.comm.setting.itf.IPortalSetting">
+	<extension isactive="true" id="portalIntegrateSetting" title="Portal集成设置" classname="nc.uap.portal.comm.setting.impl.PortalIntegrateSettingImpl"/>
+	<extension isactive="true" id="portalSystemSetting" title="Portal系统设置" classname="nc.uap.portal.comm.setting.impl.PtPortalSystemSetting"/>
+</extension-point>
+</plugin>
+ 

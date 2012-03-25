@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget controllerClazz="nc.uap.portal.task.ctrl.MainViewController" dialog="false" id="main" refId="main" sourcePackage="pint/src/public/">
+    <PlugoutDescs>
+    </PlugoutDescs>
+    <PluginDescs>
+        <PluginDesc id="doFilterTaskStatus">
+            <PluginDescItem clazztype="java.lang.String" id="taskstatus">
+            </PluginDescItem>
+        </PluginDesc>
+        <PluginDesc id="simplequery_plugin">
+            <PluginDescItem clazztype="java.lang.String" id="simpleQueryRow">
+            </PluginDescItem>
+        </PluginDesc>
+    </PluginDescs>
+    <Events>
+        <Event async="true" methodName="pluginsimplequery_plugin" onserver="true">
+            <Params>
+                <Param>
+                    <Name>keys</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+        <Event async="true" methodName="plugindoFilterTaskStatus" onserver="true">
+            <Params>
+                <Param>
+                    <Name>keys</Name>
+                    <Value>
+                    </Value>
+                    <Desc>                        <![CDATA[java.util.Map]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+    </Events>
+    <Models>
+        <Datasets>
+            <Dataset controlwidgetopeStatus="false" enabled="false" id="ds_task" lazyLoad="true" notNullBody="false" pageSize="20" voMeta="nc.uap.wfm.vo.WfmTaskVO">
+                <Fields>
+                    <Field dataType="String" field="pk_task" id="pk_task" nullAble="true" primaryKey="false" text="任务标识">
+                    </Field>
+                    <Field dataType="String" field="pk_parent" id="pk_parent" nullAble="true" primaryKey="false" text="父任务标识">
+                    </Field>
+                    <Field dataType="String" field="pk_humactins" id="pk_humactins" nullAble="true" primaryKey="false" text="活动实例标识">
+                    </Field>
+                    <Field dataType="String" field="pk_owner" id="pk_owner" nullAble="true" primaryKey="false" text="任务拥有者">
+                    </Field>
+                    <Field dataType="String" field="pk_executer" id="pk_executer" nullAble="true" primaryKey="false" text="任务执行人">
+                    </Field>
+                    <Field dataType="String" field="pk_agenter" id="pk_agenter" nullAble="true" primaryKey="false" text="任务代办人">
+                    </Field>
+                    <Field dataType="String" field="pk_creater" id="pk_creater" nullAble="true" primaryKey="false" text="任务创建人">
+                    </Field>
+                    <Field dataType="String" field="pk_proins" id="pk_proins" nullAble="true" primaryKey="false" text="流程实例标识">
+                    </Field>
+                    <Field dataType="String" field="pk_rootproins" id="pk_rootproins" nullAble="true" primaryKey="false" text="根流程实例标识">
+                    </Field>
+                    <Field dataType="String" field="pk_frmins" id="pk_frmins" nullAble="true" primaryKey="false" text="单据标识">
+                    </Field>
+                    <Field dataType="String" field="pk_prodef" id="pk_prodef" nullAble="true" primaryKey="false" text="流程定义标识">
+                    </Field>
+                    <Field dataType="String" field="prodef_id" id="prodef_id" nullAble="true" primaryKey="false" text="流程定义ID">
+                    </Field>
+                    <Field dataType="String" field="prodefname" id="prodefname" nullAble="true" primaryKey="false" text="流程定义名称">
+                    </Field>
+                    <Field dataType="String" field="port_id" id="port_id" nullAble="true" primaryKey="false" text="活动节点ID">
+                    </Field>
+                    <Field dataType="String" field="humactname" id="humactname" nullAble="true" primaryKey="false" text="活动节点名称">
+                    </Field>
+                    <Field dataType="UFBoolean" field="isnotexe" id="isnotexe" nullAble="true" primaryKey="false" text="是否执行">
+                    </Field>
+                    <Field dataType="UFBoolean" field="isnotpas" id="isnotpas" nullAble="true" primaryKey="false" text="是否通过">
+                    </Field>
+                    <Field dataType="UFBoolean" field="isnotsended" id="isnotsended" nullAble="true" primaryKey="false" text="是否发送">
+                    </Field>
+                    <Field dataType="UFDateTime" field="proinsstartdate" id="proinsstartdate" nullAble="true" primaryKey="false" text="流程开始日期">
+                    </Field>
+                    <Field dataType="UFDateTime" field="startdate" id="startdate" nullAble="true" primaryKey="false" text="开始日期">
+                    </Field>
+                    <Field dataType="UFDateTime" field="enddate" id="enddate" nullAble="true" primaryKey="false" text="结束日期">
+                    </Field>
+                    <Field dataType="String" field="state" id="state" nullAble="true" primaryKey="false" text="任务状态">
+                    </Field>
+                    <Field dataType="String" field="opinion" id="opinion" nullAble="true" primaryKey="false" text="批文">
+                    </Field>
+                    <Field dataType="String" field="priority" id="priority" nullAble="true" primaryKey="false" text="任务优先级">
+                    </Field>
+                    <Field dataType="String" field="pk_frmdef" id="pk_frmdef" nullAble="true" primaryKey="false" text="单据定义Pk">
+                    </Field>
+                    <Field dataType="String" field="pk_myvisa" id="pk_myvisa" nullAble="true" primaryKey="false" text="电子签章Pk">
+                    </Field>
+                    <Field dataType="UFDateTime" field="signdate" id="signdate" nullAble="true" primaryKey="false" text="签收时间">
+                    </Field>
+                    <Field dataType="String" field="handlepiece" id="handlepiece" nullAble="true" primaryKey="false" text="办件情况">
+                    </Field>
+                    <Field dataType="String" field="ext0" id="ext0" nullAble="true" primaryKey="false" text="扩张属性0">
+                    </Field>
+                    <Field dataType="String" field="ext1" id="ext1" nullAble="true" primaryKey="false" text="扩张属性1">
+                    </Field>
+                    <Field dataType="String" field="ext2" id="ext2" nullAble="true" primaryKey="false" text="扩张属性2">
+                    </Field>
+                    <Field dataType="String" field="ext3" id="ext3" nullAble="true" primaryKey="false" text="扩张属性3">
+                    </Field>
+                    <Field dataType="String" field="ext4" id="ext4" nullAble="true" primaryKey="false" text="扩张属性4">
+                    </Field>
+                    <Field dataType="String" field="ext5" id="ext5" nullAble="true" primaryKey="false" text="扩张属性5">
+                    </Field>
+                    <Field dataType="String" field="ext6" id="ext6" nullAble="true" primaryKey="false" text="扩张属性6">
+                    </Field>
+                    <Field dataType="String" field="ext7" id="ext7" nullAble="true" primaryKey="false" text="扩张属性7">
+                    </Field>
+                    <Field dataType="String" field="ext8" id="ext8" nullAble="true" primaryKey="false" text="扩张属性8">
+                    </Field>
+                    <Field dataType="String" field="ext9" id="ext9" nullAble="true" primaryKey="false" text="扩张属性9">
+                    </Field>
+                    <Field dataType="String" field="tasktype" id="tasktype" nullAble="true" primaryKey="false" text="任务类型">
+                    </Field>
+                </Fields>
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DatasetListener" methodName="onDataLoad_ds_task" name="onDataLoad" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>dataLoadEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.DataLoadEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </Dataset>
+        </Datasets>
+        <ComboDatas>
+            <StaticComboData id="comdata_handlepiece">
+                <ComboItem text="未看件" value="HandlerPiece_UnRead">
+                </ComboItem>
+                <ComboItem text="看过件" value="HandlerPiece_Readed">
+                </ComboItem>
+                <ComboItem text="退回件" value="HandlerPiece_Rejected">
+                </ComboItem>
+            </StaticComboData>
+            <StaticComboData id="comdata_taskstate">
+                <ComboItem text="待办" value="State_Run">
+                </ComboItem>
+                <ComboItem text="已办" value="State_End">
+                </ComboItem>
+                <ComboItem text="挂起" value="State_Suspended">
+                </ComboItem>
+                <ComboItem text="待阅" value="State_UnRead">
+                </ComboItem>
+                <ComboItem text="已阅" value="State_Readed">
+                </ComboItem>
+                <ComboItem text="执行中" value="State_Plmnt">
+                </ComboItem>
+                <ComboItem text="加签发送" value="State_AddSignSend">
+                </ComboItem>
+                <ComboItem text="加签中" value="State_AddSignPlmnt">
+                </ComboItem>
+                <ComboItem text="加签完成" value="State_AddSignCmplt">
+                </ComboItem>
+                <ComboItem text="加签中止" value="State_AddSignStop">
+                </ComboItem>
+            </StaticComboData>
+            <DynamicComboData className="nc.uap.portal.task.ctrl.SystemComboData" id="system_data">
+            </DynamicComboData>
+            <StaticComboData id="c001_data">
+                <ComboItem text="待办" value="UnRead">
+                </ComboItem>
+                <ComboItem text="已办" value="Readed">
+                </ComboItem>
+                <ComboItem text="办结" value="End">
+                </ComboItem>
+            </StaticComboData>
+            <StaticComboData id="c002_data">
+                <ComboItem text="待阅" value="UnRead">
+                </ComboItem>
+                <ComboItem text="已阅" value="Readed">
+                </ComboItem>
+                <ComboItem text="办结" value="End">
+                </ComboItem>
+            </StaticComboData>
+        </ComboDatas>
+    </Models>
+    <Components>
+        <ButtonComp enabled="true" id="button5752" text="执行" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_exec" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+        <GridComp dataset="ds_task" editable="false" enabled="true" id="grid_undnetask" multiSelect="true" pageSize="20" pagenationTop="false" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext0" fixedHeader="false" id="ext0" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流水号" textAlign="center" visible="true" width="180">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext1" fixedHeader="false" id="ext1" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="标题" textAlign="center" visible="true" width="350">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="humactname" fixedHeader="false" id="humactname" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="活动名称" textAlign="center" visible="true" width="200">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext2" fixedHeader="false" id="ext2" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="部门" textAlign="center" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="ComboBox" field="state" fixedHeader="false" id="state" imageOnly="false" nullAble="false" refComboData="comdata_taskstate" renderType="ComboRender" showCheckBox="true" sortable="true" sumCol="false" text="任务状态" textAlign="center" visible="true" width="80">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext4" fixedHeader="false" id="ext4" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="缓急程度" textAlign="center" visible="true" width="80">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="ComboBox" field="handlepiece" fixedHeader="false" id="handlepiece" imageOnly="false" nullAble="true" refComboData="comdata_handlepiece" renderType="ComboRender" showCheckBox="true" sortable="true" sumCol="false" text="办件情况" textAlign="center" visible="true" width="100">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext3" fixedHeader="false" id="ext3" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="附件" textAlign="center" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="proinsstartdate" fixedHeader="false" id="proinsstartdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流程开始日期" textAlign="center" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="startdate" fixedHeader="false" id="startdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="任务到达时间" textAlign="center" visible="true" width="120">
+            </Column>
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="prodefname" fixedHeader="false" id="prodefname" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流程名称" textAlign="center" visible="true" width="120">
+            </Column>
+            <Listeners>
+                <GridRowListener id="default_grid_undnetask" serverClazz="nc.uap.wfm.listener.GridRowDbClickTaskExeListener">
+                    <Events>
+                        <Event async="true" name="onRowDbClick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_undnetask" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>rowEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </GridRowListener>
+            </Listeners>
+        </GridComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" id="c001" refComboData="c001_data" selectOnly="true" text="状态" textAlign="left" textWidth="0" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TextListener" methodName="status_valueChanged" name="valueChanged" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>textEvent</Name>
+                            <Value></Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ComBoBoxComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" id="c002" refComboData="c002_data" selectOnly="true" text="状态" textAlign="left" textWidth="0" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TextListener" methodName="status_valueChanged2" name="valueChanged" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>textEvent</Name>
+                            <Value></Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ComBoBoxComp>
+        <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" id="sys" refComboData="system_data" selectOnly="true" text="系统" textAlign="left" textWidth="0" value="wfmtaskqry" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TextListener" methodName="sys_valueChanged" name="valueChanged" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>textEvent</Name>
+                            <Value></Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ComBoBoxComp>
+        <ButtonComp enabled="true" id="button1" text="批审" visible="true">
+            <Events>
+                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_mutiexec" name="onclick" onserver="true">
+                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                    </SubmitRule>
+                    <Params>
+                        <Param>
+                            <Name>mouseEvent</Name>
+                            <Value>
+                            </Value>
+                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                            </Desc>
+                        </Param>
+                    </Params>
+                    <Action>
+                    </Action>
+                </Event>
+            </Events>
+        </ButtonComp>
+    </Components>
+    <Menus>
+    </Menus>
+</Widget>

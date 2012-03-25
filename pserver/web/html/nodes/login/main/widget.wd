@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="false" height="100%" width="100%">
+    <Models>
+        <Datasets>
+        </Datasets>
+        <ComboDatas>
+            <StaticComboData id="languages">
+                <ComboItem i18nName="中文" text="中文" value="cn">
+                </ComboItem>
+                <ComboItem i18nName="English" text="English" value="en">
+                </ComboItem>
+                <ComboItem i18nName="日語" text="日語" value="jpn">
+                </ComboItem>
+            </StaticComboData>
+        </ComboDatas>
+    </Models>
+    <Components>
+        <LabelComp color="#FF0000" enabled="false" height="22" id="tiplabel" left="0" position="relative" top="0" visible="true" width="190">
+        </LabelComp>
+        <LinkComp hasImg="false" height="20" i18nName="安装ActiveX" id="instalActiveXLink" left="0" position="relative" target="_blank" top="0" width="100%">
+        </LinkComp>
+	 <ComBoBoxComp allowExtendValue="false" editorType="ComboBox" enabled="true" focus="false" height="100%" id="multiLanguageCombo" left="0" position="relative" refComboData="languages" selectOnly="true" text="语言" textAlign="left" textWidth="40" top="0" visible="true" width="190">
+        </ComBoBoxComp>
+        <CheckBoxComp checked="false" dataType="UFBoolean" editorType="CheckBox" enabled="true" focus="false" id="maxWindowCheckBox" left="0" position="relative" textAlign="left" textWidth="0" visible="true">
+        </CheckBoxComp>
+
+
+        <TextComp editorType="StringText" enabled="true" focus="false" height="22" id="userid" left="0" position="relative" text="" textAlign="left" textWidth="40" top="0" visible="true" width="190px">
+            <Listeners>
+                <KeyListener id="userIdKeyListener">
+                    <Events>
+                        <Event async="true" name="onEnter" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>keyEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                                <![CDATA[var comp = pageUI.getWidget("main").getComponent("password");
+	//comp.setFocus();
+	comp.input.select();
+	stopAll(keyEvent.event);]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </KeyListener>
+                 <FocusListener id="userIdFocusListener">
+                   <Events>
+                 <Event async="true" name="onFocus" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptFocus(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         <Event async="true" name="onBlur" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptBlur(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         </Events>
+                </FocusListener>
+            </Listeners>
+        </TextComp>
+        <TextComp editorType="PwdText" enabled="true" focus="false" height="22" id="password" left="0" position="relative" text="" textAlign="left" textWidth="40" top="0" visible="true" width="190px">
+            <Listeners>
+                <KeyListener id="passwordKeyListener">
+                    <Events>
+                        <Event async="true" name="onEnter" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>keyEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                                <![CDATA[
+                            if(showRanImg){
+	                            var comp = pageUI.getWidget("main").getComponent("randimg");
+								//comp.setFocus();
+								comp.input.select();
+								stopAll(keyEvent.event);
+                            }else{
+								// 触发登录按钮
+                            	var comp = pageUI.getWidget("main").getComponent("submitBtn");
+								if (IS_IE) {
+										comp.Div_gen.click();
+								} else {
+								var evt = document.createEvent("MouseEvents");
+									evt.initEvent("click", true, true);
+									comp.Div_gen.dispatchEvent(evt);
+								}
+								stopAll(keyEvent.event);
+                            }
+                           ]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </KeyListener>
+                 <FocusListener id="pwdFocusListener">
+                   <Events>
+                 <Event async="true" name="onFocus" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptFocus(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         <Event async="true" name="onBlur" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptBlur(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         </Events>
+                </FocusListener>
+            </Listeners>
+        </TextComp>
+        
+        <TextComp editorType="StringText" enabled="true" focus="false" height="22" id="randimg" left="0" position="relative" text="" textAlign="left" textWidth="40" top="0" width="125px">
+            <Listeners>
+                <KeyListener id="randimgKeyListener">
+                    <Events>
+                        <Event async="true" name="onEnter" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>keyEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                                
+								 <![CDATA[var comp = pageUI.getWidget("main").getComponent("submitBtn");
+	// 触发登录按钮
+	if (IS_FF) {
+		var evt = document.createEvent("MouseEvents");
+		evt.initEvent("click", true, true);
+		comp.Div_gen.dispatchEvent(evt);
+	} else {
+		comp.Div_gen.click();
+	}
+	stopAll(keyEvent.event);]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </KeyListener>
+                 <FocusListener id="rndFocusListener">
+                   <Events>
+                 <Event async="true" name="onFocus" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptFocus(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         <Event async="true" name="onBlur" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>focusEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                              
+								 <![CDATA[
+								 	iptBlur(this.Div_gen);
+								 ]]>
+                            </Action>
+                        </Event>
+                         </Events>
+                </FocusListener>
+            </Listeners>
+        </TextComp>
+        
+        <ButtonComp align="left" enabled="true" height="25" id="optionBtn" left="0" position="relative" text="选项" top="0" visible="true" width="86">
+            <Listeners>
+                <MouseListener id="optionListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                                <![CDATA[var optionTable = $ge("option_table");
+optionTable.style.visibility = optionTable.style.visibility == "hidden" ? "visible" : "hidden";]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" className="login_button_div" enabled="true" height="51" id="submitBtn" left="50" position="relative" text="登录" top="0" visible="true" width="105">
+            <Listeners>
+                <MouseListener id="loginJsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="false">
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>                                <![CDATA[ ]]>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+                <MouseListener id="loginListener" serverClazz="nc.uap.portal.login.PortalLoginListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0">
+    <BorderLayout id="null">
+        <BorderPanel position="center">
+            <FlowvLayout autoFill="0" id="flowv2">
+                <FlowvPanel height="22">
+                    <FlowhLayout>
+                        <FlowhPanel width="50">
+                            <Label id="label_opinion" widgetId="main"></Label>
+                        </FlowhPanel>
+                        <FlowhPanel width="120">
+                            <TextField id="text_action" type="7" widgetId="main">
+                            </TextField>
+                        </FlowhPanel>
+                        <FlowhPanel width="80">
+                            <TextField id="text_channel" type="8" widgetId="main">
+                            </TextField>
+                        </FlowhPanel>
+                        <FlowhPanel width="160">
+                            <TextField id="text_msgtype" type="8" widgetId="main">
+                            </TextField>
+                        </FlowhPanel>
+                        <FlowhPanel width="50">
+                            <Label id="label_opinion_common" widgetId="main">
+                            </Label>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <TextField id="text_opinion_common" type="2" widgetId="main">
+                            </TextField>
+                        </FlowhPanel>
+                        <FlowhPanel width="30">
+                        </FlowhPanel>
+                    </FlowhLayout>
+                </FlowvPanel>
+                <FlowvPanel height="160">
+                    <TextField id="text_opinion" type="6" widgetId="main" height="150">
+                    </TextField>
+                </FlowvPanel>
+                <FlowvPanel height="22">
+                    <FlowhLayout>
+                        <FlowhPanel width="50">
+                            <Label id="label_pad" widgetId="main">
+                            </Label>
+                        </FlowhPanel>
+                        <FlowhPanel width="120">
+                        </FlowhPanel>
+                        <FlowhPanel width="80">
+                        </FlowhPanel>
+                        <FlowhPanel width="160">
+                        </FlowhPanel>
+                        <FlowhPanel width="50">
+                            <Label id="label_pad_common" widgetId="main">
+                            </Label>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <TextField id="text_pad_common" type="2" widgetId="main">
+                            </TextField>
+                        </FlowhPanel>
+                        <FlowhPanel width="30">
+                        </FlowhPanel>
+                    </FlowhLayout>
+                </FlowvPanel>
+                <FlowvPanel height="60">
+                    <TextField id="text_pad" type="6" widgetId="main">
+                    </TextField>
+                </FlowvPanel>
+                <FlowvPanel height="130">
+                    <Border id="border3" showBottom="true" showLeft="true" showRight="true" showTop="true" width="1">
+                        <BorderTrue>
+                            <GridComp id="grid_nexthumact" widgetId="main">
+                            </GridComp>
+                        </BorderTrue>
+                    </Border>
+                </FlowvPanel>
+                <FlowvPanel height="30">
+                    <FlowhLayout>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <Button id="btn_ok" widgetId="main">
+                            </Button>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                            <Button id="btn_cancel" widgetId="main">
+                            </Button>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                        <FlowhPanel>
+                        </FlowhPanel>
+                    </FlowhLayout>
+                </FlowvPanel>
+            </FlowvLayout>
+        </BorderPanel>
+    </BorderLayout>
+</UIMeta>

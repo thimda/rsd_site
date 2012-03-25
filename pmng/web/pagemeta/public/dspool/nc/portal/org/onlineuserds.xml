@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset  voMeta="nc.uap.portal.rbac.vo.OnlineUserVO">
+	   <Fields>
+			<Field id="pk_online" field="pk_online" dataType="String" text="pk_online" i18nName="useronlineds.pk_online"/> <!--用户在线pk-->
+		    <Field id="pk_user" field="pk_user" dataType="String" text="用户主键" i18nName="useronlineds.userid" nullAble="true"/>	<!--用户PK-->
+			<Field id="sessionId" field="sessionid" dataType="String" text="会话ID" i18nName="useronlineds.sessionId" nullAble="false"/><!--会话ID-->
+			<Field id="ip" field="ip" dataType="String" text="ip地址" i18nName="onlineuser008" nullAble="false"></Field><!-- ip地址 -->
+			<Field id="logintime" field="logintime" dataType="UFDateTime" text="登录时间" i18nName="useronlineds.loginTime" nullAble="true"/><!--登录时间-->
+			<Field id="pk_group" field="pk_group" dataType="String" text="所属集团主键" i18nName="onlineuser009" nullAble="false" />
+			<Field id="groupname" field="groupname" dataType="String" text="所属集团" i18nName="onlineuser009"/>
+	    </Fields>
+</Dataset>

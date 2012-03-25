@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<look-and-feel>
+	<theme id="webclassic" title="Modern" i18nName="modern">
+		<lfw-theme-id>webclassic</lfw-theme-id>
+	</theme>
+	<!--<theme id="ncclassic" name="BlueLight">
+		<lfw-theme-id>ncclassic</lfw-theme-id>
+	</theme>
+	-->
+</look-and-feel>

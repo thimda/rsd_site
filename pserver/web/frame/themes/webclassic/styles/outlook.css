@@ -1,0 +1,65 @@
+.portal_outlook
+{
+}
+
+.portal_outlook .itembardiv{
+	height:27px;
+	width:100%;
+}
+
+.portal_outlook .itembardiv .leftborderdiv{
+	height:100%;
+	float:left;
+	width:4px;
+	background-image:url('../images/outlook/outlook_item_left.png');
+}
+
+.portal_outlook .itembardiv .rightborderdiv{
+	height:100%;
+	float:right;
+	width:4px;
+	background-image:url('../images/outlook/outlook_item_right.png');
+}
+
+.portal_outlook .itembardiv .outlooktreeitem_div
+{
+	height:100%;
+	background:url("../images/outlook/outlook_bg.png");
+	cursor:pointer;
+	float:left;
+}
+
+.portal_outlook .itembardiv .outlooktreeitem_div .itemtitle{
+	height:27px;
+	line-height:27px;
+	padding-left:10px;
+	text-align:left;
+	float:left;
+	color:#ffffff;
+	font-weight:bold;
+}
+
+.portal_outlook .itembardiv .outlooktreeitem_div .itemimg{
+	height:27px;
+	float:left;
+	padding-left:6px;
+	padding-top:6px;
+}
+
+.portal_outlook .itembardiv .outlooktreeitem_div .itemblank{
+	height:27px;
+	float:right;
+}
+
+.portal_outlook .outlooktreeitem_div_showcontent
+{
+	height:100%;
+	background:url("../images/outlook/outlook_bg_on.png");
+	cursor:pointer;
+	float:left;
+}
+
+.portal_outlook .outlooktreeitem_content_div
+{
+	padding-top:5;	
+}

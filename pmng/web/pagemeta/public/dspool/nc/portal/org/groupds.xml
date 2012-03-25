@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 集团ds -->
+<Dataset voMeta="nc.portal.org.vo.PtGroupVO"  lazyLoad="true">
+    <Fields>
+   		<Field id="pk_group" field="pk_group" dataType="String" text="集团主键" i18nName="org.group.primarykey"/>
+   		<Field id="groupno" field="groupno" dataType="String" text="集团no" i18nName="org.group.number" nullAble="true"/>
+   		<Field id="groupcode" field="groupcode" dataType="String" text="集团编码" i18nName="org.group.groupcode" nullAble="false"/>
+   		<Field id="groupname" field="groupname" dataType="String" text="集团名称" i18nName="org.group.groupname" nullAble="false"/>
+		<Field id="pk_parent" field="pk_parent" dataType="String" text="父集团主键" i18nName="org.group.pk_parent"/>
+		<Field id="datecreated" field="datecreated" dataType="UFDate" text="创建日期" i18nName="org.group.datecreated"/>
+		<Field id="usercreated" field="usercreated" dataType="String" text="创建人id" i18nName="org.group.usercreated"/>
+		<Field id="issealed" field="issealed" dataType="UFBoolean" text="是否封存" i18nName="org.group.issealed"  defaultValue = 'N'/>
+	</Fields>
+</Dataset>

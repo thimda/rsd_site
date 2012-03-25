@@ -1,0 +1,114 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://portals.apache.org/pluto/portlet-el_2_0" prefix="portlet-el" %>
+<%@ page import="nc.uap.portal.integrate.message.MessageCenter" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<portlet:defineObjects/>
+<%
+	if(nc.bs.framework.common.RuntimeEnv.isRunningInWeblogic()){
+		nc.uap.lfw.core.LfwRuntimeEnvironment.getWebContext().getResponse().setCharacterEncoding("gbk");
+	}
+%>
+ <style>
+		  #messagecenter1 { padding: 5px 0 0 8px;}
+          #messagecenter1 .colorblue{ color:#005aff; text-decoration:none;}
+		  #messagecenter1 .colorblue:hover{  text-decoration:underline;}
+		  #messagecenter1 ul { list-style:none;}
+		  #messagecenter1 ul li{ float:left; padding:3px;}
+		  #messagecenter1 .l12{ padding-top:15px;font-size:12px;  color:#6c6c6c; }
+		  #messagecenter1 .l12 em{ display:inline-block; width:125px; font-style:normal;}
+		   #messagecenter1 .l12 em a {color:#6c6c6c; }
+		  #messagecenter1 .l12 .em100px{ display:inline-block; width:90px; font-style:normal;}
+		  #messagecenter1 .b14{ font-size:14px; font-weight:bold; color:#6c6c6c;}
+		  #messagecenter1 .spline{ vertical-align:top;}
+		  #messagecenter1 .spline td{ margin:0; padding:0; height:34px;}
+		  #messagecenter1 .spline td div{height:14px;border-bottom-color:#cccccc; border-bottom-width:1px; border-bottom-style:dotted ; margin:0px; padding:0px; font-size:10px; line-height:14px;}
+    </style>
+          <div  id="messagecenter1">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="70"><img src="<portlet:resourceURL id="/images/6.gif"/>" width="57" height="57" /></td>
+    <td valign="top"><table width="100%"   border="0" cellspacing="0" cellpadding="0">
+      <tr>
+    	  <% 
+			String[] noticesystems = MessageCenter.getSystemCodes("notice"); 
+			String[] tasksystems = MessageCenter.getSystemCodes("task"); 
+			String[] warningsystems = MessageCenter.getSystemCodes("warning"); 
+			int noticesystemNews = MessageCenter.getSystemNavNewMessageCount(noticesystems);
+			int tasksystemNews = MessageCenter.getSystemNavNewMessageCount(tasksystems);
+			int warningsystemNews = MessageCenter.getSystemNavNewMessageCount(warningsystems);
+			List  els = null;
+		 %>
+        <td class="b14">通知消息</td>
+      </tr>
+      <tr>
+        <td class="l12">
+        <%
+			if(noticesystems != null && noticesystems.length > 0){
+					els = MessageCenter.getSystemNavData(noticesystems);
+					if(els!=null && !els.isEmpty()){
+						for(int i = 0;i < els.size();i++){
+							Map el = (Map) els.get(i);
+							out.print("<em><a href=\"/portal/core/pt/home/view?pageModule=pcms&parentid=notice&pageName=msgcenter&pluginid="+ el.get("pluginid") +"&syscode="+el.get("systemCode")+"\">来自于"+ el.get("systemName") +"(<span class=\"colorblue\" >"+ el.get("newMessage") +"</span></a>)</em>");
+						}
+					}
+			}
+		%>
+        </td>
+      </tr>
+    </table></td>
+    <td width="80" align="left" valign="bottom"><!-- <a href="javascript:void(0)" style="font-size:12px; color:#6c6c6c;">更多&gt;&gt;</a> --></td>
+  </tr>
+  <tr class="spline"><td colspan="3"><div></div></td></tr>
+  <tr>
+    <td width="70"><img src="<portlet:resourceURL id="/images/7.gif"/>" width="57" height="57" /></td>
+    <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="b14">工作任务</td>
+      </tr>
+      <tr>
+        <td class="l12">
+        <%
+			if(tasksystems != null && tasksystems.length > 0){
+					els = MessageCenter.getSystemNavData(tasksystems);
+					if(els!=null && !els.isEmpty()){
+						for(int i = 0;i < els.size();i++){
+							Map el = (Map) els.get(i);
+							out.print("<em><a href=\"/portal/core/pt/home/view?pageModule=pcms&parentid=task&pageName=msgcenter&pluginid="+ el.get("pluginid") +"&syscode="+el.get("systemCode")+"\">来自于"+ el.get("systemName") +"(<span class=\"colorblue\" >"+ el.get("newMessage") +"</span></a>)</em>");
+						}
+					}
+			}
+		%>
+        </td>
+      </tr>
+    </table></td>
+    <td width="80">&nbsp;</td>
+  </tr>
+   <tr class="spline"><td colspan="3"><div></div></td></tr>
+  <tr>
+    <td width="70"><img src="<portlet:resourceURL id="/images/8.gif"/>" width="57" height="57" /></td>
+    <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="b14">预警消息</td>
+      </tr>
+      <tr>
+        <td class="l12">
+		<%
+			if(warningsystems != null && warningsystems.length > 0){
+					els = MessageCenter.getSystemNavData(warningsystems);
+					if(els!=null && !els.isEmpty()){
+						for(int i = 0;i < els.size();i++){
+							Map el = (Map) els.get(i);
+							out.print("<em><a href=\"/portal/core/pt/home/view?pageModule=pcms&parentid=warning&pageName=msgcenter&pluginid="+ el.get("pluginid") +"&syscode="+el.get("systemCode")+"\">来自于"+ el.get("systemName") +"(<span class=\"colorblue\" >"+ el.get("newMessage") +"</span></a>)</em>");
+						}
+					}
+			}
+		%>
+		</td>
+      </tr>
+    </table></td>
+    <td width="80">&nbsp;</td>
+  </tr>
+</table>
+       </div>

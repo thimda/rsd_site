@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+<extension-point point="funcresmanage" title="功能资源扩展点" classname="nc.uap.cpb.org.funcres.extention.IFuncResExtentionService">
+	<extension isactive="true" id="funcnode_res" title="功能节点" classname="nc.uap.cpb.org.funcres.extention.FuncnodeExtentionServiceImpl"/>
+	<extension isactive="true" id="portalpage_res" title="portal页面" classname="nc.uap.portal.extention.PortalPageExtentionServiceImpl"/>
+	<extension isactive="true" id="portlet_res" title="portlet" classname="nc.uap.portal.extention.PortletExtentionServiceImpl"/>
+</extension-point>
+<extension-point point="uapcpmanage" title="协同配置管理扩展点" classname="nc.uap.cpb.org.extention.ICpbExtentionService">
+	<extension isactive="true" id="groupmanage" title="集团扩展点" classname="nc.uap.cpb.org.extention.GroupExtentionServiceImpl"/>
+	<extension isactive="true" id="usermanage" title="用户管理扩展点" classname="nc.uap.cpb.org.extention.UserExtentionServiceImpl"/>
+</extension-point> 
+<!--<extension-point point="PortalNoticeMessage" title="通知消息" classname="nc.uap.portal.integrate.message.itf.IPortalNoticeMessageExchange">
+	<extension isactive="true" id="noticemessage" title="Portal消息" classname="nc.uap.portal.integrate.message.impl.PortalNoticeMessageExchange"/>
+	<extension isactive="true" id="ncnoticemessage" title="NC消息" classname="nc.uap.portal.integrate.message.impl.NCNoticeMessageExchange"/>
+	<extension isactive="true" id="wflnoticemessage" title="协同任务消息" classname="nc.uap.portal.integrate.message.impl.WflNoticeMessageExchange"/>
+</extension-point>
+<extension-point point="PortalTaskMessage" title="工作任务" classname="nc.uap.portal.integrate.message.itf.IPortalTaskMessageExchange">
+	<extension isactive="true" id="DynamicForm" title="动态表单" classname="nc.uap.portal.integrate.message.impl.DynamicFormMessageExchange"/>
+</extension-point>
+<extension-point point="PortalSetting" title="Portal设置" classname="nc.uap.portal.comm.setting.itf.IPortalSetting">
+	<extension isactive="true" id="PortalSystemSetting" title="Portal系统设置" classname="nc.uap.portal.comm.setting.impl.PtPortalSystemSetting"/>
+	<extension isactive="true" id="PortalIntegrateSetting" title="Portal集成设置" classname="nc.uap.portal.comm.setting.impl.PortalIntegrateSettingImpl"/>
+</extension-point>
+<extension-point point="userAgentPlugin" title="代理人设置插件" classname="nc.uap.portal.comm.agent.IUserAgentPlugin">
+	<extension isactive="true" id="DeptAgentPlugin" title="按发起部门设置代理人" classname="nc.uap.portal.comm.agent.plugin.DeptAgentPlugin"/>
+	<extension isactive="true" id="BillTypeAgentPlugin" title="按单据类型设置代理人" classname="nc.uap.portal.comm.agent.plugin.FrmTypeAgentPlugin"/>
+</extension-point>
+<extension-point point="portletedit" title="Portlet配置编辑器" classname="nc.portal.portlet.plugin.IPreferenceEditor">
+	<extension isactive="true" id="extpoint" title="扩展点编辑器" classname="nc.portal.portlet.plugin.impl.ExtpointEditor"/>
+	<extension isactive="true" id="linkgroup" title="菜单编辑器" classname="nc.portal.portlet.plugin.impl.LinkGroupEditor"/>
+</extension-point>
+<extension-point point="PtSchedule" title="Portal任务调度" classname="nc.uap.portal.comm.schedule.IPtSchedule">
+	<extension isactive="true" id="UserAgentSettingRefresher" title="刷新用户代理人设置" classname="nc.uap.portal.comm.agent.plugin.UserAgentSettingRefresher"/>
+	<extension isactive="true" id="OverTimeTask" title="超时任务设置" classname="nc.portal.pwfm.message.OverTimeTask"/>
+	<extension isactive="true" id="SendMailTask" title="邮件任务" classname="nc.portal.pwfm.message.SendMailTask"/>
+</extension-point>
+<extension-point point="LinkGroup" title="链接组" classname="nc.uap.portal.integrate.itf.IFunNodePlugin">
+	<extension isactive="true" id="NCNode" title="NC集团应用" classname="nc.uap.portal.integrate.impl.NCFunNodePlugin"/>
+	<extension isactive="true" id="yer" title="我的报销" classname="nc.uap.portal.integrate.impl.YerFunNodePlugin"/>
+	<extension isactive="true" id="staff" title="员工自助" classname="nc.uap.portal.integrate.impl.StaffFunNodePlugin"/>
+</extension-point>
+<extension-point point="tasknewcreated" title="新产生任务信息发送" classname="nc.portal.pwfm.itf.ITaskCreatedMessageSender">
+	<extension isactive="true" id="taskcreatedemail" title="email" classname="nc.portal.pwfm.engine.TaskCreatedEmailMessSender"/>
+	<extension isactive="true" id="taskcreatedinner" title="站内短信" classname="nc.portal.pwfm.engine.TaskCreatedInnerMessSender"/>
+    <extension isactive="true" id="taskcreatedphone" title="手机短信" classname="nc.portal.pwfm.engine.TaskCreatedPhoneMessSender"/>
+</extension-point>
+<extension-point point="taskcompleted" title="任务完成消息发送" classname="nc.portal.pwfm.engine.ITaskCompletedMessageSender">
+	<extension isactive="true" id="taskcompletedemail" title="email" classname="nc.portal.pwfm.engine.TaskCompledEmailSender"/>
+    <extension isactive="true" id="taskcompletedinner" title="站内短信" classname="nc.portal.pwfm.engine.TaskCompledInnerMessSender"/>
+</extension-point>
+<extension-point point="taskovertime" title="超时任务消息发送" classname="nc.portal.pwfm.engine.ITaskOverTimeMessageSender">
+	<extension isactive="true" id="taskovertimeemail" title="email" classname="nc.portal.pwfm.engine.TaskOverTimeEmailSender"/>
+    <extension isactive="true" id="taskovertimeinner" title="站内信息" classname="nc.portal.pwfm.engine.TaskOverTimeInnerMessSender"/>
+</extension-point>
+<extension-point point="taskurege" title="催办信息发送" classname="nc.portal.pwfm.engine.ITaskUregeMessageSender">
+	<extension isactive="true" id="taskuregeemail" title="email" classname="nc.portal.pwfm.engine.TaskUergeEmailSender"/>
+	<extension isactive="true" id="taskuregeinner" title="站内短信" classname="nc.portal.pwfm.engine.TaskUergeInnerMessSender"/>
+</extension-point>
+-->
+</plugin>

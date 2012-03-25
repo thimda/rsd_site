@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<description>
+	<skin id="simpleLayout" name= "默认布局"/>
+	<skin id="paddingLayout" name= "左右补丁布局"/>
+	<skin id="vPaddingLayout" name= "上下补丁布局"/>
+</description>

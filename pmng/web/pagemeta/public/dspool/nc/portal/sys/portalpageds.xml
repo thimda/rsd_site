@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset voMeta="nc.uap.portal.vo.PtPortalPageVO">
+    <Fields>
+        <Field dataType="UFID" field="pk_portalpage" id="pk_portalpage" text="pk_portalpage">
+        </Field>
+        <Field dataType="String" field="title" id="title" text="title">
+        </Field>
+        <Field dataType="UFID" field="fk_pageuser" id="fk_pageuser" text="fk_pageuser">
+        </Field>
+        <Field dataType="String" field="version" id="version" text="version">
+        </Field>
+        <Field dataType="Integer" field="levela" id="level" text="level">
+        </Field>
+        <Field dataType="UFID" field="parentid" id="parentid" text="parentid">
+        </Field>
+        <Field dataType="UFDate" field="createdate" id="createdate" text="createdate">
+        </Field>
+        <Field dataType="String" field="pagename" id="pagename" text="pagename">
+        </Field>
+        <Field dataType="String" field="module" id="module" text="module">
+        </Field>
+        <Field dataType="UFTime" field="ts" id="ts" text="ts">
+        </Field>
+        <Field dataType="UFBoolean" field="dr" id="dr" text="dr">
+        </Field>
+        <Field dataType="UFBoolean" field="isdefault" id="isdefault" text="isdefault">
+        </Field>
+        <Field dataType="UFID" field="pk_group" id="pk_group" text="pk_group">
+        </Field>
+         <Field dataType="String" field="settings" id="settings"></Field>
+        <Field dataType="String" field="newversion" id="newversion" text="newversion">
+        </Field>
+    </Fields>
+</Dataset>

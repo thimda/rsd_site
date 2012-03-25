@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 用户组ds -->
+<Dataset lazyLoad="true" voMeta="nc.portal.org.vo.PtUserGroupVO">
+    <Fields>
+		<Field id="pk_usergroup" field="pk_usergroup" dataType="String" i18nName="用户组主键"/>
+		<Field id="groupcode" field="groupcode" dataType="String" i18nName="用户组编码" nullAble="false"/>
+		<Field id="groupname" field="groupname" dataType="String" i18nName="用户组名称" nullAble="false"/>
+		<Field id="datecreated" field="datecreated" dataType="UFDate" i18nName="创建日期" />
+		<Field id="usercreated" field="usercreated" dataType="String" i18nName="创建人id"/>
+		<Field id="type" field="type" dataType="Integer" i18nName="用户组类型"/>
+		<Field id="pk_org" field="pk_org" dataType="String" i18nName="所属组织主键" nullAble="false"/>
+   </Fields> 
+</Dataset>

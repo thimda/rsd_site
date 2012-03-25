@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="relationView_um" jquery="0">
+    <TabLayout currentItem="0" id="tag9520" oneTabHide="false" widgetId="relationView">
+        <TabItems>
+            <TabItem active="" i18nName="" id="UITabItem09520" showCloseIcon="" text="角色关系" widgetId="relationView">
+                <GridComp height="100%" id="grid_pagerole" left="0" position="relative" top="0" widgetId="relationView" width="100%">
+                </GridComp>
+            </TabItem>
+            <TabItem active="" i18nName="组织关系" id="UITabItem19520" showCloseIcon="" text="用户关系" widgetId="relationView">
+                <GridComp height="100%" id="grid_pageuser" left="0" position="relative" top="0" widgetId="relationView" width="100%">
+                </GridComp>
+            </TabItem>
+            <TabItem active="" i18nName="" id="UITabItem29520" showCloseIcon="" text="部门关系" widgetId="relationView">
+                <GridComp height="100%" id="grid_pagedept" left="0" position="relative" top="0" widgetId="relationView" width="100%">
+                </GridComp>
+            </TabItem>
+        </TabItems>
+        <Events>
+            <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.TabListener" methodName="afterActivedTabItemChange" name="afterActivedTabItemChange" onserver="true">
+                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="true">
+                    <Widget cardSubmit="false" id="relationView" panelSubmit="false" tabSubmit="true">
+                    </Widget>
+                </SubmitRule>
+                <Params>
+                    <Param>
+                        <Name>tabEvent</Name>
+                        <Value></Value>
+                        <Desc>                            <![CDATA[nc.uap.lfw.core.event.TabEvent]]>
+                        </Desc>
+                    </Param>
+                </Params>
+                <Action>
+                </Action>
+            </Event>
+        </Events>
+    </TabLayout>
+</UIMeta>

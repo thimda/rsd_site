@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta chart="0" jquery="0" jsEditor="0">
+    <FlowvLayout autoFill="0" id="flowv1">
+        <FlowvPanel id="flowv1p1" height="200">
+            <FormComp id="sform" widgetId="main">
+            </FormComp>
+        </FlowvPanel>
+        <FlowvPanel  id="flowv1p2">
+            <FlowhLayout  id="fhl2">
+                <FlowhPanel id="fhl2p1">
+                </FlowhPanel>
+                <FlowhPanel width="50" id="fhl2p2">
+                    <Button id="psbtn" widgetId="main">
+                    </Button>
+                </FlowhPanel>
+                <FlowhPanel  id="fhl2p3">
+                </FlowhPanel>
+            </FlowhLayout>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

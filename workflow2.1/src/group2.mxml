@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="600" height="400" showCloseButton="true" 
+				close="closeHandler(event)" title="选择执行者" backgroundColor="#FFFFFF" borderStyle="outset" 
+				borderColor="#000000" creationComplete="loadData(event)">
+	<!--http://localhost:8080/workflow/service/orgService-->
+	<mx:HTTPService id="groupProvider" url="{ServletConst.GROUP_SERVLET_URL}" resultFormat="text" 
+					result="groupProvider_resultHandler(event)" showBusyCursor="false" fault="HttpFaultUtil.faultHandler(event)">
+	</mx:HTTPService>
+	
+	<mx:HTTPService id="orgProvider" url="{ServletConst.ORG_SERVLET_URL}" resultFormat="e4x" 
+					result="orgProvider_resultHandler(event)" showBusyCursor="true">
+		
+	</mx:HTTPService>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import servlet.ServletConst;
+			import exception.HttpFaultUtil;
+
+			[Bindable]
+			protected var selects:Array = new Array();
+			
+			[Bindable]
+			public var mainApp:Object = null;  
+			[Bindable]
+			public var callbackFunction:Function;  //回调函数  
+			
+			protected function closeHandler(event:CloseEvent):void
+			{
+					PopUpManager.removePopUp(this);   
+					//this.setVisible(false);				
+			}
+
+			protected function loadData(event:FlexEvent):void
+			{
+				groupProvider.send();
+				//orgProvider.send();
+			}
+
+			protected function groupProvider_resultHandler(event:ResultEvent):void
+			{				
+				var groups:XMLList  = new XMLList(event.result.toString());
+				grouptree.dataProvider = groups.Group;
+			}
+
+			protected function orgProvider_resultHandler(event:ResultEvent):void
+			{
+			    
+				//var orgs:XMLList  = new XMLList(event.result.toString());
+				//orggrid.dataProvider = orgs.Org;
+			}
+			
+			//点击集团查询集团下的用户
+			protected function grouptree_clickHandler(event:MouseEvent):void
+			{		
+				var node:XML = grouptree.selectedItem as XML;
+				if(node==null)return;
+				var pk_group:String = node.@pk_group;
+				orgProvider.url = ServletConst.ORG_SERVLET_URL;
+				if(pk_group!=null&&pk_group!=null)
+					orgProvider.url +="?pk_group="+pk_group;
+				orgProvider.send();
+			}
+
+
+
+			protected function submit(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+				callbackFunction.call(mainApp,selects);
+			}
+			
+		]]>
+	</mx:Script>		
+	<mx:Binding source="orggrid.selectedItems" destination="selects">		
+	</mx:Binding>
+	<mx:HDividedBox y="0" left="0" width="100%" height="90%">
+		<mx:Tree y="0" id="grouptree" width="30%" height="100%" left="0" labelField="@name"  click="grouptree_clickHandler(event)">
+		</mx:Tree>
+		<mx:DataGrid id="orggrid" width="70%" height="100%" x="0" y="0" dataProvider="{orgProvider.lastResult.Org}" allowMultipleSelection="true">      
+			<mx:columns>   
+				<mx:DataGridColumn dataField="@code" headerText="Code"> 
+				</mx:DataGridColumn>      
+				<mx:DataGridColumn dataField="@name" headerText="名字">   
+				</mx:DataGridColumn>   
+				<mx:DataGridColumn dataField="@pk_org" headerText="组织主键" visible="false">   
+				</mx:DataGridColumn> 
+				<mx:DataGridColumn dataField="@pk_group" headerText="集团" visible="false">    
+				</mx:DataGridColumn>      
+			</mx:columns>      
+		</mx:DataGrid>  			
+		</mx:HDividedBox>
+	<mx:Canvas width="100%" height="30" bottom="0" x="0">
+		<mx:Button label="取消" x="304" y="4" click="PopUpManager.removePopUp(this); ">		
+		</mx:Button>
+		<mx:Button label="确定" y="4" x="213" click="submit(event)">		
+		</mx:Button>
+	</mx:Canvas>
+
+</mx:TitleWindow>

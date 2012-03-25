@@ -1,0 +1,71 @@
+.bluerimsquare{
+	width:100%;
+}
+.bluerimsquare 	.dropdown{
+		float:left;
+		width:12px;
+		height:12px;
+		background:url(${RES_PATH}/images/dropdown.png) no-repeat;
+	}
+.bluerimsquare 	.dropup{
+		float:left;
+		width:12px;
+		height:12px;
+		background:url(${RES_PATH}/images/dropup.png) no-repeat;
+	}
+.bluerimsquare 	.more{
+		float:right;
+		width:19px;
+		height:19px;
+		background:url(${RES_PATH}/images/more.png) no-repeat;
+	}
+	
+.bluerimsquare .textlabel{
+		float:left;
+		height:12px;
+		font-size:14px;
+		color:#007dc4;
+		font-weight:bold;
+	}
+.bluerimsquare .textlabel1{
+		float:right;
+		line-height:20px;
+		font-size:12px;
+		color:#666666;
+		font-family:Arial;
+		font-weight:bold;
+	}
+ 
+.bluerimsquare .line{
+	width:100%; height:5px;background-color:#87D4FF;
+}
+ 
+.bluerimsquare .pPart{
+	
+}
+.bluerimsquare .pPart li{
+	list-style: none outside none; display: inline;float:right;
+}
+
+.bluerimsquare .pPart li a,.datetext{
+	margin: 0 7px;
+	color:#0086b2;
+}
+
+/*
+* 暴露给外界的色系
+* portlet内容可以以class="xx fuscous_background"
+*/
+.bluerimsquare .extend .fuscous_background{
+	background-color:#F0F9FA;;
+}
+.bluerimsquare .extend .fuscous_color{
+	color:#FCF9EE;
+}
+
+.bluerimsquare .extend .tint_background{
+	background-color:#fff;
+}
+.bluerimsquare .extend .tint_color{
+	color:#fff;
+}

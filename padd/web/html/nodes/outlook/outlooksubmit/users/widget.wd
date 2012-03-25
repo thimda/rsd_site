@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="true" height="400" i18nName="关联用户" width="600">
+    <Models>
+        <Datasets>
+            <DatasetRelations>
+                <DatasetRelation detailDataset="ds_users" detailForeignKey="pk_group" id="ds_groups_ds_users" masterDataset="ds_groups" masterKeyField="pk_group">
+                </DatasetRelation>
+            </DatasetRelations>
+            <PubDataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_users" lazyLoad="true" refId="nc.portal.org.userds" voMeta="nc.portal.org.vo.PtUserVO">
+                <Fields>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="users" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_users" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </PubDataset>
+            <PubDataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="ds_groups" lazyLoad="false" refId="nc.portal.org.groupds" voMeta="nc.portal.org.vo.PtGroupVO">
+                <Fields>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.uap.lfw.core.event.deft.DefaultDatasetServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="users" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_groups" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                            <Event async="true" name="onAfterRowSelect" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="users" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="ds_groups" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value>
+                                        </Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </PubDataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <GridComp dataset="ds_users" editable="true" enabled="true" height="100%" id="grid_users" left="0" multiSelect="false" pagenationTop="false" position="relative" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" top="0" visible="true" width="100%">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="userid" fixedHeader="false" id="userid" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户编码" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="username" fixedHeader="false" id="username" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户名" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="nickname" fixedHeader="false" id="nickname" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户昵称" visible="true" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_user" fixedHeader="false" id="pk_user" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户主键" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="password" fixedHeader="false" id="password" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户密码" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="langcode" fixedHeader="false" id="langcode" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="所用语言" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="email" fixedHeader="false" id="email" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="邮箱" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="tel" fixedHeader="false" id="tel" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="电话" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="mobile" fixedHeader="false" id="mobile" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="手机" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFDate" editable="true" editorType="DateText" field="activedate" fixedHeader="false" id="activedate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="启用日期" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFDate" editable="true" editorType="DateText" field="disabledate" fixedHeader="false" id="disabledate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="失效日期" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="description" fixedHeader="false" id="description" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户描述" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_group" fixedHeader="false" id="pk_group" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="所属集团主键" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_org" fixedHeader="false" id="pk_org" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="所属组织主键" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pk_dept" fixedHeader="false" id="pk_dept" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="所属部门主键" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFBoolean" editable="true" editorType="CheckBox" field="locked" fixedHeader="false" id="locked" imageOnly="false" nullAble="true" renderType="BooleanRender" sortable="false" sumCol="false" text="是否锁定" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFBoolean" editable="true" editorType="CheckBox" field="disused" fixedHeader="false" id="disused" imageOnly="false" nullAble="true" renderType="BooleanRender" sortable="false" sumCol="false" text="是否弃用" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="authmode" fixedHeader="false" id="authmode" imageOnly="false" nullAble="true" renderType="IntegerRender" sortable="false" sumCol="false" text="身份认证方式" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="pwdlevelcode" fixedHeader="false" id="pwdlevelcode" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="密码安全级别编码" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="usertype" fixedHeader="false" id="usertype" imageOnly="false" nullAble="true" renderType="IntegerRender" sortable="false" sumCol="false" text="用户类型" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="usercreated" fixedHeader="false" id="usercreated" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="创建人id" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFDateTime" editable="true" editorType="DateText" field="lastlogintime" fixedHeader="false" id="lastlogintime" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="上次登陆日期" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="logintimes" fixedHeader="false" id="logintimes" imageOnly="false" nullAble="true" renderType="IntegerRender" sortable="false" sumCol="false" text="登录次数" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFBoolean" editable="true" editorType="CheckBox" field="modpass" fixedHeader="false" id="modpass" imageOnly="false" nullAble="true" renderType="BooleanRender" sortable="false" sumCol="false" text="是否修改过密码" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="staffcode" fixedHeader="false" id="staffcode" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="员工号" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="themeid" fixedHeader="false" id="themeid" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="主题" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="sex" fixedHeader="false" id="sex" imageOnly="false" nullAble="true" renderType="IntegerRender" sortable="false" sumCol="false" text="性别" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="userobj" fixedHeader="false" id="userobj" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="用户自定义项" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="original" fixedHeader="false" id="original" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="来源" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="original_pk" fixedHeader="false" id="original_pk" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="来源PK" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="UFDate" editable="true" editorType="DateText" field="passwordmodifydate" fixedHeader="false" id="passwordmodifydate" imageOnly="false" nullAble="true" renderType="DefaultRender" sortable="false" sumCol="false" text="密码修改日期" visible="false" width="120">
+            </Column>
+            <Column autoExpand="false" dataType="Integer" editable="true" editorType="IntegerText" field="passwordtrytimes" fixedHeader="false" id="passwordtrytimes" imageOnly="false" nullAble="true" renderType="IntegerRender" sortable="false" sumCol="false" text="密码试验次数" visible="false" width="120">
+            </Column>
+        </GridComp>
+        <TreeViewComp dragEnable="false" enabled="true" height="100%" id="tree_groups" left="0" position="relative" rootOpen="true" text="选择用户" top="0" visible="true" width="100%" withCheckBox="false" withRoot="true">
+            <RecursiveTreeLevel dataset="ds_groups" id="level1" labelFields="groupname" masterKeyField="pk_group" recursiveKeyField="pk_group" recursivePKeyField="pk_parent">
+            </RecursiveTreeLevel>
+        </TreeViewComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_cancel" left="0" position="relative" text="取消" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="menu_item_ok_listener" serverClazz="nc.portal.pwfm.listener.AssignTaskMouseListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="users" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_users" type="ds_current_page">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="btn_ok" left="0" position="relative" text="确定" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="menu_item_ok_listener" serverClazz="nc.portal.pwfm.listener.AssignTaskMouseListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="users" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="ds_users" type="ds_current_page">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

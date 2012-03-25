@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Dataset lazyLoad="true" voMeta="nc.portal.org.vo.PtOrgVO">
+    <Fields>
+        <Field dataType="String" field="pk_orgs" id="pk_orgs" text="pk_org">
+        </Field>
+        <Field dataType="String" field="code" id="code" text="编码" nullAble="false">
+        </Field>
+        <Field dataType="String" field="name" id="name" text="名称" nullAble="false">
+        </Field>
+        <Field dataType="String" field="name2" id="name2" text="name2">
+        </Field>
+        <Field dataType="String" field="name3" id="name3" text="name3">
+        </Field> 
+        <Field dataType="String" field="innercode" id="innercode" text="内编码">
+        </Field>
+        <Field dataType="String" field="shortname" id="shortname" text="简称">
+        </Field>
+        <Field dataType="String" field="mnecode" id="mnecode" text="助记码">
+        </Field>
+        <Field dataType="String" field="pk_fatherorg" id="pk_fatherorg" text="上级组织主键">
+        </Field>
+        <Field dataType="String" field="pk_group" id="pk_group" text="所属集团主键">
+        </Field>
+        <Field dataType="String" field="creator" id="creator" text="创建人">
+        </Field>
+        <Field dataType="String" field="creationtime" id="creationtime" text="创建时间">
+        </Field>
+        <Field dataType="String" field="modifier" id="modifier" text="最后修改人">
+        </Field>
+        <Field dataType="String" field="modifiedtime" id="modifiedtime" text="最后修改日期">
+        </Field>
+        <Field dataType="Integer" field="enablestate" id="enablestate" text="启用状态">
+        </Field>
+        <Field dataType="String" field="entitytype" id="entitytype" text="实体属性">
+        </Field>
+        <Field dataType="String" field="principal" id="principal" text="负责人">
+        </Field>
+        <Field dataType="String" field="tel" id="tel" text="电话">
+        </Field>
+        <Field dataType="String" field="address" id="address" text="地址">
+        </Field>
+        <Field dataType="String" field="memo" id="memo" text="说明">
+        </Field>
+        <!--
+        <Field dataType="String" field="def1" id="def1" text="def1">
+        </Field>
+        <Field dataType="String" field="def2" id="def2" text="def2">
+        </Field>
+        <Field dataType="String" field="def3" id="def3" text="def3">
+        </Field>
+        <Field dataType="String" field="def4" id="def4" text="def4">
+        </Field>
+        <Field dataType="String" field="def5" id="def5" text="def5">
+        </Field>
+        <Field dataType="String" field="def6" id="def6" text="def6">
+        </Field>
+        <Field dataType="String" field="def7" id="def7" text="def7">
+        </Field>
+        <Field dataType="String" field="def8" id="def8" text="def8">
+        </Field>
+        <Field dataType="String" field="def9" id="def9" text="def9">
+        </Field>
+        <Field dataType="String" field="def10" id="def10" text="def10">
+        </Field>
+        <Field dataType="String" field="def11" id="def11" text="def11">
+        </Field>
+        <Field dataType="String" field="def12" id="def12" text="def12">
+        </Field>
+        <Field dataType="String" field="def13" id="def13" text="def13">
+        </Field>
+        <Field dataType="String" field="def14" id="def14" text="def14">
+        </Field>
+        <Field dataType="String" field="def15" id="def15" text="def15">
+        </Field>
+        <Field dataType="String" field="def16" id="def16" text="def16">
+        </Field>
+        <Field dataType="String" field="def17" id="def17" text="def17">
+        </Field>
+        <Field dataType="String" field="def18" id="def18" text="def18">
+        </Field>
+        <Field dataType="String" field="def19" id="def19" text="def19">
+        </Field>
+        <Field dataType="String" field="def20" id="def20" text="def20">
+        </Field>
+        -->
+        <Field dataType="String" field="isbusinessunit" id="isbusinessunit" text="是否业务单元">
+        </Field>
+        <Field dataType="String" field="dataoriginflag" id="dataoriginflag" text="dataoriginflag">
+        </Field>
+        <Field dataType="String" field="pk_vid" id="pk_vid" text="pk_vid">
+        </Field>
+        <Field dataType="String" field="vno" id="vno" text="版本号">
+        </Field>
+        <Field dataType="UFDate" field="vstartdate" id="vstartdate" text="版本生效日期">
+        </Field>
+        <Field dataType="UFDate" field="venddate" id="venddate" text="版本失效日期">
+        </Field>
+        <Field dataType="String" field="vname" id="vname" text="版本名称">
+        </Field>
+        <Field dataType="String" field="pk_accperiodscheme" id="pk_accperiodscheme" text="pk_accperiodscheme">
+        </Field>
+        <Field dataType="String" field="pk_currtype" id="pk_currtype" text="本位币">
+        </Field>
+        <Field dataType="String" field="pk_exratescheme" id="pk_exratescheme" text="外币汇率方案">
+        </Field>
+        <Field dataType="String" field="workcalendar" id="workcalendar" text="工作日历">
+        </Field>
+        <Field dataType="String" field="countryzone" id="countryzone" text="国家地区">
+        </Field>
+        <Field dataType="String" field="pk_format" id="pk_format" text="pk_format">
+        </Field>
+        <Field dataType="String" field="pk_timezone" id="pk_timezone" text="时期">
+        </Field>
+        <Field dataType="String" field="taxcode" id="taxcode" text="纳税人登记号">
+        </Field>
+        <Field dataType="String" field="organizationcode" id="organizationcode" text="organizationcode">
+        </Field>
+        <Field dataType="String" field="ncindustry" id="ncindustry" text="所属NC行业">
+        </Field>
+        <Field dataType="UFBoolean" field="islastversion" id="islastversion" text="是否最后版本">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype1" id="orgtype1" text="法人公司">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype2" id="orgtype2" text="部门">
+        </Field>
+         <!--
+        <Field dataType="UFBoolean" field="orgtype2" id="orgtype2" text="人力资源">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype3" id="orgtype3" text="财务">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype4" id="orgtype4" text="资金">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype5" id="orgtype5" text="采购">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype6" id="orgtype6" text="销售">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype7" id="orgtype7" text="库存">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype8" id="orgtype8" text="物流">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype9" id="orgtype9" text="质检">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype10" id="orgtype10" text="资产">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype11" id="orgtype11" text="维修">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype12" id="orgtype12" text="利润中心">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype13" id="orgtype13" text="项目">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype14" id="orgtype14" text="预算">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype15" id="orgtype15" text="orgtype15">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype16" id="orgtype16" text="orgtype16">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype17" id="orgtype17" text="orgtype17">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype18" id="orgtype18" text="orgtype18">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype19" id="orgtype19" text="orgtype19">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype20" id="orgtype20" text="orgtype20">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype21" id="orgtype21" text="orgtype21">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype22" id="orgtype22" text="orgtype22">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype23" id="orgtype23" text="orgtype23">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype24" id="orgtype24" text="orgtype24">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype25" id="orgtype25" text="orgtype25">
+        </Field>
+         <Field dataType="UFBoolean" field="orgtype26" id="orgtype26" text="orgtype26">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype27" id="orgtype27" text="orgtype27">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype28" id="orgtype28" text="orgtype28">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype29" id="orgtype29" text="orgtype29">
+        </Field>
+        <Field dataType="UFBoolean" field="orgtype30" id="orgtype30" text="orgtype30">
+        </Field>
+        -->
+        <Field dataType="UFBoolean" field="orgtypegroup" id="orgtypegroup" text="orgtypegroup">
+        </Field>
+        <Field dataType="String" field="pk_foreign" id="pk_foreign" text="pk_foreign">
+        </Field>
+    </Fields>
+</Dataset>

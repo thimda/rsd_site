@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 角色ds -->
+<Dataset voMeta="nc.portal.org.vo.PtRoleVO" lazyLoad="true" >
+    <Fields>
+   		<Field id="pk_role" field="pk_role" dataType="String" text="角色主键" i18nName="org.role.role001"/><!--角色主键  -->
+   		<Field id="rolecode" field="rolecode" dataType="String" text="角色编码" i18nName="org.role.role002" nullAble="false"/><!--角色编码 -->
+   		<Field id="rolename" field="rolename" dataType="String" text="角色名称" i18nName="org.role.role003" nullAble="false"/><!--角色名称  -->
+		<Field id="comments" field="comments" dataType="String" text="角色描述" i18nName="org.role.role004"/><!--角色描述  -->
+		<Field id="pk_rolegroup" field="pk_rolegroup" text="角色组主键" dataType="String" i18nName=""/><!--角色组主键  -->
+		<Field id="datecreated" field="datecreated" dataType="UFDate" text="创建日期" i18nName="org.role.role006"/><!--创建日期  -->
+		<Field id="usercreated" field="usercreated" dataType="String" text="创建人" i18nName=""/>
+		<Field id="type" field="type" dataType="Integer" i18nName="org.role.role008" text="角色类型"/><!--角色类型  -->
+		<Field id="issealed" field="issealed" dataType="UFBoolean" i18nName="org.role.role009"  defaultValue='N' text="是否弃用"/><!--是否弃用  -->
+	</Fields>
+</Dataset>			
+	

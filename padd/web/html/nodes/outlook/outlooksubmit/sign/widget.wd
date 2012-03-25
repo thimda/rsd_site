@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="true" height="330" i18nName="签收意见" width="400">
+    <Models>
+        <Datasets>
+        </Datasets>
+    </Models>
+    <Components>
+        <TextAreaComp editorType="TextArea" enabled="true" focus="false" height="250" id="opinion" left="0" position="relative" text="签收意见" textAlign="left" textWidth="0" top="0" visible="true" width="400">
+        </TextAreaComp>
+        <ButtonComp align="left" enabled="true" height="22" id="button_ok" left="0" position="relative" text="确定" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="okButtonListener" serverClazz="nc.portal.pdbl.listener.SignOpinionMouseListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="sign" panelSubmit="false" tabSubmit="false">
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+        <ButtonComp align="left" enabled="true" height="22" id="button_cancel" left="0" position="relative" text="取消" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="cancelButtonListener" serverClazz="nc.portal.pdbl.listener.SignOpinionMouseListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <Widget cardSubmit="false" id="sign" panelSubmit="false" tabSubmit="false">
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value>
+                                    </Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

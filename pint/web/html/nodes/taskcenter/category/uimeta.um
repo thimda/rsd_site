@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="category_um" jquery="0">
+    <FlowvLayout autoFill="0" id="flowvlayout6528" widgetId="category">
+        <FlowvPanel id="panelv06528" widgetId="category">
+            <TreeViewComp height="100%" id="catetree" left="0" position="relative" top="0" widgetId="category" width="100%">
+            </TreeViewComp>
+        </FlowvPanel>
+        <FlowvPanel id="panelc001" widgetId="category">
+            <CardLayout currentItem="0" id="cardlayout1" widgetId="category">
+                <CardPanel id="cardpanel00475" widgetId="category">
+                </CardPanel>
+                <CardPanel id="cardpanel10475" widgetId="category">
+                    <TextField height="22" id="cbcc002" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="category" width="120">
+                    </TextField>
+                </CardPanel>
+            </CardLayout>
+        </FlowvPanel>
+    </FlowvLayout>
+</UIMeta>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta id="rolesmgrWin1_um" chart="0" jquery="0" jsEditor="0" jsExcel="0">
+    <Border bottomColor="" bottomWidth="1" className="" color="" id="border6059" leftColor="" leftWidth="1" rightColor="" rightWidth="1" showBottom="true" showLeft="true" showRight="true" showTop="true" topColor="" topWidth="1" width="100">
+        <BorderTrue id="bordertrue">
+            <Widget id="view1">
+            </Widget>
+        </BorderTrue>
+    </Border>
+</UIMeta>

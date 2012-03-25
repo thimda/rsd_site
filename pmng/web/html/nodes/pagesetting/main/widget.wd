@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<Widget dialog="false" height="100%" width="100%">
+    <Models>
+        <Datasets>
+            <Dataset controloperatorStatus="false" controlwidgetopeStatus="false" enabled="false" id="sds" lazyLoad="false">
+                <Fields>
+                    <Field dataType="UFBoolean" field="isdefault" id="isdefault" isPrimaryKey="false" nullAble="true" text="是否主页">
+                    </Field>
+                    <Field dataType="UFBoolean" field="undercontrol" id="undercontrol" isPrimaryKey="false" nullAble="true" text="是否受权限控制">
+                    </Field>
+                    <Field dataType="String" field="icon" id="icon" isPrimaryKey="false" nullAble="true" text="图标">
+                    </Field>
+                    <Field dataType="UFBoolean" field="forceshow" id="forceshow" isPrimaryKey="false" nullAble="true" text="在导航栏强制显示">
+                    </Field>
+                </Fields>
+                <Listeners>
+                    <DatasetListener id="defaultDsListener" serverClazz="nc.portal.page.PageSettingDsServerListener">
+                        <Events>
+                            <Event async="true" name="onDataLoad" onserver="true">
+                                <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="sds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Params>
+                                    <Param>
+                                        <Name>dataLoadEvent</Name>
+                                        <Value></Value>
+                                        <Desc>                                            <![CDATA[]]>
+                                        </Desc>
+                                    </Param>
+                                </Params>
+                                <Action>
+                                </Action>
+                            </Event>
+                        </Events>
+                    </DatasetListener>
+                </Listeners>
+            </Dataset>
+        </Datasets>
+    </Models>
+    <Components>
+        <FormComp columnCount="2" dataset="sds" eleWidth="120" enabled="true" id="sform" labelMinWidth="0" left="0" position="relative" renderType="2" rowHeight="22" top="0" visible="true" width="100%">
+            <Element attachNext="false" colSpan="1" editable="true" editorType="CheckBox" enabled="true" field="isdefault" height="22" id="isdefault" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="是否主页" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" editable="true" editorType="CheckBox" enabled="true" field="undercontrol" height="22" id="undercontrol" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="是否受权限控制" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" editable="true" editorType="StringText" enabled="true" field="icon" height="22" id="icon" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
+            </Element>
+            <Element attachNext="false" colSpan="1" editable="true" editorType="CheckBox" enabled="true" field="forceshow" height="22" id="forceshow" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="在导航栏强制显示" visible="true" width="">
+            </Element>
+        </FormComp>
+        <ButtonComp align="left" enabled="true" height="22" id="psbtn" left="0" position="relative" text="保存" top="0" visible="true" width="60">
+            <Listeners>
+                <MouseListener id="psbtnl" serverClazz="nc.portal.page.SettingBtnMsListener">
+                    <Events>
+                        <Event async="true" name="onclick" onserver="true">
+                            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                                <SubmitRule cardSubmit="false" pagemeta="pagemgr" panelSubmit="false" tabSubmit="false">
+                                    <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                        <Dataset id="pageds" type="ds_current_line">
+                                        </Dataset>
+                                    </Widget>
+                                </SubmitRule>
+                                <Widget cardSubmit="false" id="main" panelSubmit="false" tabSubmit="false">
+                                    <Dataset id="sds" type="ds_current_line">
+                                    </Dataset>
+                                </Widget>
+                            </SubmitRule>
+                            <Params>
+                                <Param>
+                                    <Name>mouseEvent</Name>
+                                    <Value></Value>
+                                    <Desc>                                        <![CDATA[]]>
+                                    </Desc>
+                                </Param>
+                            </Params>
+                            <Action>
+                            </Action>
+                        </Event>
+                    </Events>
+                </MouseListener>
+            </Listeners>
+        </ButtonComp>
+    </Components>
+    <Containers>
+    </Containers>
+    <Menus>
+    </Menus>
+</Widget>

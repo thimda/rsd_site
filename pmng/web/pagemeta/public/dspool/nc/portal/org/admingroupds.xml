@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!-- 管理员管理集团ds -->
+<Dataset lazyLoad="true" voMeta="nc.portal.vo.org.PtAdminGroupVO">
+  <Fields>
+		<Field id="pk_admingroup" field="pk_admingroup" dataType="String" i18nName="集团管理员授权集团主键" nullAble="false" primaryKey="true"/> 
+		<Field id="pk_user" field="pk_user" dataType="String" i18nName="集团主键" nullAble="false"/>
+		<Field id="pk_group" field="pk_group" dataType="String" i18nName="集团主键" nullAble="false"/>
+   </Fields>
+</Dataset>	

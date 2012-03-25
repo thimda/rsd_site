@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.vo.pub.portlet.NewsGroupVO">
+	<Handler className="nc.portlet.cms.handler.NewsGroupManageHandler"/>
+    <Fields>
+		<Field id="pk_newsgroup" field="pk_newsgroup" dataType="String" i18nName="newsgroup.pk_newsgroup" nullAble="true"/><!--新闻组主键 -->
+		<Field id="groupname" field="groupname" dataType="String" i18nName="newsgroup.groupname" nullAble="false"><!--新闻组名称 -->
+			<Properties>
+				<Property name="maxLength" value="50"/>
+			</Properties>
+		</Field>
+		<Field id="grouptype" field="grouptype" dataType="Integer" i18nName="newsgroup.grouptype" nullAble="false"/><!--分组类型 -->
+		<Field id="parentid" field="parentid" dataType="String" i18nName="newsgroup.parentid" nullAble="true"/><!--上级分组 -->
+		<Field id="specialflag" field="specialflag" dataType="Integer" i18nName="newsgroup.specialflag" nullAble="true"/><!--发布类型 -->
+		<Field id="url" field="url" dataType="String" i18nName="newsgroup.url" nullAble="true"><!--独立发布地址 -->
+			<Properties>
+				<Property name="maxLength" value="100"/>
+			</Properties>
+		</Field>
+		<Field id="createdate" field="createdate" dataType="UFDateTime" i18nName="newsgroup.createdate" nullAble="true"/><!--发布时间 -->
+	    <Field id="folderflag" field="folderflag" dataType="UFBoolean" i18nName="newsgroup.isfolder" defaultValue="N" nullAble="false"/>
+	    <Field id="createuser" field="createuser" dataType="String" i18nName="cms.document.usercreated" nullAble="true"/><!--创建人 -->
+	    <Field id="pk_workflow" field="pk_workflow" dataType="String" i18nName="cms.form.relateworkflow" nullAble="true"/><!--关联流程 -->
+	    <Field id="pk_org" field="pk_org" dataType="String" i18nName="cms.links.corpprimarykey" nullAble="false"/><!--公司主键-->
+	    <Field id="shareflag" field="shareflag" dataType="UFBoolean" i18nName="cms.compdoc.shareflag" nullAble="false" defaultValue="N"/><!--是否共享 -->
+    </Fields>
+</Dataset>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" error="httpErrorHandler(event)"  applicationComplete="onAppComplete();"  fontSize="12" height="100%" width="100%" xmlns:comp="wf.comp.*" backgroundColor="#FFFFFF" xmlns:workflow="workflow.*">
+	
+	<mx:HTTPService id="wfservlet"  resultFormat="text"  result="wfxml_resultHandler(event)" showBusyCursor="true" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>  
+	<mx:HTTPService id="loadInsServlet" contentType="application/xml" method="POST" url="{ServletConst.LOAD_INS_SERVLET_RUL}" result="getIns_resultHandler(event)" 
+					resultFormat="e4x" showBusyCursor="true" fault="HttpFaultUtil.faultHandler(event)">		
+	</mx:HTTPService>
+	
+	<mx:Script>
+		<![CDATA[
+			import flash.external.ExternalInterface;
+			
+			import mx.containers.TitleWindow;
+			import mx.controls.Alert; 
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ItemClickEvent;
+			import mx.events.ListEvent;
+			import mx.formatters.DateFormatter;
+			import mx.graphics.codec.JPEGEncoder;
+			import mx.graphics.codec.PNGEncoder;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.StringUtil;
+			import mx.utils.URLUtil;
+			import mx.rpc.events.FaultEvent;
+			
+			import exception.HttpFaultUtil;
+			import servlet.ServletConst;
+			
+			import workflow.*;
+			import workflow.comp.*;
+			import workflow.service.ExcuteSequenceParser;
+			import workflow.utils.HashMap;
+			
+			private var myDrawBoard:DrawBoard=new DrawBoard();
+			//参数集合
+			private var map:HashMap = new HashMap();
+			private var iniXml:XML ;	
+			//在浏览态下，已经完成的节点
+			private var finishedElements:Array = new Array();
+			//在浏览态下，正在执行的节点
+			private var currentElements:Array = new Array();	
+			
+			private var simpleMode:Boolean = true;
+			
+			private function onAppComplete():void {	
+				setServerInfo();
+				setParam();		
+				myDrawBoard.browseMode = true;
+				//CreateContainer();
+			}
+			public function setServerInfo():void{		
+				var serverWebRoot:String =  ExternalInterface.call("getServerWebRoot");
+				ServletConst.Server_web_root = serverWebRoot;
+				if(ServletConst.Server_web_root==null||ServletConst.Server_web_root==""){
+					Alert.show("没有获得服务器地址,与服务器的交互都不会成功的");
+				}			
+			}
+			//设置参数，浏览模型，浏览模型时的xml...
+			//参数格式:browseMode=true/false,wfpk:流程pk，loadServlet：加载流程xml的servlet,proInsPk:流程实例pk
+			public function setParam():void{
+				var url:String =  ExternalInterface.call("getUrl");
+				//url = "http://localhost//pbase/html/bin-release/wfbrowser.html?wfpk=0001Z01000000008X2ND&proInsPk=0001Z0100000000932P5";
+				//Alert.show(url);
+				//url = "html/bin-debug/wfdesigner.html?browseMode=true&pk=2&loadServlet=http://localhost/pbase/servlet/workflowService";
+				if(url==null||url=="")return;
+				if(url.indexOf("?")<0)return;
+				var paramUrl:String = StringUtil.trim(url.substring(url.indexOf("?")+1));
+				//去除末尾的"#"
+				if(paramUrl.indexOf("#")==paramUrl.length-1)
+					paramUrl = paramUrl.substr(0,paramUrl.length-1);
+				
+				//if(paramUrl==null||paramUrl==""||paramUrl.length<3)return;
+				
+				var params:Array = paramUrl.split("&");
+				
+				for each(var kv:String in params){
+					var kvs:Array = kv.split("=");
+					if(kvs.length!=2)continue;
+					map.put(kvs[0],kvs[1]);
+				}
+				//Alert.show("broseModeParam:"+broseModeParam+" wfpk:"+wfpk+" loadServlet:"+loadServlet);
+				
+				var wfpk:String = map.get("wfpk") as String;				
+				if(wfpk!=null&&wfpk!=""){
+					wfservlet.url = ServletConst.LOAD_WFXML_SERVLET_URL;
+					wfservlet.url += "?wfpk="+wfpk;
+					wfservlet.send(wfpk);
+				}	
+				
+			}
+			
+			protected function httpErrorHandler(event:ErrorEvent):void
+			{
+				Alert.show("服务请求失败:"+(event.currentTarget));
+			}
+			//读取xml文件后结果处理
+			public function wfxml_resultHandler(event:ResultEvent):void{
+				iniXml = new XML(event.result.toString());
+				CreateContainer();
+			}
+			private function getInitXml():XML{
+				return iniXml;
+			}
+
+			//获取流程实例后结果处理
+			public function getIns_resultHandler(event:ResultEvent):void{
+				var insXml:XML = new XML(event.result.toString());
+				var parse:ExcuteSequenceParser = new ExcuteSequenceParser(myDrawBoard);
+				finishedElements = parse.parseFromXml(insXml);
+				currentElements = parse.currentElements;
+				//浏览态，进行变色
+				setElementState();	
+			}
+
+			//初始化设计界面
+			private function CreateContainer():void {								
+				myDrawBoard.x=0;
+				myDrawBoard.y=0;
+				myDrawBoard.percentWidth=100;
+				myDrawBoard.percentHeight=100;
+				myCanvas.addChild(myDrawBoard);
+				
+				iniXml =getInitXml();
+				myDrawBoard.simpleMode = simpleMode;
+				myDrawBoard.ParseFromXml(iniXml);
+				
+				getProIns();
+				//setElementState();
+				//setMouseEnable();
+				myDrawBoard.AddUndo();
+			}
+			
+			private function getProIns():void{
+				var proInsPk:String = map.get("proInsPk") as String;
+				if(proInsPk!=null&&proInsPk!=""){
+					loadInsServlet.url = ServletConst.LOAD_INS_SERVLET_RUL;
+					loadInsServlet.url += "?proInsPk="+proInsPk;
+					loadInsServlet.send();
+				}
+			}
+					
+			private function setMouseEnable():void{
+				
+			}
+			//浏览态，则设置节点的执行状态,根据状态进行变色
+			private function setElementState():void{
+				//myDrawBoard.mouseChildren = false;			  
+				for(var i:int=0;i<finishedElements.length;i++){
+					var temp:Element = null;
+					temp = myDrawBoard.GetElementFromID(finishedElements[i]);
+					if(temp!=null){
+						temp.State = 1;
+						temp.Draw();
+					}
+				}
+				for(var j:int=0;j<currentElements.length;j++){
+					var tmp:Element = null;
+					tmp = myDrawBoard.GetElementFromID(currentElements[j]);
+					if(tmp!=null){
+						tmp.State = 2;
+						tmp.Draw();
+					}
+				}
+			}
+			
+		]]>
+	</mx:Script>
+
+	<mx:Canvas id="myCanvas" label="设计器" left="0" top="20" bottom="0" right="0" themeColor="#FFFFFF"  backgroundColor="#FFFFFF" backgroundAlpha="0.6" borderStyle="outset" borderColor="#0495FB">
+	</mx:Canvas>
+	
+	<!--加入图例说明-->
+	<mx:Canvas   x="0" y="0" width="100%" height="22" borderColor="#0498FF" backgroundColor="#E9F4F7">
+		<mx:Label x="0" y="0" text="图例说明："/>
+		<mx:Canvas x="65" y="2"  width="20" enabled="false" height="18" borderColor="#0000FF" borderStyle="solid" borderThickness="2" cornerRadius="4"/>
+		<mx:Label x="92" y="1" text="已办"/>
+		<mx:Label x="154" y="1" text="在办"/>
+		<mx:Label x="215" y="1" text="待办"/>
+		<mx:Button x="248" y="9"  width="20" enabled="false" height="4" fillAlphas="[1.0, 1.0]" fillColors="[#0000FF, #0000FF]"/>
+		<mx:Label x="274" y="1" text="完成"/>
+		<mx:Button x="306" y="9" width="20" enabled="false" height="4" fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]"/>
+		<mx:Label x="332" y="1" text="待办"/>
+		<mx:Canvas x="126" y="2"  width="20" enabled="false" height="18" borderColor="#F40C0C" borderStyle="solid" borderThickness="2" cornerRadius="4"/>
+		<mx:Canvas x="188" y="2"  width="20" enabled="false" height="18" borderColor="#000000" borderStyle="solid" borderThickness="2" cornerRadius="4"/>
+		<mx:Button x="365" y="9" width="20" enabled="false" height="4" fillAlphas="[1.0, 1.0]" fillColors="[#FF0000, #FF0000]"/>
+		<mx:Label x="391" y="1" text="驳回"/>
+		
+	</mx:Canvas>
+	<mx:Style>
+		mx|ToolTip {  
+			fontSize: 12;  
+			color: #000000;
+			backgroundColor:#abcdef;
+		}
+	</mx:Style>
+</mx:Application>

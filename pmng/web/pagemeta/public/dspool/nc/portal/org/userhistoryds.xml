@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset lazyLoad="true" voMeta="nc.portal.org.vo.PtUserHistoryVO">
+    <Fields>
+		<Field id="pk_userhistory" field="pk_userhistory" dataType="String" i18nName="用户导入历史pk" nullAble="false"/>
+		<Field id="importstyle" field="importstyle" dataType="String" i18nName="导入方式" nullAble="false"/>
+		<Field id="pk_group" field="pk_group" dataType="String" i18nName="所属集团pk" nullAble="false"/>
+		<Field id="importtype" field="importtype" dataType="Integer" i18nName="导入类型" nullAble="false"/>
+		<Field id="importtime" field="importtime" dataType="UFDateTime" i18nName="导入时间" />
+		<Field id="originalpk" field="originalpk" dataType="String" i18nName="原始pk"/>
+		<Field id="name" field="name" dataType="String" i18nName="名称"/>
+		<Field id="cudtype" field="cudtype" dataType="Integer" i18nName="导入状态" nullAble="false"/>
+		<Field id="objuser1" field="objuser1" dataType="String" i18nName=""/>
+		<Field id="objuser2" field="objuser3" dataType="String" i18nName=""/>
+		<Field id="objuser3" field="objuser3" dataType="String" i18nName=""/>
+		<Field id="objuser4" field="objuser4" dataType="String" i18nName=""/>
+		<Field id="objuser5" field="objuser5" dataType="String" i18nName=""/>
+   </Fields> 
+</Dataset>	

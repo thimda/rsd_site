@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Dataset voMeta="nc.uap.portal.vo.PtAppsCategoryVO"  lazyLoad="true">
+    <Fields>
+   		<Field id="pk_appscategory" field="pk_appscategory" dataType="String"  i18nName="nc.uap.portal.vo.pk_appscategory"/>
+   		<Field id="title" field="title" dataType="String"  i18nName="nc.uap.portal.vo.title"/>
+   		<Field id="module" field="module" dataType="String"  i18nName="nc.uap.portal.vo.module"/>
+   		<Field id="i18nname" field="i18nname" dataType="String"  i18nName="nc.uap.portal.vo.i18nname"/>
+		<Field id="prototypeid" field="prototypeid" dataType="String"  i18nName="nc.uap.portal.vo.prototypeid"/>
+		<Field id="parentid" field="parentid" dataType="String" i18nName="nc.uap.portal.vo.parentid"/>
+		<Field id="activeflag" field="activeflag" dataType="Boolean"  i18nName="nc.uap.portal.vo.activeflag"/>
+		<Field id="pk_group" field="pk_group" dataType="String" i18nName="nc.uap.portal.vo.pk_group"/>
+		<Field id="pk_appstype" field="pk_appstype" dataType="String" i18nName="nc.uap.portal.vo.pk_appstype"/>
+		<Field id="categoryid" field="categoryid" dataType="String" i18nName="nc.uap.portal.vo.categoryid"/>
+	</Fields>
+</Dataset>
