@@ -64,7 +64,7 @@ public class BaseIframePortlet extends PtBasePortlet {
 		String srcType = StringUtils.defaultIfEmpty(request.getParameter(SRC_TYPE), srcVal);
 		if(PortalRenderEnv.RENDER_REQ_TYPE_AJAX.equals(PortalRenderEnv.getPortletRenderType())){
 			String iframeId = request.getWindowID().replaceAll("\\.","_") + "_iframe";
-			String script = "document.getElementById('"+iframeId+"').src='"+frameURL+"';";
+			String script = "if($('#" + iframeId + "').attr('fullHeight')){ $('#" + iframeId + "').height(parseInt($('#" + iframeId + "').attr('fullHeight'))); }\n document.getElementById('"+iframeId+"').src='"+frameURL+"';";
 			addExecScript(response, script);
 			//			frameURL
 		}else{

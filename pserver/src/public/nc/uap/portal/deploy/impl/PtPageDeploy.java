@@ -133,8 +133,8 @@ public class PtPageDeploy extends AbstractPtDeploy implements IPtDeploy {
 		if (!updatePage.isEmpty())  
 			ps.update(updatePage.toArray(new PtPageVO[0]));
 		
-		if (!deletePage.isEmpty()) 
-			ps.delete(deletePage.toArray(new String[0]));
+//		if (!deletePage.isEmpty()) 
+//			ps.delete(deletePage.toArray(new String[0]));
 		}catch (Exception e) {
 			LfwLogger.error(e.getMessage(), e);
 		}

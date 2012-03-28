@@ -90,6 +90,7 @@ public class PortletSettingPageModel extends PageModel{
 		FormComp form = new FormComp();
 		form.setId(FORM);
 		form.setDataset(TREEDS);
+		form.setEleWidth(250);
 		widget.getViewComponents().addComponent(form);
 		FieldSet fs = ds.getFieldSet();
 		form.setRowHeight(26);
@@ -247,54 +248,90 @@ public class PortletSettingPageModel extends PageModel{
 	}
 
 	private void constructViewUI(UIMeta wuimeta) {
+		
 		UIFlowvLayout flvLayout = new UIFlowvLayout();
 		flvLayout.setId("flowv1");
 		flvLayout.setWidgetId(WIDGET_ID);
-		wuimeta.setElement(flvLayout);
+		
+		UIFlowvPanel flvPanel0 = new UIFlowvPanel();
+		flvPanel0.setId("flowvp0");
+		flvPanel0.setHeight("30");
+		flvLayout.addPanel(flvPanel0);
 		
 		UIFlowvPanel flvPanel1 = new UIFlowvPanel();
 		flvPanel1.setId("flowvp1");
-		flvLayout.addPanel(flvPanel1);
 		
-		UIFormComp uiForm = new UIFormComp();
-		uiForm.setWidgetId(WIDGET_ID);
-		uiForm.setId(FORM);
-		flvPanel1.setElement(uiForm);
+			UIFlowhLayout flhlayout1 = new UIFlowhLayout();
+			flhlayout1.setId("flowh1");
+			flhlayout1.setWidgetId(WIDGET_ID);
+				
+				UIFlowhPanel flhp01 = new UIFlowhPanel();
+				flhp01.setId("flhp01");
+				flhp01.setWidth("50");
+				flhlayout1.addPanel(flhp01);
+				
+				UIFlowhPanel flhp02 = new UIFlowhPanel();
+				flhp02.setId("flhp02");
+					UIFormComp uiForm = new UIFormComp();
+					uiForm.setWidgetId(WIDGET_ID);
+					uiForm.setId(FORM);
+					flhp02.setElement(uiForm);
+				flhlayout1.addPanel(flhp02);
+				
+				UIFlowhPanel flhp03 = new UIFlowhPanel();
+				flhp03.setId("flhp03");
+				flhp03.setWidth("50");
+				flhlayout1.addPanel(flhp03);	
+				
+		flvPanel1.setElement(flhlayout1);
+		flvLayout.addPanel(flvPanel1);
 		
 		UIFlowvPanel flvPanel2 = new UIFlowvPanel();
 		flvPanel2.setId("flowvp2");
 		flvPanel2.setHeight("30");
-		flvLayout.addPanel(flvPanel2);
+		
+			UIFlowhLayout flhLayout2 = new UIFlowhLayout();
+			flhLayout2.setId("flowh2");
+			flhLayout2.setWidgetId(WIDGET_ID);
+			
+				UIFlowhPanel flhP1 = new UIFlowhPanel();
+				flhP1.setId("flowhp1");
+				flhLayout2.addPanel(flhP1);
+				
+				UIFlowhPanel flhP2 = new UIFlowhPanel();
+				flhP2.setId("flowhp2");
+				flhLayout2.addPanel(flhP2);
+					
+				
+				UIFlowhPanel flhP3 = new UIFlowhPanel();
+				flhP3.setId("flowhp3");
+				flhLayout2.addPanel(flhP3);
+			
+				UIFlowhPanel flhP4 = new UIFlowhPanel();
+				flhP4.setId("flowhp4");
+				UIButton okbt = new UIButton();
+				okbt.setWidgetId(WIDGET_ID);
+				okbt.setId(OKBT);
+				flhP4.setElement(okbt);	
+				flhLayout2.addPanel(flhP4);
+				
+				UIFlowhPanel flhP5 = new UIFlowhPanel();
+				flhP5.setId("flowhp5");
+				UIButton cancelbt = new UIButton();
+				cancelbt.setWidgetId(WIDGET_ID);
+				cancelbt.setId(CANCELBT);
+				flhP5.setElement(cancelbt);
+				flhLayout2.addPanel(flhP5);
+				
+				UIFlowhPanel flhP6 = new UIFlowhPanel();
+				flhP6.setId("flowhp6");
+				flhP6.setWidth("1");
+				flhLayout2.addPanel(flhP6);
+				
+		flvPanel2.setElement(flhLayout2);
+		flvLayout.addPanel(flvPanel2);			
+				
 		wuimeta.setElement(flvLayout);
-		
-		UIFlowhLayout flhLayout = new UIFlowhLayout();
-		flhLayout.setId("flowh1");
-		flhLayout.setWidgetId(WIDGET_ID);
-		UIFlowhPanel flhP1 = new UIFlowhPanel();
-		flhP1.setId("flowhp1");
-		flhLayout.addPanel(flhP1);
-		
-		UIFlowhPanel flhP2 = new UIFlowhPanel();
-		flhP2.setId("flowhp2");
-		flhP2.setWidth("120");
-		flhLayout.addPanel(flhP2);
-		
-		UIFlowhPanel flhP3 = new UIFlowhPanel();
-		flhP3.setId("flowhp3");
-		flhP3.setWidth("120");
-		flhLayout.addPanel(flhP3);
-		
-		flvPanel2.setElement(flhLayout);
-		UIButton okbt = new UIButton();
-		okbt.setWidgetId(WIDGET_ID);
-		okbt.setId(OKBT);
-		flhP2.setElement(okbt);
-		
-		UIButton cancelbt = new UIButton();
-		cancelbt.setWidgetId(WIDGET_ID);
-		cancelbt.setId(CANCELBT);
-		flhP3.setElement(cancelbt);
-		
 		//uimeta
 	}
 }

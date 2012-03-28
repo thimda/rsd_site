@@ -2,6 +2,7 @@ package nc.uap.portal.msg.provide;
 
 import java.util.List;
 
+import nc.uap.lfw.core.cmd.base.FromWhereSQL;
 import nc.uap.lfw.core.data.PaginationInfo;
 import nc.uap.portal.msg.model.Msg;
 import nc.uap.portal.msg.model.MsgBox;
@@ -31,7 +32,7 @@ public interface IMsgProvide {
 	 * @return
 	 */
 	public Msg[] query(String category, UFDateTime start, UFDateTime end,
-			MsgBox box, PaginationInfo pi);
+			MsgBox box, PaginationInfo pi, FromWhereSQL whereSql);
 
 	/**
 	 * 获得支持的分类列表

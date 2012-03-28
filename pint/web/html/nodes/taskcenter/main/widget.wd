@@ -151,6 +151,8 @@
                 <ComboItem text="退回件" value="HandlerPiece_Rejected">
                 </ComboItem>
             </StaticComboData>
+            <DynamicComboData className="nc.uap.portal.task.ctrl.SystemComboData" id="system_data">
+            </DynamicComboData>
             <StaticComboData id="comdata_taskstate">
                 <ComboItem text="待办" value="State_Run">
                 </ComboItem>
@@ -173,8 +175,6 @@
                 <ComboItem text="加签中止" value="State_AddSignStop">
                 </ComboItem>
             </StaticComboData>
-            <DynamicComboData className="nc.uap.portal.task.ctrl.SystemComboData" id="system_data">
-            </DynamicComboData>
             <StaticComboData id="c001_data">
                 <ComboItem text="待办" value="UnRead">
                 </ComboItem>
@@ -194,47 +194,30 @@
         </ComboDatas>
     </Models>
     <Components>
-        <ButtonComp enabled="true" id="button5752" text="执行" visible="true">
-            <Events>
-                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_exec" name="onclick" onserver="true">
-                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
-                    </SubmitRule>
-                    <Params>
-                        <Param>
-                            <Name>mouseEvent</Name>
-                            <Value>
-                            </Value>
-                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
-                            </Desc>
-                        </Param>
-                    </Params>
-                    <Action>
-                    </Action>
-                </Event>
-            </Events>
-        </ButtonComp>
         <GridComp dataset="ds_task" editable="false" enabled="true" id="grid_undnetask" multiSelect="true" pageSize="20" pagenationTop="false" showColInfo="true" showHeader="true" showNumCol="false" showSumRow="false" sortable="true" visible="true">
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext0" fixedHeader="false" id="ext0" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流水号" textAlign="center" visible="true" width="180">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext1" fixedHeader="false" id="ext1" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="标题" textAlign="center" visible="true" width="250">
             </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext1" fixedHeader="false" id="ext1" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="标题" textAlign="center" visible="true" width="350">
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="pk_frmins" fixedHeader="false" id="pk_frmins" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="单据编号" textAlign="center" visible="true" width="100">
             </Column>
-            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="humactname" fixedHeader="false" id="humactname" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="活动名称" textAlign="center" visible="true" width="200">
-            </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext2" fixedHeader="false" id="ext2" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="部门" textAlign="center" visible="true" width="120">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext0" fixedHeader="false" id="ext0" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流水号" textAlign="center" visible="true" width="100">
             </Column>
             <Column autoExpand="true" dataType="String" editable="true" editorType="ComboBox" field="state" fixedHeader="false" id="state" imageOnly="false" nullAble="false" refComboData="comdata_taskstate" renderType="ComboRender" showCheckBox="true" sortable="true" sumCol="false" text="任务状态" textAlign="center" visible="true" width="80">
             </Column>
             <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext4" fixedHeader="false" id="ext4" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="缓急程度" textAlign="center" visible="true" width="80">
             </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="ComboBox" field="handlepiece" fixedHeader="false" id="handlepiece" imageOnly="false" nullAble="true" refComboData="comdata_handlepiece" renderType="ComboRender" showCheckBox="true" sortable="true" sumCol="false" text="办件情况" textAlign="center" visible="true" width="100">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="proinsstartdate" fixedHeader="false" id="proinsstartdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流程开始日期" textAlign="center" visible="true" width="100">
             </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext3" fixedHeader="false" id="ext3" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="附件" textAlign="center" visible="true" width="120">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="startdate" fixedHeader="false" id="startdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="任务到达时间" textAlign="center" visible="true" width="100">
             </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="proinsstartdate" fixedHeader="false" id="proinsstartdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流程开始日期" textAlign="center" visible="true" width="120">
+            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="humactname" fixedHeader="false" id="humactname" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="活动名称" textAlign="center" visible="false" width="200">
             </Column>
-            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="startdate" fixedHeader="false" id="startdate" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="任务到达时间" textAlign="center" visible="true" width="120">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext2" fixedHeader="false" id="ext2" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="部门" textAlign="center" visible="false" width="120">
             </Column>
-            <Column autoExpand="true" dataType="String" editable="true" editorType="StringText" field="prodefname" fixedHeader="false" id="prodefname" imageOnly="false" nullAble="false" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="流程名称" textAlign="center" visible="true" width="120">
+            <Column autoExpand="false" dataType="String" editable="true" editorType="ComboBox" field="handlepiece" fixedHeader="false" id="handlepiece" imageOnly="false" nullAble="true" refComboData="comdata_handlepiece" renderType="ComboRender" showCheckBox="true" sortable="true" sumCol="false" text="办件情况" textAlign="center" visible="false" width="100">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" editorType="StringText" field="ext3" fixedHeader="false" id="ext3" imageOnly="false" nullAble="true" renderType="DefaultRender" showCheckBox="true" sortable="true" sumCol="false" text="附件" textAlign="center" visible="true" width="30">
+            </Column>
+            <Column autoExpand="false" dataType="String" editable="true" field="ext5" fixedHeader="false" id="ext5" imageOnly="false" nullAble="true" showCheckBox="true" sortable="true" sumCol="false" text="消息" visible="true" width="30">
             </Column>
             <Listeners>
                 <GridRowListener id="default_grid_undnetask" serverClazz="nc.uap.wfm.listener.GridRowDbClickTaskExeListener">
@@ -270,7 +253,8 @@
                     <Params>
                         <Param>
                             <Name>textEvent</Name>
-                            <Value></Value>
+                            <Value>
+                            </Value>
                             <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
                             </Desc>
                         </Param>
@@ -288,7 +272,8 @@
                     <Params>
                         <Param>
                             <Name>textEvent</Name>
-                            <Value></Value>
+                            <Value>
+                            </Value>
                             <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
                             </Desc>
                         </Param>
@@ -306,7 +291,8 @@
                     <Params>
                         <Param>
                             <Name>textEvent</Name>
-                            <Value></Value>
+                            <Value>
+                            </Value>
                             <Desc>                                <![CDATA[nc.uap.lfw.core.event.TextEvent]]>
                             </Desc>
                         </Param>
@@ -316,26 +302,47 @@
                 </Event>
             </Events>
         </ComBoBoxComp>
-        <ButtonComp enabled="true" id="button1" text="批审" visible="true">
-            <Events>
-                <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_mutiexec" name="onclick" onserver="true">
-                    <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
-                    </SubmitRule>
-                    <Params>
-                        <Param>
-                            <Name>mouseEvent</Name>
-                            <Value>
-                            </Value>
-                            <Desc>                                <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
-                            </Desc>
-                        </Param>
-                    </Params>
-                    <Action>
-                    </Action>
-                </Event>
-            </Events>
-        </ButtonComp>
     </Components>
     <Menus>
+        <MenuBarComp id="ctrlmenu">
+            <MenuItem id="exec" modifiers="2" text="执行">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_exec" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+            <MenuItem id="mutiexec" modifiers="2" text="批审">
+                <Events>
+                    <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.MouseListener" methodName="onclick_mutiexec" name="onclick" onserver="true">
+                        <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+                        </SubmitRule>
+                        <Params>
+                            <Param>
+                                <Name>mouseEvent</Name>
+                                <Value>
+                                </Value>
+                                <Desc>                                    <![CDATA[nc.uap.lfw.core.event.MouseEvent]]>
+                                </Desc>
+                            </Param>
+                        </Params>
+                        <Action>
+                        </Action>
+                    </Event>
+                </Events>
+            </MenuItem>
+        </MenuBarComp>
     </Menus>
 </Widget>

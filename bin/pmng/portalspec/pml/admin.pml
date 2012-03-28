@@ -5,7 +5,7 @@
 	<layout id="l1" name="simpleLayout" sizes="100%">
 		<layout id="l2" name="paddingLayout" sizes="100%">
 			<portlet id="p3" name="pserver:NavigationPortlet" theme="clean"  title="导航条" column="0" />
-			<portlet id="p2" name="MgrContentPortlet" theme="clean"  title="管理内容" column="0" />
+			<portlet id="p2" name="MgrContentPortlet" theme="defaultround"  title="管理内容" column="0" />
 		</layout>
 		<layout id="l3" name="simpleLayout" sizes="100%">
 			<portlet id="p4" name="pserver:CopyRightPortlet" theme="clean"  title="版权" column="0" />

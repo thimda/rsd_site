@@ -98,6 +98,7 @@ function initFrameMiniHeight(frameId){
 				if(hScorll > 0){
 					var minHeight = $(frameId).height() + hScorll;
 					$(frameId).attr("minHeight", minHeight);
+					$(frameId).attr("fullHeight", minHeight);
 					$(frameId).height(minHeight);
 				}
 				adjustIFramesHeightOnLoad($(frameId).get(0)); 				
@@ -553,12 +554,27 @@ function stopDefault(e) {
  */
 function adjustIFramesHeightOnLoad(iframe) {
 	if(iframe.contentWindow.window.document.body.children && iframe.contentWindow.window.document.body.children.length > 0){
-	     var iframeHeight =  iframe.contentWindow.window.document.body.children[0].scrollHeight;//iframe.contentWindow.window.document.body.scrollHeight ;
-	     if( $(iframe).attr("minHeight") < iframeHeight){
+		var eles = iframe.contentWindow.window.document.getElementsByName("flowv");
+		var iframeHeight = iframe.contentWindow.window.document.body.children[0].scrollHeight;;
+		if(eles != null){
+			var maxHeight = getMaxEleHeight(eles);
+			iframeHeight = iframeHeight < maxHeight ? maxHeight : iframeHeight;
+		}
+		if( $(iframe).attr("minHeight") < iframeHeight){
 	       $(iframe).height(iframeHeight);
-	     }
+	    }
 	}
  };
+ 
+ function getMaxEleHeight(eles) {
+ 	var height = 0;
+ 	for(var i = 0; i < eles.length; i ++){
+ 		var tmpHeight = eles[i].offsetHeight;
+ 		if(tmpHeight > height)
+ 			height = tmpHeight;
+ 	}
+ 	return height;
+ }
  /**
   * 打开一个公共的Portlet
   */

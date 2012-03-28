@@ -12,6 +12,7 @@ import java.util.Random;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
+import nc.uap.lfw.core.cmd.base.FromWhereSQL;
 import nc.uap.lfw.core.data.PaginationInfo;
 import nc.uap.lfw.core.log.LfwLogger;
 import nc.uap.portal.msg.model.Msg;
@@ -112,7 +113,7 @@ public class MockMsgProvideImpl implements IMsgProvide{
 
 	@Override
 	public Msg[] query(String category, UFDateTime start, UFDateTime end,
-			MsgBox box, PaginationInfo pi) {
+			MsgBox box, PaginationInfo pi, FromWhereSQL whereSql) {
 		return msgs.values().toArray(new Msg[0]);
 	}
 

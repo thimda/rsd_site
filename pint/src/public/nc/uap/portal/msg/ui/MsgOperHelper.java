@@ -1,5 +1,8 @@
 package nc.uap.portal.msg.ui;
 
+import nc.uap.lfw.core.LfwRuntimeEnvironment;
+import nc.uap.lfw.core.WebSession;
+import nc.uap.lfw.core.cmd.base.FromWhereSQL;
 import nc.uap.lfw.core.ctx.AppLifeCycleContext;
 import nc.uap.lfw.core.ctx.ViewContext;
 import nc.uap.lfw.core.data.Dataset;
@@ -79,7 +82,7 @@ public class MsgOperHelper {
 	 * @return
 	 */
 	public static UITabComp getBoxTab() {
-		ViewContext viewCtx = AppLifeCycleContext.current().getViewContext();
+		ViewContext viewCtx = AppLifeCycleContext.current().getWindowContext().getViewContext("main");
 		// return
 		// (UITabComp)UIElementFinder.findElementById(viewCtx.getUIMeta(),
 		// MSG_BOX_TAB);
@@ -92,12 +95,13 @@ public class MsgOperHelper {
 	 * @return
 	 */
 	public static Dataset getCurrentDataset(int idx) {
+		
 		String dsName = BOX1_DS;
 		if (idx == 1) {
 			dsName = BOX2_DS;
 		} else if (idx == 2)
 			dsName = TREE_DS;
-		ViewContext viewCtx = AppLifeCycleContext.current().getViewContext();
+		ViewContext viewCtx = AppLifeCycleContext.current().getWindowContext().getViewContext("main");
 
 		return viewCtx.getView().getViewModels().getDataset(dsName);
 	}
@@ -107,7 +111,7 @@ public class MsgOperHelper {
 	 * @return
 	 */
 	public static MsgCategory getCurrentCategory() {
-		ViewContext viewCtx = AppLifeCycleContext.current().getViewContext();
+		ViewContext viewCtx = AppLifeCycleContext.current().getWindowContext().getViewContext("cate");
 		Dataset ds = viewCtx.getView().getViewModels().getDataset("cateds");
 		Row currentRow = ds.getSelectedRow();
 
@@ -127,5 +131,9 @@ public class MsgOperHelper {
 		 */
 		return MsgDataTranslator.findCategoryById(id, provide.getCategory());
 	}
-
+	public static FromWhereSQL getQryParam() {
+		WebSession ws = LfwRuntimeEnvironment.getWebContext().getWebSession();
+		FromWhereSQL qryParam = (FromWhereSQL) ws.getAttribute("MSG_QRY_PARAM");
+		return qryParam;
+	}
 }

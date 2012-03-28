@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <UIMeta flowmode="true" id="main_um" jquery="0">
-    <FlowvLayout autoFill="0" id="flowvlayout1941" widgetId="main">
+    <FlowvLayout id="flowvlayout1941" widgetId="main">
         <FlowvPanel id="panelv01941" widgetId="main">
-	        <CanvasLayout id="menuback" className="rightcanvas">
-					<CanvasPanel id="canvasp1"> 
-						 <FlowvLayout autoFill="0" id="flowvlayout2941" widgetId="main">
-       						 <FlowvPanel id="panelv03941" widgetId="main" height="10">
-							 </FlowvPanel>
-				        <FlowvPanel id="panelv13941" widgetId="main"  height="23">
-				             <FlowhLayout id="flowhlayout0651" widgetId="main">
-				             	<FlowhPanel id="panelh30651" widgetId="main" width="25">
-				                </FlowhPanel>
-				                <FlowhPanel id="panelh10651" widgetId="main" width="180">
-				                    <TextField height="22" id="sys" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
-				                    </TextField>
-				                </FlowhPanel>
-				                <FlowhPanel id="panelh20651" widgetId="main">
-				                    <CardLayout currentItem="0" id="status_card" widgetId="main">
-				                        <CardPanel id="cardpanel" widgetId="main">
-				                            <TextField height="22" id="c001" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
-				                            </TextField>
-				                        </CardPanel>
-				                        <CardPanel id="cardpanel2" widgetId="main">
-				                        	 <TextField height="22" id="c002" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
-				                            </TextField>
-				                        </CardPanel>
-				                    </CardLayout>
-				                </FlowhPanel>
-				                <FlowhPanel id="panelh00651" widgetId="main" width="80">
-				                    <Button height="23" id="button5752" left="0" position="relative" top="0" widgetId="main" width="64">
-				                    </Button>
-				                </FlowhPanel>
-				                <FlowhPanel id="panelh00631" widgetId="main" width="80">
-				                    <Button height="23" id="button1" left="0" position="relative" top="0" widgetId="main" width="64">
-				                    </Button>
-				                </FlowhPanel>
-				            </FlowhLayout>
-				        </FlowvPanel>
-				    </FlowvLayout>
-			           
-	              </CanvasPanel>
-			</CanvasLayout>
+            <CanvasLayout className="rightcanvas" id="menuback" widgetId="main">
+                <CanvasPanel id="canvasp1" widgetId="main">
+                    <FlowvLayout id="flowvlayout2941" widgetId="main">
+                        
+                        <FlowvPanel height="23" id="panelv13941" widgetId="main">
+                            <FlowhLayout autoFill="false" id="flowhlayout0651" widgetId="main">
+                                <FlowhPanel id="panelh00651" widgetId="main" width="160">
+                                    <Menubar height="100%" id="ctrlmenu" left="0" position="relative" top="0" widgetId="main" width="100%">
+                                    </Menubar>
+                                </FlowhPanel>
+                                 
+                                <FlowhPanel id="panelh30651" widgetId="main">
+                                </FlowhPanel>
+                                <FlowhPanel id="panelh10651" widgetId="main" width="130">
+                                    <TextField height="22" id="sys" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
+                                    </TextField>
+                                </FlowhPanel>
+                                <FlowhPanel id="panelh20651" widgetId="main"  width="110">
+                                    <CardLayout currentItem="0" id="status_card" widgetId="main">
+                                        <CardPanel id="cardpanel" widgetId="main">
+                                            <TextField height="22" id="c001" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
+                                            </TextField>
+                                        </CardPanel>
+                                        <CardPanel id="cardpanel2" widgetId="main">
+                                            <TextField height="22" id="c002" imgsrc="" left="0" position="relative" top="0" type="text" widgetId="main" width="120">
+                                            </TextField>
+                                        </CardPanel>
+                                    </CardLayout>
+                                </FlowhPanel>
+                                <FlowhPanel id="panelh30651" widgetId="main" width="15">
+                                </FlowhPanel>
+                            </FlowhLayout>
+                        </FlowvPanel>
+                    </FlowvLayout>
+                </CanvasPanel>
+            </CanvasLayout>
         </FlowvPanel>
         <FlowvPanel id="panelv11941" widgetId="main">
             <GridComp height="100%" id="grid_undnetask" left="0" position="relative" top="0" widgetId="main" width="100%">

@@ -1,0 +1,11 @@
+.cleanPortlet { width:100%;   position:relative;overflow:hidden; }
+.cleanPortlet .header { display:none;}
+.cleanPortlet  .content { padding: 0px;position: relative;}
+
+.cleanPortlet  .roundcorner{
+	border: 1px solid #d1e2d8;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	behavior:url("/lfw/frame/device_pc/themes/webclassic/ui/basic/PIE.htc");
+}

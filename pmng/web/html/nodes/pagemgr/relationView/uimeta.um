@@ -24,7 +24,8 @@
                 <Params>
                     <Param>
                         <Name>tabEvent</Name>
-                        <Value></Value>
+                        <Value>
+                        </Value>
                         <Desc>                            <![CDATA[nc.uap.lfw.core.event.TabEvent]]>
                         </Desc>
                     </Param>

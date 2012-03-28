@@ -1,11 +1,10 @@
-package nc.portal.sso.pagemodel;
+package nc.uap.portal.integrate.credential.pagemodel;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import nc.portal.sso.SsoConstant;
 import nc.uap.lfw.core.LfwRuntimeEnvironment;
 import nc.uap.lfw.core.WebSession;
 import nc.uap.lfw.core.combodata.CombItem;
@@ -17,22 +16,26 @@ import nc.uap.lfw.core.comp.FormComp;
 import nc.uap.lfw.core.comp.FormElement;
 import nc.uap.lfw.core.data.Dataset;
 import nc.uap.lfw.core.data.Field;
+import nc.uap.lfw.core.event.AppRequestProcessor;
 import nc.uap.lfw.core.event.conf.DatasetListener;
-import nc.uap.lfw.core.event.conf.DatasetRule;
+import nc.uap.lfw.core.event.conf.EventConf;
 import nc.uap.lfw.core.event.conf.EventHandlerConf;
-import nc.uap.lfw.core.event.conf.EventSubmitRule;
 import nc.uap.lfw.core.event.conf.MouseListener;
-import nc.uap.lfw.core.event.conf.PageListener;
-import nc.uap.lfw.core.event.conf.WidgetRule;
-import nc.uap.lfw.core.event.listener.PageServerListener;
 import nc.uap.lfw.core.exception.LfwRuntimeException;
 import nc.uap.lfw.core.log.LfwLogger;
 import nc.uap.lfw.core.model.PageModel;
+import nc.uap.lfw.core.page.IUIMeta;
 import nc.uap.lfw.core.page.LfwWidget;
 import nc.uap.lfw.core.page.PageMeta;
-import nc.uap.lfw.core.page.config.RefNodeConf;
-import nc.uap.lfw.core.processor.EventRequestProcessor;
 import nc.uap.lfw.core.refnode.RefNode;
+import nc.uap.lfw.jsp.uimeta.UIButton;
+import nc.uap.lfw.jsp.uimeta.UIFlowhLayout;
+import nc.uap.lfw.jsp.uimeta.UIFlowhPanel;
+import nc.uap.lfw.jsp.uimeta.UIFlowvLayout;
+import nc.uap.lfw.jsp.uimeta.UIFlowvPanel;
+import nc.uap.lfw.jsp.uimeta.UIFormComp;
+import nc.uap.lfw.jsp.uimeta.UIMeta;
+import nc.uap.lfw.jsp.uimeta.UIWidget;
 import nc.uap.lfw.login.authfield.ComboExtAuthField;
 import nc.uap.lfw.login.authfield.DateExtAuthField;
 import nc.uap.lfw.login.authfield.ExtAuthField;
@@ -45,6 +48,8 @@ import nc.uap.portal.deploy.vo.PtSessionBean;
 import nc.uap.portal.inte.PintServiceFactory;
 import nc.uap.portal.integrate.IWebAppLoginService;
 import nc.uap.portal.integrate.credential.PtCredentialVO;
+import nc.uap.portal.integrate.credential.constant.SsoConstant;
+import nc.uap.portal.integrate.credential.ctrl.CredentialController;
 import nc.uap.portal.integrate.sso.itf.ISSOQueryService;
 import nc.uap.portal.integrate.system.ProviderFetcher;
 import nc.uap.portal.integrate.system.SSOProviderVO;
@@ -65,6 +70,82 @@ public class CredentialEditPageModel extends PageModel {
 	public static final String DEFAULT_VALUE_MAP = "default_value_map";
 	public static final String WMODE = "wmode";
 	public static final String WMODE_DIALOG = "dialog";
+	private static final String TREE = "tree";
+	private static final String TREEDS = "masterDs";
+	private static final String CANCELBT = "cancelbt";
+	private static final String OKBT = "okbt";
+	private static final String WIDGET_ID = "main";
+	private static final String ID_FIELD = "id";
+	private static final String PID_FIELD = "pid";
+	private static final String LABEL_FIELD = "label";
+	private static final String LOAD_FIELD = "load";
+	@Override
+	protected IUIMeta createUIMeta(PageMeta pm) {
+		UIMeta uimeta = new UIMeta();
+		
+		UIWidget widget = new UIWidget();
+		widget.setId(WIDGET_ID);
+		UIMeta wuimeta = new UIMeta();
+		wuimeta.setId(WIDGET_ID + "_meta");
+		widget.setUimeta(wuimeta);
+		
+		constructViewUI(wuimeta);
+		
+		uimeta.setReference(1);
+		uimeta.setElement(widget);
+		return uimeta;
+	}
+
+	private void constructViewUI(UIMeta wuimeta) {
+		UIFlowvLayout flvLayout = new UIFlowvLayout();
+		flvLayout.setId("flowv1");
+		flvLayout.setWidgetId(WIDGET_ID);
+		wuimeta.setElement(flvLayout);
+		
+		UIFlowvPanel flvPanel1 = new UIFlowvPanel();
+		flvPanel1.setId("flowvp1");
+		flvLayout.addPanel(flvPanel1);
+		
+		UIFormComp uiFrm = new UIFormComp();
+		uiFrm.setWidgetId(WIDGET_ID);
+		uiFrm.setId(CREDENTIAL_FORM);
+		flvPanel1.setElement(uiFrm);
+		UIFlowvPanel flvPanel2 = new UIFlowvPanel();
+		flvPanel2.setId("flowvp2");
+		flvPanel2.setHeight("30");
+		flvLayout.addPanel(flvPanel2);
+		wuimeta.setElement(flvLayout);
+		
+		UIFlowhLayout flhLayout = new UIFlowhLayout();
+		flhLayout.setId("flowh1");
+		flhLayout.setWidgetId(WIDGET_ID);
+		UIFlowhPanel flhP1 = new UIFlowhPanel();
+		flhP1.setId("flowhp1");
+		flhLayout.addPanel(flhP1);
+		
+		UIFlowhPanel flhP2 = new UIFlowhPanel();
+		flhP2.setId("flowhp2");
+		flhP2.setWidth("120");
+		flhLayout.addPanel(flhP2);
+		
+		UIFlowhPanel flhP3 = new UIFlowhPanel();
+		flhP3.setId("flowhp3");
+		flhP3.setWidth("120");
+		flhLayout.addPanel(flhP3);
+		
+		flvPanel2.setElement(flhLayout);
+		UIButton okbt = new UIButton();
+		okbt.setWidgetId(WIDGET_ID);
+		okbt.setId(OKBT);
+		flhP2.setElement(okbt);
+		
+		UIButton cancelbt = new UIButton();
+		cancelbt.setWidgetId(WIDGET_ID);
+		cancelbt.setId(CANCELBT);
+		flhP3.setElement(cancelbt);
+	}
+	
+	
 	/**
 	 * 创建PageMeta对象
 	 */
@@ -82,14 +163,14 @@ public class CredentialEditPageModel extends PageModel {
 			 * 构造页面数据
 			 */
 			PageMeta meta = new PageMeta();
-			meta.setProcessorClazz(EventRequestProcessor.class.getName());
+			meta.setProcessorClazz(AppRequestProcessor.class.getName());
 			/**
 			 * 构造片段信息
 			 */
 			LfwWidget wd = new LfwWidget();
 			wd.setId("main");
 			meta.addWidget(wd);
-
+			wd.setControllerClazz(CredentialController.class.getName());
 			/**
 			 * 获取登陆表单项信息
 			 */
@@ -114,7 +195,7 @@ public class CredentialEditPageModel extends PageModel {
 
 			String dsId = CREDENTIAL_DS;
 			FormComp form = new FormComp(CREDENTIAL_FORM);
-			form.setRowHeight(26);
+//			form.setRowHeight(32);
 			form.setColumnCount((1));
 			form.setDataset(dsId);
 			form.setRenderType(1);
@@ -228,38 +309,47 @@ public class CredentialEditPageModel extends PageModel {
 			}
 //			form.setHeight(String.valueOf(40 + form.getRowHeight() * form.getElementCountWithoutHidden()));
 
-			DatasetListener dsl = new DatasetListener();
-			dsl.setId("dslistener");
-			EventHandlerConf dsevent = DatasetListener.getOnDataLoadEvent();
-			dsevent.setOnserver(true);
-			dsl.setServerClazz(nc.portal.sso.listener.DefaultCredentialDatasetListener.class.getName());
-			dsl.addEventHandler(dsevent);
-			ds.addListener(dsl);
-			/**
-			 * 设置服务器监听类
-			 */
-			MouseListener ml = new MouseListener();
-			ml.setId("alistener");
-			ml.setServerClazz(nc.portal.sso.listener.SsoLoginMouseListener.class.getName());
-			EventHandlerConf event = MouseListener.getOnClickEvent();
-			event.setOnserver(true);
-			ml.addEventHandler(event);
+			
+			EventConf event = new EventConf();
+			event.setName(DatasetListener.ON_DATA_LOAD);
+			event.setMethodName("onDataLoad");
+			event.setJsEventClaszz(DatasetListener.class.getName());
+			ds.addEventConf(event);
+			
+			
+			EventConf saveEvent = new EventConf();
+			saveEvent.setName(MouseListener.ON_CLICK);
+			saveEvent.setMethodName("onclick");
+			saveEvent.setJsEventClaszz(MouseListener.class.getName());
+			 
+			
 			/**
 			 * 登录按钮处理
 			 */
 			ButtonComp save = new ButtonComp();
-			save.setId("submit");
+			save.setId(OKBT);
 			save.setText("登录");
+			save.addEventConf(saveEvent);
 			wd.getViewComponents().addComponent(save);
-			save.addListener(ml);
+			 
+			EventConf cancelEvent = new EventConf();
+			cancelEvent.setName(MouseListener.ON_CLICK);
+			cancelEvent.setMethodName("onclick");
+			cancelEvent.setJsEventClaszz(MouseListener.class.getName());
+			
 			/**
 			 * 取消按钮处理
 			 */
 			ButtonComp cancel = new ButtonComp();
-			cancel.setId("cancel");
+			cancel.setId(CANCELBT);
 			cancel.setText("取消");
 			wd.getViewComponents().addComponent(cancel);
-			cancel.addListener(ml);
+			cancel.addEventConf(cancelEvent);
+			
+			EventConf giveupEvent = new EventConf();
+			giveupEvent.setName(MouseListener.ON_CLICK);
+			giveupEvent.setMethodName("onclick");
+			giveupEvent.setJsEventClaszz(MouseListener.class.getName());
 			
 			/**
 			 * 放弃集成
@@ -269,7 +359,7 @@ public class CredentialEditPageModel extends PageModel {
 				giveup.setId("giveup");
 				giveup.setText("不再询问");
 				wd.getViewComponents().addComponent(giveup);
-				giveup.addListener(ml);
+				giveup.addEventConf(giveupEvent);
 //			}
 			 
 //			PageListener afterPageInitListener = new PageListener();

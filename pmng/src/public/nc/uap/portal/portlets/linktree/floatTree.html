@@ -312,7 +312,7 @@ function addMenuItem(menuId,menuTitle){
 				var marginLeft = parseInt((documentWidth - docWidth)/2, 10);
 							
 				var left = $(this).position().left - 35 - 10;//35图片阴影部分宽度
-				var top = $(this).position().top + 40;
+				var top = $(this).position().top + 33;
 				
 				var bodyWidth = (FloatTree_TD_WIDTH + 1) * (FloatTree_TD_SHOW_COUNT > $('#${PAGE_CARD_ID}_body').find('.td_top').length ? $('#${PAGE_CARD_ID}_body').find('.td_top').length:FloatTree_TD_SHOW_COUNT) + FloatTree_LEFT_RIGHT_MARGIN;
 				if(left + bodyWidth > marginLeft + docWidth){

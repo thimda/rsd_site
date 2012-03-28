@@ -1,4 +1,4 @@
-package nc.portal.sso;
+package nc.uap.portal.integrate.credential.constant;
 
 /**
  * 单点登陆常量定义类

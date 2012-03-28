@@ -105,7 +105,7 @@ public class PortalModuleManagerAction extends BaseAction {
 			PortalDeployDefinition module = PortalServiceUtil.getPortalSpecService().parseModule(dir.getAbsolutePath());
 			IPortalDeployService pds = NCLocator.getInstance().lookup(IPortalDeployService.class);
 			pds.deployModule(module);
-			new PortalDeployer().syncGruopResource();
+			//new PortalDeployer().syncGruopResource();
 			PortalCacheManager.notify(CacheKeys.PORTLETS_CACHE, CacheKeys.GROUP_PORTLETS_CACHE);
 		}
 		

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<UIMeta flowmode="true" id="cate_um" jquery="0">
+	<TreeViewComp height="100%" id="catetree" left="0" position="relative" top="0" widgetId="cate" width="100%">
+            </TreeViewComp>
+</UIMeta>

@@ -1,10 +1,10 @@
 package nc.uap.portal.mng.page;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import nc.bs.framework.common.NCLocator;
+import nc.uap.cpb.org.constant.DialogConstant;
 import nc.uap.cpb.org.querycmd.QueryCmd;
 import nc.uap.lfw.core.InteractionUtil;
 import nc.uap.lfw.core.LfwRuntimeEnvironment;
@@ -43,15 +43,14 @@ public class PageManagerMainViewController implements IController {
     String source = mouseEvent.getSource().getId();
 		String rootPath = LfwRuntimeEnvironment.getRootPath();
 		String groupid = (String) AppLifeCycleContext.current().getApplicationContext().getAppAttribute("orgPk");
-		
+		String url = rootPath+ "/html/bin-release/portletdesign.jsp";
+		if(groupid != null)
+			url += "?groupid=" + groupid;
 		if (source.startsWith("new")) {
 			AppLifeCycleContext
 					.current()
 					.getApplicationContext()
-					.popOuterWindow(
-							rootPath
-									+ "/html/bin-release/portletdesign.jsp?groupid="
-									+ groupid, "Portal布局设计", "1024", "750");
+					.popOuterWindow(url, "Portal布局设计", "1024", "750");
 		}
   }
   public void pageEditEvent(  MouseEvent<MenuItem> mouseEvent){
@@ -67,16 +66,14 @@ public class PageManagerMainViewController implements IController {
 			if (row == null) {
 				throw new LfwRuntimeException("请选中数据行");
 			}
-
 			String pk = row.getString(ds.nameToIndex("pk_portalpage"));
+			String url = rootPath + "/html/bin-release/portletdesign.jsp?newpage=false&pk="+ pk;
+			if(groupid != null)
+				url += "&groupid=" + groupid;
 			AppLifeCycleContext
 					.current()
 					.getApplicationContext()
-					.popOuterWindow(
-							rootPath
-									+ "/html/bin-release/portletdesign.jsp?newpage=false&pk="
-									+ pk + "&groupid=" + groupid, "Portal布局设计",
-							"1024", "750");
+					.popOuterWindow( url, "Portal布局设计", "1024", "750");
 		}
   }
   public void pageUpdateEvent(  MouseEvent<MenuItem> mouseEvent){
@@ -197,12 +194,13 @@ public class PageManagerMainViewController implements IController {
 			String module = (String) row.getValue(ds.nameToIndex("module"));
 			String pagename = (String) row.getValue(ds.nameToIndex("pagename"));
 			String url = LfwRuntimeEnvironment.getRootPath() + "/app/mockapp/portletsetting?model=nc.uap.portal.mng.portlet.PortletSettingPageModel&module="+ module + "&pagename="+pagename+"&pk_portlet=" + pk;
-			AppLifeCycleContext.current().getApplicationContext().popOuterWindow(url, "高级设置", "400", "300");
+			AppLifeCycleContext.current().getApplicationContext().showModalDialog(url, "高级设置", DialogConstant.DEFAULT_WIDTH, DialogConstant.FIVE_ELE_HEIGHT, "ast", true, true	, null);
+//			AppLifeCycleContext.current().getApplicationContext().popOuterWindow(url, "高级设置", "400", "300");
 			
 		}
 		else{
 			LfwRuntimeEnvironment.getWebContext().getWebSession().setAttribute("pk_portalpage", pk);
-			AppLifeCycleContext.current().getWindowContext().popView("popup", "400", "300", "高级设置");
+			AppLifeCycleContext.current().getWindowContext().popView("popup", DialogConstant.WITH_MENU_HEIGHT, "300", "高级设置");
 		}
   }
   public void pageRefeshEvent(  MouseEvent<MenuItem> mouseEvent){

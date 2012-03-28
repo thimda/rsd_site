@@ -116,7 +116,7 @@ public class PortalDeployer {
 			/**
 			 * 为新增的集团同步资源文件 
 			 */
-			 syncGruopResource();
+			 //syncGruopResource();
 			/**
 			 * 初始化Portal页面及Portlet缓存
 			 */

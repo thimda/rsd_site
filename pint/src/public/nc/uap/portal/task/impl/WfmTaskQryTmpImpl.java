@@ -10,7 +10,7 @@ import nc.uap.wfm.dftimpl.DefaultFormOper;
 import nc.uap.wfm.engine.IWfmFormOper;
 import nc.uap.wfm.itf.IWfmTaskQry;
 import nc.uap.wfm.model.Task;
-import nc.uap.wfm.utils.PwfmUtil;
+import nc.uap.wfm.utils.WfmTaskUtil;
 import nc.uap.wfm.utils.WfmClassUtil;
 import nc.uap.wfm.vo.WfmFlwTypeVO;
 import nc.uap.wfm.vo.WfmTaskVO;
@@ -81,7 +81,7 @@ public class WfmTaskQryTmpImpl implements ITaskQryTmp {
 
 	@Override
 	public String getTaskProcessUrl(String pk_task) {
-	  Task task = PwfmUtil.getTaskByTaskPk(pk_task);
+	  Task task = WfmTaskUtil.getTaskByTaskPk(pk_task);
 	  WfmFlwTypeVO vo = task.getProDef().getFlwtype();  
 	  String serverClazz = vo.getServerclass();
 	  if(serverClazz == null){

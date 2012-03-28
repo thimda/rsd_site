@@ -1,0 +1,20 @@
+#Mon Sep 19 13:45:42 CST 2011
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/padd/resources=resources/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/padd/src/client=modules/uapportal/client/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/padd/src/private=modules/uapportal/META-INF/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/padd/src/public=modules/uapportal/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/padd/src/test=
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pint/resources=resources/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pint/src/client=modules/uapportal/client/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pint/src/private=modules/uapportal/META-INF/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pint/src/public=modules/uapportal/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pint/src/test=
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pmng/resources=resources/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pmng/src/client=modules/uapportal/client/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pmng/src/private=modules/uapportal/META-INF/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pmng/src/public=modules/uapportal/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pmng/src/test=
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pserver/src/portalspec=
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pserver/src/private=modules/uapportal/META-INF/classes/
+NCPatchPropertyStore.SOURCE_DEST_LOCATION_KEY///PORTAL/pserver/src/public=modules/uapportal/classes/
+eclipse.preferences.version=1

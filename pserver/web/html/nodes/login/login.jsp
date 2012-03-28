@@ -29,6 +29,7 @@
 			body{
 				margin:0px;
 				padding:0px;
+				overflow:hidden;
 			}
 			.ctn{
 				width:100%;
@@ -239,7 +240,9 @@
 					<div class="hd">
 						<div style="height:40px;">
 							<table width="100%" height="40" cellpadding="0" cellspacing="0" border="0" >
-								<tr><td width="100%" align="right"><div style="width:200px;margin-top:25px;color:#ffffff;font-size:12pt;"><a>简体中文</a> <a>|</a> <a style="width: 60px; display: inline-block; text-align: left;">帮助</a></div></td></tr>
+								<tr>
+									<td align="left" width="50%"><div style="margin-top: 22px; margin-left: 20px;"><img src="/portal/html/nodes/login/images/ufidanc.png"></div></td>
+									<td width="50%" align="right"><div style="width:200px;margin-top:25px;color:#ffffff;font-size:12pt;"><a>简体中文</a> <a>|</a> <a style="width: 60px; display: inline-block; text-align: left;">帮助</a></div></td></tr>
 							</table>
 						</div>
 					</div>
@@ -250,7 +253,12 @@
 								<td  width="100%" height="500" align="middle" valign="center">
 									<table cellpadding="0" cellspacing="0" border="0" height="70">
 										<tr>
-											<td colspan="3" align="middle" valign="top" height="160"><img src="/portal/html/nodes/login/images/oalogo.png"></td>
+											<td colspan="3" align="middle" valign="top" height="160">
+												<div style="position: relative; width: 100%; height: 100%;">
+												<img src="/portal/html/nodes/login/images/zhxt_logo.png">
+												<div style="position: absolute; right: -33px; bottom: 63px; width: 243px; height: 249px;"><img src="/portal/html/nodes/login/images/light.png"></div>
+												</div>
+											</td>
 										</tr>
 										<tr>
 											<td colspan="3" <c:if test="${showRanImg eq 'false'}">width="626" background="/portal/html/nodes/login/images/panel.png"</c:if><c:if test="${showRanImg eq 'true'}">width="685" background="/portal/html/nodes/login/images/panel1.png"</c:if> >

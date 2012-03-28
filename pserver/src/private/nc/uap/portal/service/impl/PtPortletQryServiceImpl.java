@@ -120,7 +120,7 @@ public class PtPortletQryServiceImpl implements IPtPortletQryService {
 		PtBaseDAO dao = new PtBaseDAO();
 		SQLParameter parameter = new SQLParameter();
 		StringBuffer sb = new StringBuffer();
-		sb.append("select * from pt_portlet where pk_group=? and  fk_portaluser ='#' and ( ");
+		sb.append("select * from pt_portlet where fk_portaluser ='#' and ( ");
 		if (portletNames != null) {
 			for (int i = 0; i < portletNames.length; i++) {
 				String[] portletName = portletNames[i];
@@ -134,8 +134,8 @@ public class PtPortletQryServiceImpl implements IPtPortletQryService {
 		sb.append(")");
 		String sql = sb.toString();
 		try {
-			parameter.addParam(pk_group);
-			List list = (List) dao.executeQuery(sql, parameter, new BeanListProcessor(PtPortletVO.class));
+		 
+			List list = (List) dao.executeQuery(sql, new BeanListProcessor(PtPortletVO.class));
 			if (list == null || list.isEmpty()) {
 				return null;
 			}

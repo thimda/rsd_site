@@ -4,9 +4,24 @@
     </PlugoutDescs>
     <PluginDescs>
     </PluginDescs>
+    <Events>
+        <Event async="true" jsEventClaszz="nc.uap.lfw.core.event.conf.DialogListener" methodName="beforeShow" name="beforeShow" onserver="true">
+            <SubmitRule cardSubmit="false" panelSubmit="false" tabSubmit="false">
+            </SubmitRule>
+            <Params>
+                <Param>
+                    <Name>dialogEvent</Name>
+                    <Desc>                        <![CDATA[nc.uap.lfw.core.event.DialogEvent]]>
+                    </Desc>
+                </Param>
+            </Params>
+            <Action>
+            </Action>
+        </Event>
+    </Events>
     <Models>
         <Datasets>
-            <Dataset controloperatorStatus="true" controlwidgetopeStatus="true" enabled="true" id="ssoSystemsDs" lazyLoad="true" voMeta="nc.uap.portal.vo.PtSsopropVO">
+            <Dataset controlwidgetopeStatus="true" enabled="true" id="ssoSystemsDs" lazyLoad="true" notNullBody="false" voMeta="nc.uap.portal.vo.PtSsopropVO">
                 <Fields>
                     <Field dataType="String" field="systemcode" id="systemCode" nullAble="true" primaryKey="false" text="系统编码">
                     </Field>
@@ -34,6 +49,7 @@
                                 <Params>
                                     <Param>
                                         <Name>dataLoadEvent</Name>
+                                        <Value></Value>
                                         <Desc>                                            <![CDATA[]]>
                                         </Desc>
                                     </Param>
@@ -51,6 +67,7 @@
                                 <Params>
                                     <Param>
                                         <Name>rowSelectEvent</Name>
+                                        <Value></Value>
                                         <Desc>                                            <![CDATA[]]>
                                         </Desc>
                                     </Param>
@@ -103,7 +120,7 @@
                 </Event>
             </Events>
         </ButtonComp>
-        <FormComp columnCount="2" dataset="ssoSystemsDs" eleWidth="120" enabled="true" id="ssoform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+        <FormComp columnCount="2" dataset="ssoSystemsDs" eleWidth="250" enabled="true" id="ssoform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
             <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="systemCode" height="22" id="systemCode" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="系统编码" visible="true" width="">
             </Element>
             <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="systemName" height="22" id="systemName" imageOnly="false" nextLine="true" nullAble="true" rowSpan="1" selectOnly="true" text="系统名称" visible="true" width="">
@@ -118,8 +135,6 @@
             </Element>
         </FormComp>
     </Components>
-    <Containers>
-    </Containers>
     <Menus>
     </Menus>
 </Widget>

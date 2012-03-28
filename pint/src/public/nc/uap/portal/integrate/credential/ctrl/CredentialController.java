@@ -1,34 +1,40 @@
-package nc.portal.sso.listener;
+package nc.uap.portal.integrate.credential.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import nc.bs.logging.Logger;
-import nc.portal.sso.SsoConstant;
-import nc.portal.sso.pagemodel.CredentialEditPageModel;
 import nc.uap.lfw.core.LfwRuntimeEnvironment;
 import nc.uap.lfw.core.WebSession;
 import nc.uap.lfw.core.comp.ButtonComp;
+import nc.uap.lfw.core.comp.WebComponent;
+import nc.uap.lfw.core.ctrl.IController;
+import nc.uap.lfw.core.ctx.AppLifeCycleContext;
 import nc.uap.lfw.core.data.Dataset;
 import nc.uap.lfw.core.data.EmptyRow;
 import nc.uap.lfw.core.data.Field;
 import nc.uap.lfw.core.data.FieldSet;
 import nc.uap.lfw.core.data.Row;
 import nc.uap.lfw.core.data.RowData;
+import nc.uap.lfw.core.event.DataLoadEvent;
 import nc.uap.lfw.core.event.MouseEvent;
 import nc.uap.lfw.core.event.ctx.LfwPageContext;
-import nc.uap.lfw.core.event.listener.MouseServerListener;
 import nc.uap.lfw.core.exception.LfwRuntimeException;
 import nc.uap.lfw.core.log.LfwLogger;
 import nc.uap.lfw.core.page.LfwWidget;
+import nc.uap.lfw.core.page.ViewComponents;
 import nc.uap.lfw.core.uif.delegator.DefaultDataValidator;
 import nc.uap.lfw.core.uif.delegator.IDataValidator;
 import nc.uap.portal.deploy.vo.PtSessionBean;
 import nc.uap.portal.exception.PortalServiceException;
 import nc.uap.portal.inte.PintServiceFactory;
 import nc.uap.portal.integrate.credential.PtCredentialVO;
+import nc.uap.portal.integrate.credential.constant.SsoConstant;
+import nc.uap.portal.integrate.credential.pagemodel.CredentialEditPageModel;
 import nc.uap.portal.integrate.system.ProviderFetcher;
 import nc.uap.portal.integrate.system.SSOProviderVO;
 import nc.uap.portal.user.entity.IUserVO;
@@ -37,31 +43,55 @@ import nc.uap.portal.vo.PtSlotVO;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 凭证制作页面模型鼠标点击事件监听
- * 
+ * 凭据制作页面控制类
  * @author licza
- * 
+ *
  */
-public class SsoLoginMouseListener extends MouseServerListener<ButtonComp> {
-	
-	public SsoLoginMouseListener(LfwPageContext context, String widgetId) {
-		super(context, widgetId);
-	}
+public class CredentialController implements IController {
 
-	@Override
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8065841004081332923L;
+	
+	public void onDataLoad(DataLoadEvent se) {
+		WebSession websession = LfwRuntimeEnvironment.getWebContext().getWebSession();
+		Map<Integer, Object> defaultValueMap = (HashMap<Integer, Object>) websession.getAttribute(CredentialEditPageModel.DEFAULT_VALUE_MAP);
+		Dataset ds = se.getSource();
+		ds.setCurrentKey(Dataset.MASTER_KEY);
+		Row row = ds.getEmptyRow();
+		if (defaultValueMap != null) {
+			for (int i = 0; i < ds.getFieldCount(); i++) {
+				if (defaultValueMap.containsKey(i) && defaultValueMap.get(i)!=null)
+					row.setValue(i, defaultValueMap.get(i));
+			}
+		}
+		ds.addRow(row);
+		ds.setRowSelectIndex(ds.getRowIndex(row));
+		ds.setEnabled(true);
+		ViewComponents wcs = AppLifeCycleContext.current().getViewContext().getView().getViewComponents();
+		WebComponent wc = wcs.getComponent(CredentialEditPageModel.CREDENTIAL_FORM);
+		wc.setEnabled(true);
+		if(!StringUtils.equals((String)websession.getAttribute("wmode"), "dialog")){
+			ButtonComp bc = (ButtonComp)wcs.getComponent("giveup");
+			bc.setVisible(false);
+		}
+	}
+	
+	
 	public void onclick(MouseEvent<ButtonComp> e) {
 		ButtonComp button = e.getSource();
 		// 从websession中获得数据
-		WebSession session = getGlobalContext().getWebSession();
+		WebSession session = LfwRuntimeEnvironment.getWebContext().getWebSession();
 		String wmode = (String) session.getAttribute("wmode");
 		String userIdField = (String) session.getAttribute(SsoConstant.USER_ID_FIELD);
 		String pwdField = (String) session.getAttribute(SsoConstant.PWD_FIELD);
 		boolean dlgMode = StringUtils.equals(wmode, "dialog");
 		PtSlotVO slotVO = getSlot();
 		// 当前数据集
-		Dataset ds = getCurrentContext().getWidget().getViewModels().getDataset(CredentialEditPageModel.CREDENTIAL_DS);
+		Dataset ds = AppLifeCycleContext.current().getViewContext().getView().getViewModels().getDataset(CredentialEditPageModel.CREDENTIAL_DS);
 		// 提交事件
-		if (button.getId().equals("submit")) {
+		if (button.getId().equals("okbt")) {
 			IUserVO userDetails = ((PtSessionBean) LfwRuntimeEnvironment.getLfwSessionBean()).getUser();
 			// 获得应用名
 			String portalUser = userDetails.getUserid();
@@ -121,7 +151,7 @@ public class SsoLoginMouseListener extends MouseServerListener<ButtonComp> {
 			}
 		}
 		// 取消事件
-		if (button.getId().equals("cancel")) {
+		if (button.getId().equals("cancelbt")) {
 			// 清空数据集
 			Row row = ds.getEmptyRow();
 			ds.addRow(row);
@@ -138,7 +168,7 @@ public class SsoLoginMouseListener extends MouseServerListener<ButtonComp> {
 				LfwLogger.error(e1.getMessage(),e1);
 			}
 		}
-		authComplite(getGlobalContext(), slotVO, dlgMode);
+		authComplite(slotVO, dlgMode);
 	}
 	/**
 	 * 构造凭证槽
@@ -149,7 +179,7 @@ public class SsoLoginMouseListener extends MouseServerListener<ButtonComp> {
 		// 获得应用名
 		String portalUser = userDetails.getUserid();
 		// 从websession中获得数据
-		WebSession session = getGlobalContext().getWebSession();
+		WebSession session = LfwRuntimeEnvironment.getWebContext().getWebSession();
 		String systemCode = (String) session.getAttribute(SsoConstant.SYSTEM_CODE);
 		String portletWinId = (String) session.getAttribute(SsoConstant.PORTLETID);
 		String sharelevel = (String) session.getAttribute(SsoConstant.SHARELEVEL);
@@ -168,15 +198,11 @@ public class SsoLoginMouseListener extends MouseServerListener<ButtonComp> {
 	 * @param slot
 	 * @param dlgMode
 	 */
-	private void authComplite(LfwPageContext ctx , PtSlotVO slot ,boolean dlgMode){
+	private void authComplite( PtSlotVO slot ,boolean dlgMode){
 		if(dlgMode){
-			getGlobalContext().addExecScript("parent.authCorrect('"+slot.getPortletid()+"','"+slot.getClassname()+"',"+slot.getSharelevel()+");");
+			AppLifeCycleContext.current().getApplicationContext().addExecScript("parent.authCorrect('"+slot.getPortletid()+"','"+slot.getClassname()+"',"+slot.getSharelevel()+");");
 		}else{
-			
-			getGlobalContext().addExecScript("parent.document.location.reload();");
-//			getGlobalContext().addExecScript("parent.getContainer('#"+slot.getPortletid()+"').doAction('',{PortletMode:'view'});");
+			AppLifeCycleContext.current().getApplicationContext().addExecScript("parent.document.location.reload();");
 		}
 	}
-	 
-
 }

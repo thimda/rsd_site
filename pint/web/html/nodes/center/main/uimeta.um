@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <UIMeta flowmode="false" id="main_um" jquery="0">
-    <FlowhLayout id="flowhlayout2571" widgetId="main">
-        <FlowhPanel id="panelh02571" widgetId="main" width="150">
-            <TreeViewComp height="100%" id="catetree" left="0" position="relative" top="0" widgetId="main" width="100%">
-            </TreeViewComp>
-        </FlowhPanel>
-        <FlowhPanel id="panelh12571" widgetId="main">
         <CardLayout currentItem="0" id="msgbox_card" widgetId="main">
 				                        <CardPanel id="cardpanel" widgetId="main">
-				                            
+				                             <FlowvLayout autoFill="0" id="flowvlayout12d57" widgetId="main">
+							                <FlowvPanel height="41" id="panelv12d5710" widgetId="main">
+							                <CanvasLayout className="rightcanvas" id="menubackff" widgetId="main">
+							               		 <CanvasPanel id="canvasp1ff" widgetId="main">
+							               		 <FlowvLayout autoFill="0" id="flosssswvlayout12d57" widgetId="main">
+							                    	 <FlowvPanel id="panelvss125ds711" widgetId="main">
+							                	  </FlowvPanel>
+						          			  </FlowvLayout>
+							                     </CanvasPanel>
+							           		 </CanvasLayout>
+							                </FlowvPanel>
+							                <FlowvPanel id="panelv125ds711" widgetId="main">
+							                  </FlowvPanel>
+						          		  </FlowvLayout>
 				                        </CardPanel>
 				                        <CardPanel id="cardpanel2" widgetId="main">
-        
-            <FlowvLayout autoFill="0" id="flowvlayout1257" widgetId="main">
-                <FlowvPanel height="41" id="panelv125710" widgetId="main">
-                    <Menubar height="100%" id="menu_msg" left="0" position="relative" top="0" widgetId="main" width="100%">
-                    </Menubar>
-                </FlowvPanel>
-                <FlowvPanel id="panelv125711" widgetId="main">
-                
-                	
+										 <FlowvLayout autoFill="0" id="flowvlayout1257" widgetId="main">
+							                <FlowvPanel height="41" id="panelv125710" widgetId="main">
+							                <CanvasLayout className="rightcanvas" id="menuback" widgetId="main">
+							                <CanvasPanel id="canvasp1" widgetId="main">
+							                    <Menubar height="100%" id="menu_msg" left="0" position="relative" top="0" widgetId="main" width="100%">
+							                    </Menubar>
+							                     </CanvasPanel>
+							           	 </CanvasLayout>
+							                </FlowvPanel>
+							                <FlowvPanel id="panelv125711" widgetId="main">
 				                        	  <TabLayout currentItem="0" id="msgBoxTab" oneTabHide="false" tabType="bottom" widgetId="main">
 						                        <TabItems>
 						                            <TabItem active="" i18nName="" id="UITabItem04622" showCloseIcon="" text="收件箱" widgetId="main"  visible="false">
@@ -52,12 +60,8 @@
 						                        </Events>
 						                    </TabLayout>
 				                       
-                
-                    
-                </FlowvPanel>
-            </FlowvLayout>
+						  </FlowvPanel>
+						            </FlowvLayout>
              </CardPanel>
 				                    </CardLayout>
-        </FlowhPanel>
-    </FlowhLayout>
 </UIMeta>

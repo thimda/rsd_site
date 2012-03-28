@@ -1,9 +1,13 @@
 package nc.uap.portal.sso.setting;
 
+import java.awt.Dialog;
+
+import nc.uap.cpb.org.constant.DialogConstant;
 import nc.uap.lfw.core.LfwRuntimeEnvironment;
 import nc.uap.lfw.core.bm.ButtonStateManager;
 import nc.uap.lfw.core.cmd.CmdInvoker;
 import nc.uap.lfw.core.cmd.UifDatasetLoadCmd;
+import nc.uap.lfw.core.cmd.UifEditCmd;
 import nc.uap.lfw.core.cmd.UifUpdateOperatorState;
 import nc.uap.lfw.core.comp.GridComp;
 import nc.uap.lfw.core.comp.WebComponent;
@@ -39,12 +43,15 @@ public class MainViewController implements IController {
 	}
 
 	public void onclick_add(MouseEvent mouseEvent) {
-		Dataset ds = AppLifeCycleContext.current().getViewContext().getView().getViewModels().getDataset("ssoSystemsDs");
-		Row row = ds.getEmptyRow();
-		ds.addRow(row);
-		ds.setRowSelectIndex(ds.getRowIndex(row));
-		ds.setEnabled(true);
-		new UifUpdateOperatorState(ds, AppLifeCycleContext.current().getViewContext().getView()).execute();
+//		Dataset ds = AppLifeCycleContext.current().getViewContext().getView().getViewModels().getDataset("ssoSystemsDs");
+		UifEditCmd cmd = new UifEditCmd("ssoView",DialogConstant.DEFAULT_WIDTH, DialogConstant.SIX_ELE_HEIGHT);
+		AppLifeCycleContext.current().getWindowContext().addAppAttribute("operate", "add");
+		cmd.execute();
+//		Row row = ds.getEmptyRow();
+//		ds.addRow(row);
+//		ds.setRowSelectIndex(ds.getRowIndex(row));
+//		ds.setEnabled(true);
+//		new UifUpdateOperatorState(ds, AppLifeCycleContext.current().getViewContext().getView()).execute();
 	}
 
 	public void onclick_delete(MouseEvent mouseEvent) {
@@ -62,10 +69,16 @@ public class MainViewController implements IController {
 		if (ds.getSelectedIndex() < 0)
 			throw new LfwRuntimeException("请选中修改数据");
 		Row row = ds.getSelectedRow();
-		row.setState(Row.STATE_UPDATE);
-		ds.setEnabled(true);
-		new UifUpdateOperatorState(ds, AppLifeCycleContext.current().getViewContext().getView()).execute();
-		ButtonStateManager.updateButtons();
+//		row.setState(Row.STATE_UPDATE);
+		UifEditCmd cmd = new UifEditCmd("ssoView", DialogConstant.DEFAULT_WIDTH, DialogConstant.SIX_ELE_HEIGHT);
+		AppLifeCycleContext.current().getWindowContext().addAppAttribute("operate", "edit");
+		AppLifeCycleContext.current().getWindowContext().addAppAttribute("selectRow", row);
+		cmd.execute();
+		
+		
+//		ds.setEnabled(true);
+//		new UifUpdateOperatorState(ds, AppLifeCycleContext.current().getViewContext().getView()).execute();
+//		ButtonStateManager.updateButtons();
 	}
 
 	public void onclick_save(MouseEvent mouseEvent) {

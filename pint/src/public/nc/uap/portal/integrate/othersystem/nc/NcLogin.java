@@ -69,6 +69,27 @@ import org.apache.commons.lang.StringUtils;
 public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 	  
 	private static final String NULL_STRING = "NULL";
+	public static Map<Integer,String> LOGIN_RSL_MAP  ;
+	static{
+		LOGIN_RSL_MAP = new HashMap<Integer,String>();
+		LOGIN_RSL_MAP.put(0, "登录成功");
+		LOGIN_RSL_MAP.put(1, "身份不合法");
+		LOGIN_RSL_MAP.put(2, "名称错误");
+		LOGIN_RSL_MAP.put(3, "密码错误");
+		LOGIN_RSL_MAP.put(4, "用户被锁定");
+		LOGIN_RSL_MAP.put(5, "用户已在线");
+		LOGIN_RSL_MAP.put(6, "用户未到生效日期");
+		LOGIN_RSL_MAP.put(7, "用户已到失效日期");
+		LOGIN_RSL_MAP.put(8, "达到用户数上限");
+		LOGIN_RSL_MAP.put(9, "用户未启用");
+		LOGIN_RSL_MAP.put(10, "用户已停用");
+		
+		LOGIN_RSL_MAP.put(21, "业务中心有效");
+		LOGIN_RSL_MAP.put(22, "业务中心被锁定");
+		LOGIN_RSL_MAP.put(23, "业务中心还未到生效日期");
+		LOGIN_RSL_MAP.put(24, "业务中心已到失效日期");
+		LOGIN_RSL_MAP.put(25, "业务中心不存在");
+	}
 	
 	public String getGateUrl(HttpServletRequest req, HttpServletResponse res, PtCredentialVO credential, SSOProviderVO provider)
 			throws CredentialValidateException {
@@ -174,6 +195,8 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 	
 	public String verifyUserInfo(HttpServletRequest req, PtCredentialVO credentialVO, SSOProviderVO providerVO) throws CredentialValidateException
 	{
+		
+		 
 		// 校验
 		String ncUrl = providerVO.getValue("runtimeUrl");
 		NCLocator locator = NCLocator.getInstance(PortletRuntimeEnv.getInstance().getNcProperties(ncUrl));
@@ -197,12 +220,12 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 		if(workdate == null || "".equals(workdate))
 			workdate = tick.toString();
 		try {
-			Logger.debug("===NCLogin类verifyUserInfo方法:向" + ncUrl + "所在的认证服务ISMVerifyService发送认证信息.");
-			Logger.debug("===NCLogin类verifyUserInfo方法:认证信息language=" + language + ";accountcode="  + accountcode + ";pkcorp=" + pkcorp + ";tick=" + tick.toString() + ";userId=" + userId);
 			int verifyResult = loginService.verify(loginReq, verifyBean);
 			if (verifyResult != ILoginConstants.USER_IDENTITY_LEGAL) {
-				Logger.debug("===NCLogin类credentialProcess方法:制作凭证时没有认证成功result=" + verifyResult + "[" + LoginFailureInfo.RESULTSTRING[verifyResult] + "]");
-				//throw new CredentialValidateException(verifyResult, userId));
+				if(LOGIN_RSL_MAP.containsKey(verifyResult))
+					throw new CredentialValidateException(LOGIN_RSL_MAP.get(verifyResult));
+				else
+					throw new CredentialValidateException("未知错误");
 			}
 		} catch (BusinessException e) {
 			Logger.error(e, e);
@@ -217,8 +240,6 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 	private String ncRegiste(String parameters, String registrUrl)
 			throws IOException {
 		
-		Logger.debug("===NCLogin类ncRegiste方法:NC registry URL:" + registrUrl);
-		Logger.debug("===NCLogin类ncRegiste方法:NC registry parameters:" + parameters);
 		
 		// 构造NC注册URL
 		URL preUrl = new URL(registrUrl);
@@ -250,7 +271,6 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 		while ((ch = is.read()) != -1) {
 			returnFlag += String.valueOf((char) ch);
 		}
-		Logger.debug("===NCLogin类ncRegiste方法:NC Registe result=" + returnFlag);
 		if (is != null)
 			is.close();
 		return returnFlag;
@@ -261,7 +281,6 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 	 * NC的所有帐套信息
 	 */
 	public   ExtAuthField[] getCredentialFields(HttpServletRequest req, SSOProviderVO provider, nc.uap.portal.user.entity.IUserVO userVO, PtCredentialVO credential) throws CredentialValidateException {
-	    Logger.debug("===NCLogin类getCredentialFields方法:进入NCLogin的getCredentialFields()方法!");
 	    Map<String, String> userInputMap = getUserInputValue(req);
 	    
 		//获取已经存在的credential
@@ -276,13 +295,9 @@ public class NcLogin implements IWebAppLoginService ,IWebAppFunNodesService{
 		fields[1].setRequired(true);
 		fields[2].setRequired(true);
 		fields[3].setRequired(true);
-		//fields[5].setRequired(false);
 		
 		initAccountCodeField(((ComboExtAuthField)fields[0]), userInputMap, provider, userVO, credential);
-//		initCorpField(((RefExtAuthField)fields[1]), defaultAccount, provider, credential, userInputMap);
-//		initUserAndPwdField(userInputMap, (TextExtAuthField)fields[2], (PasswordExtAuthField)fields[3], credential, userVO);
 		initLanageField(userInputMap, (ComboExtAuthField)fields[3], credential);
-		//initWorkdate((DateExtAuthField)fields[5], req);
 		return fields;
 	}
 	

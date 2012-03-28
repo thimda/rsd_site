@@ -44,7 +44,7 @@
 			<div style="width:100%">
 				<table  width="100%"  >
 					<tr>
-						<td height="5" colspan="3"></td>
+						<td height="10" colspan="3"></td>
 					</tr>
 					<tr id="head_top">
 						<td height="30" width="240"><img src="${env().web}/images/oalogo.png"></td>
@@ -52,6 +52,7 @@
 						<td width="200">
 							<table>
 								<tr>
+									<td width="30">&nbsp;</td>
 									<td width="40"><a onclick="openPublicPortlet('pint','MsgCenterPopupPortlet',800,480)"><img src="${RES_PATH}/images/h_mgs.png"></a></td>
 									<td width="50"><img src="${RES_PATH}/images/user_icon.png"></td>
 									<td class="userinfo">
@@ -67,7 +68,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td height="15" colspan="3"></td>
+						<td height="10" colspan="3"></td>
 					</tr>
 				</table>
 			</div>

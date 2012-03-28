@@ -1,5 +1,6 @@
 package nc.uap.portal.service.itf;
 
+import nc.uap.cpb.org.vos.CpUserVO;
 import nc.uap.portal.exception.PortalServiceException;
 import nc.uap.portal.vo.PtPageVO;
 
@@ -10,6 +11,7 @@ import nc.uap.portal.vo.PtPageVO;
  * 
  */
 public interface IPtPageQryService {
+	
 	/**
 	 * 根据主键获得页面
 	 * 
@@ -54,4 +56,12 @@ public interface IPtPageQryService {
 	 * @throws PortalServiceException
 	 */
 	PtPageVO[] getPageByGroup(String pk_group) throws PortalServiceException;
+	
+	/**
+	 * 获得用户原始页面
+	 * @param user
+	 * @return
+	 * @throws PortalServiceException
+	 */
+	PtPageVO[] getOriPagesByUser(CpUserVO user) throws PortalServiceException;
 }

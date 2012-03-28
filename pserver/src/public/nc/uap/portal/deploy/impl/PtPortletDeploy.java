@@ -132,8 +132,9 @@ public class PtPortletDeploy extends AbstractPtDeploy implements IPtDeploy {
 		PtPortletVO[] portles = addPortlet.toArray(new PtPortletVO[0]);
 		IPtPortletService prs = PortalServiceUtil.getPortletService();
 		// –¥»ÎœµÕ≥Portlet
-		String[] pks = prs.addPortlets(portles);
-		PortalServiceUtil.getServiceProvider().getPortletDeployService().addPortlet(portles, prs, pks);
+//		String[] pks = 
+		prs.addPortlets(portles);
+//		PortalServiceUtil.getServiceProvider().getPortletDeployService().addPortlet(portles, prs, pks);
 	}
 
 

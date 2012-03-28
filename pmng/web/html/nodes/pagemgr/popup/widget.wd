@@ -65,7 +65,7 @@
         </RefNodes>
     </Models>
     <Components>
-        <FormComp columnCount="2" dataset="settingds" eleWidth="120" enabled="true" id="settingform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+        <FormComp columnCount="2" dataset="settingds" eleWidth="225" enabled="true" id="settingform" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
             <Element attachNext="false" colSpan="1" editable="true" editorType="StringText" enabled="true" field="linkgroup" height="" id="linkgroup" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="绑定链接组" visible="true" width="">
             </Element>
             <Element attachNext="false" colSpan="1" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
@@ -92,7 +92,7 @@
                 </Event>
             </Events>
         </ButtonComp>
-        <FormComp columnCount="2" dataset="settingds" eleWidth="120" enabled="true" id="settingds_newFrm" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
+        <FormComp columnCount="2" dataset="settingds" eleWidth="225" enabled="true" id="settingds_newFrm" labelMinWidth="0" renderHiddenEle="false" renderType="2" rowHeight="22" visible="true">
             <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">
             </Element>
             <Element attachNext="false" colSpan="1" dataType="String" editable="true" editorType="StringText" enabled="true" field="icon" height="" id="icon" imageOnly="false" nextLine="false" nullAble="true" rowSpan="1" selectOnly="true" text="图标" visible="true" width="">

@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding='UTF-8'?>
 <UIMeta flowmode="true" id="ssoView_um" jquery="0">
     <FlowvLayout autoFill="0" id="flowvlayout5144" widgetId="ssoView">
+    	<FlowvPanel id="panelv04144" widgetId="ssoView" height="30">
+    	</FlowvPanel>
         <FlowvPanel id="panelv05144" widgetId="ssoView">
-            <FormComp height="100%" id="ssoform" label_position="" left="0" position="relative" top="0" widgetId="ssoView" width="100%">
-            </FormComp>
+        	<FlowhLayout id="flwvlayout005144" widgetId="ssoView">
+        		<FlowhPanel id="flwhpanel10514" widgetId="ssoView" width="50">
+        		</FlowhPanel>
+        		<FlowhPanel id="flwhpanel20514" widgetId="ssoView">
+        			<FormComp height="100%" id="ssoform" label_position="" left="0" position="relative" top="0" widgetId="ssoView" width="100%">
+            		</FormComp>
+        		</FlowhPanel>
+        		<FlowhPanel id="flwhpanel30514" widgetId="ssoView" width="50">
+        		</FlowhPanel>
+        	</FlowhLayout>
         </FlowvPanel>
         <FlowvPanel height="30" id="panelv15144" widgetId="ssoView">
             <FlowhLayout id="flowhlayout1502" widgetId="ssoView">

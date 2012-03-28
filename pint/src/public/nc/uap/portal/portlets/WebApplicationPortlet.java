@@ -47,7 +47,7 @@ public class WebApplicationPortlet extends BaseIframePortlet {
 	protected String funcode = null;
 	
 	/**验证页面**/
-	protected static final String AUTH_PAGE= "/core/uimeta.jsp?pageId=credential&model=nc.portal.sso.pagemodel.CredentialEditPageModel";
+	protected static final String AUTH_PAGE= "/app/mockapp/credential?model=nc.uap.portal.integrate.credential.pagemodel.CredentialEditPageModel";
  
 	/**
 	 * 初始化参数

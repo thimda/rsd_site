@@ -4,7 +4,7 @@
 	<layout id="l1" name="simpleLayout" sizes="100%">
 		<layout id="l11" name="paddingLayout" sizes="100%">
 			<portlet id="p3" name="pserver:NavigationPortlet" theme="clean"  title="导航条" column="0" />
-			<portlet id="p1" name="TaskCenterPortlet" theme="clean" title="任务中心" column="0" />
+			<portlet id="p1" name="TaskCenterPortlet" theme="defaultround" title="任务中心" column="0" />
 		</layout>
 		<layout id="l7" name="simpleLayout" sizes="100%">
 			<portlet id="p12" name="pserver:CopyRightPortlet" theme="clean"  title="版权" column="0" />

@@ -8,6 +8,12 @@
         </Widget>
         <Widget id="ipMappingView" refId="ipMappingView">
         </Widget>
+        <Widget id="ssoView" refId="ssoView">
+        </Widget>
+        <Widget id="simplequery" refId="../pubview_simplequery">
+        </Widget>
+        <Widget id="queryplan" refId="../pubview_queryplan">
+        </Widget>
     </Widgets>
     <Attributes>
         <Attribute>

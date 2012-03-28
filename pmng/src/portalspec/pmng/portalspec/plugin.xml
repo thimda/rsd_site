@@ -2,12 +2,12 @@
 <plugin>
 <extension-point point="funcresmanage" title="功能资源扩展点" classname="nc.uap.cpb.org.funcres.extention.IFuncResExtentionService">
 	<extension isactive="true" id="funcnode_res" title="功能节点" classname="nc.uap.cpb.org.funcres.extention.FuncnodeExtentionServiceImpl"/>
-	<extension isactive="true" id="portalpage_res" title="portal页面" classname="nc.uap.portal.extention.PortalPageExtentionServiceImpl"/>
-	<extension isactive="true" id="portlet_res" title="portlet" classname="nc.uap.portal.extention.PortletExtentionServiceImpl"/>
 </extension-point>
 <extension-point point="uapcpmanage" title="协同配置管理扩展点" classname="nc.uap.cpb.org.extention.ICpbExtentionService">
 	<extension isactive="true" id="groupmanage" title="集团扩展点" classname="nc.uap.cpb.org.extention.GroupExtentionServiceImpl"/>
 	<extension isactive="true" id="usermanage" title="用户管理扩展点" classname="nc.uap.cpb.org.extention.UserExtentionServiceImpl"/>
+	<extension isactive="true" id="rolemanage" title="角色管理扩展点" classname="nc.uap.cpb.org.extention.RoleExtentionServiceImpl"/>
+	<extension isactive="true" id="respmanage" title="职责管理扩展点" classname="nc.uap.cpb.org.extention.RespExtentionServiceImpl"/>
 </extension-point> 
 <!--<extension-point point="PortalNoticeMessage" title="通知消息" classname="nc.uap.portal.integrate.message.itf.IPortalNoticeMessageExchange">
 	<extension isactive="true" id="noticemessage" title="Portal消息" classname="nc.uap.portal.integrate.message.impl.PortalNoticeMessageExchange"/>
